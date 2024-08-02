@@ -2,8 +2,8 @@ import { Route, BrowserRouter as Router, Routes, useHref, useNavigate } from "re
 import "./main.css";
 
 import CustomerRouters from "./routes/CustomerRouters";
+import Admin from "./admin/Admin";
 
-import AdminRouters from "./routes/AdminRouters";
 
 const App = () => {
 
@@ -14,7 +14,7 @@ const App = () => {
     
   <Routes>
    <Route path="/*" element={<CustomerRouters></CustomerRouters>}></Route>
-   <Route path="/admin-home/*" element={<AdminRouters></AdminRouters>}></Route>
+   <Route path="/admin/*" element={<Admin></Admin>}></Route>
    
   </Routes>
  
