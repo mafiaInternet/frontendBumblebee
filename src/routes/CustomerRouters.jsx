@@ -25,7 +25,7 @@ const CustomerRouters = () => {
       <Routes>
         <Route path="/login" element={<Home></Home>}></Route>
         <Route path="/register" element={<Home></Home>}></Route>
-{/*         <Route path="/" element={<Home></Home>}></Route> */}
+        <Route exact path="/" element={<Home></Home>}></Route>
         <Route path="/home" element={<Home></Home>}></Route>
         <Route path="/policy" element={<Policy></Policy>}></Route>
         <Route path="/table-size" element={<TableSize></TableSize>}></Route>
