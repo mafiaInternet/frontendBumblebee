@@ -1,0 +1,26 @@
+.order{
+    h2{
+        font-weight: bold;
+        padding: 1rem 0rem 0rem 2rem;
+    }
+    [aria-label]{
+
+        justify-content: space-between;
+      
+    }
+    &--tablist{
+        button{
+            font-size: 1.3rem;
+            &:hover{
+                color: #c62828;
+            }
+           
+        }
+    }
+    .css-1aquho2-MuiTabs-indicator{
+        background-color: #c62828;
+    }
+    .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected{
+        color: #c62828;
+    }
+}

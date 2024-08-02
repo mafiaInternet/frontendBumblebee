@@ -1,0 +1,17 @@
+.product-slide{
+    width: 70%;
+    margin: 1rem auto;
+   &-title{
+    font-size: 3rem;
+    margin: 3rem 0 1rem 0;
+   }
+    &-link{
+        font-size: 2rem;
+        font-weight: bold;
+        color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+}

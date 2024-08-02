@@ -1,0 +1,57 @@
+@use "./scss/base/base";
+
+// Customer
+// Navbar
+@use "./scss/components/header/header";
+@use "./scss/components/header/nav";
+@use "./scss/components/header/topbar";
+@use "./scss/components/header/menu";
+@use "./scss/components/carousel";
+@use "./scss/components/policy";
+@use "./scss/components/systemShop";
+@use "./scss/components/product/productHome";
+@use './scss/components/product/product';
+@use './scss/components/product/productDetail';
+@use "./scss/components/product/productCard";
+@use "./scss/components/cart";
+@use './scss/components/auth';
+@use "./scss/components/payment";
+
+@use "./scss/components/footer";
+@use "./scss/components/rating";
+@use "./scss/components/review";
+
+// @use "./scss/components/voucher";
+
+// User accoutn
+@use "./scss/components/account/account";
+@use "./scss/components/account/dashboard";
+@use "./scss/components/account/infomation";
+@use "./scss/components/account/address";
+@use "./scss/components/account/order";
+@use "./scss/components/account/orderInfomation";
+@use "./scss/components/account/orderCard";
+@use "./scss/components/voucher";
+@use "./scss/components/account/reviewUser";
+
+// User layout
+@use "./scss/layout/reviewCard";
+// Admin
+@use "./scss/admin/login";
+// @use "./scss/admin/header";
+@use "./scss/admin/admin";
+@use "./scss/admin/home";
+@use "./scss/admin/addProduct";
+@use "./scss/admin/addProductDemo";
+@use "./scss/admin/listProduct";    
+@use "./scss/admin/customers";
+@use "./scss/admin/customerEdit";
+// admin order
+@use "./scss/admin/orders";
+@use "./scss/admin/order/listOrder";
+@use "./scss/admin/order/infomationOrder";
+@use "./scss/admin/demo";
+@use "./scss/admin/carousel2";
+
+// admin voucher
+// @use "./scss/admin/voucher/voucher"

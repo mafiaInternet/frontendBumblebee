@@ -1,0 +1,19 @@
+.nav{
+    &__list{
+        margin: 0 auto;
+        a{
+            text-decoration: none;
+            font-size: 2rem;
+            margin: 0 3rem;
+            color: #333333;
+            &:hover{
+                color: silver;
+            }
+            &:nth-of-type(3){
+                font-size: 3rem;
+                letter-spacing: 0.7rem;
+                font-weight: 700;
+            }
+        }
+    }
+}

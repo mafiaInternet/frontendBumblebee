@@ -1,0 +1,52 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-size: 10px;
+}
+
+body{
+    background-color: white;
+    font-family: 'RoobertBOO-Regular','Helvetica Neue',Helvetica,Arial,sans-serif;
+
+}
+
+
+
+.customer{ 
+    margin: 0; 
+    background-color: #F0F0F0;
+  display: flex;
+  flex-direction: column;
+  }
+
+  .header{ 
+    min-height:50px;
+ 
+  }
+  
+  .footer{ 
+    min-height:50px; 
+ 
+  }
+
+.alert{
+  position: sticky;
+  width: 20%;
+  margin: 0px;
+  padding: 0px;
+  top: 10px;
+  right: 0;
+  z-index: 10;
+}
+
+.step{
+  margin-top: 2rem;
+  &__item{
+    &__lable{
+      svg{
+        // font-size: 3rem;
+      }
+   
+    }
+  }
+}
