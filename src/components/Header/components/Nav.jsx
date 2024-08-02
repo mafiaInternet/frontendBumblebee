@@ -28,6 +28,10 @@ const Nav = () => {
       text: "Hệ thống cửa hàng",
       href: "/system-shop",
     },
+    {
+      text: "Admin",
+      href: "/admin",
+    }
   ];
 
   return (
