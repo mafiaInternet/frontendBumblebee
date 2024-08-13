@@ -44,6 +44,8 @@
       
     }
     &__price {
+      display: flex;
+      align-items: center;
       span{
 
         &:nth-child(1){
@@ -51,7 +53,7 @@
           color: red;
         }
         &:nth-child(2){
-          font-size: 2.5rem;
+          font-size: 2rem;
           color: silver;
           text-decoration: line-through;
           margin: 0 1rem;

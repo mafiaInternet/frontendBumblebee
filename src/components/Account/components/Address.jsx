@@ -19,6 +19,7 @@ import {
 } from "../../../state/address/Action";
 
 import Modal from "@mui/material/Modal";
+import FormAddress from "../../../layout/FormAddress";
 
 
 const style = {
@@ -47,11 +48,12 @@ const Address = () => {
     const data = new FormData(event.currentTarget);
 
     const responeData = {
-      lastName: data.get("name"),
+      name: data.get("name"),
       mobile: data.get("mobile"),
       city: data.get("city"),
-      state: data.get("state"),
+      state: data.get("state") == "true" ? "Mặc định" : "",
     };
+    console.log(responeData)
     dispath(addAddress(responeData));
     handleClose();
   };
@@ -74,8 +76,8 @@ const Address = () => {
   // update address
   const [openUpdateHandle, setOpenUpdateHandle] = React.useState(false);
 
-  const handleOpenUpdate = (id) => {
-    setDeleteId(id);
+  const handleOpenUpdate = (item) => {
+    setDeleteId(item.id);
     setOpenUpdateHandle(true);
   };
   const handleCloseUpdate = () => {
@@ -96,14 +98,13 @@ const Address = () => {
   });
   const updateAddress = (addressId, event) => {
     event.preventDefault();
-    console.log(addressId);
-
     const data = new FormData(event.currentTarget);
 
     const responeData = {
-      lastName: data.get("name"),
+      name: data.get("name"),
       mobile: data.get("mobile"),
-      city: data.get("city"),
+
+      description: data.get("desc"),
       state: data.get("state") && "Mặc định",
     };
     setOpenUpdateHandle(false);
@@ -114,15 +115,27 @@ const Address = () => {
   };
 
   const changeAddressDefault = (addressId) => {
-    dispath(updateAddressDefault(addressId));
     setIsLoading(true);
+    dispath(updateAddressDefault(addressId));
   };
 
   useEffect(() => {
+    // Tải danh sách địa chỉ khi component được khởi tạo
     dispath(getAddressByUser());
-    setIsLoading(false);
-  }, [isLoading]);
-  console.log(address.address);
+  }, [dispath]);
+
+  useEffect(() => {
+    if (isLoading) {
+      dispath(getAddressByUser())
+        .then(() => {
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [isLoading, dispath]);
+
   const [state, setState] = useState(false);
   return (
     <div className="address">
@@ -141,7 +154,7 @@ const Address = () => {
               <div className="address-content-card">
                 <div className="address-content-card-info">
                   <p>
-                    <span>{item.lastName}</span> | 0328310272
+                    <span>{item.name}</span> | {item.mobile}
                   </p>
                   <p>{item.city}</p>
                   {item.state && (
@@ -163,7 +176,7 @@ const Address = () => {
                 <div className="address-content-card-settings">
                   <Button
                     variant="text"
-                    onClick={() => handleOpenUpdate(item.id)}
+                    onClick={() => handleOpenUpdate(item)}
                   >
                     Cập nhật
                   </Button>
@@ -265,7 +278,7 @@ const Address = () => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          {/* <Box sx={style}>
             <h4>Địa chỉ mới</h4>
             <form method="POST" onSubmit={addAddressHandle}>
               <Grid container spacing={1}>
@@ -309,7 +322,8 @@ const Address = () => {
                 Hoàn thành
               </Button>
             </form>
-          </Box>
+          </Box> */}
+          <FormAddress address title={"Sửa địa chỉ"}></FormAddress>
         </Modal>
 
         <Modal

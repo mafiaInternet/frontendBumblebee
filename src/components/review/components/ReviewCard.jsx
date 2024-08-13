@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 const ReviewCard = ({ review, star }) => {
   const dispatch = useDispatch();
   const [response, setResponse] = useState();
-  const [openComment, setOpenComment] = useState({ id: null, status: false });
   const createResponse = () => {
     const data = {
       productId: review.productId,

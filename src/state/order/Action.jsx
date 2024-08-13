@@ -21,14 +21,16 @@ import {
   GET_ORDER_SUCCESS,
 } from "./ActionType";
 import { api } from "../../config/apiConfig";
+import { toast } from "react-toastify";
 
 export const createOrder = (req) => async (dispatch) => {
   dispatch({ type: CREATE_ORDER_REQUEST });
   try {
-    const [response] = await api.post("/api/orders/demo", req);
-
-    // dispatch({ type: CREATE_ORDER_SUCCESS, payload: response.data });
+    const {data} = await api.post("/api/orders/demo", req);
+    toast.success("Thanh toán thành công !!!")
+    dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
   } catch (error) {
+    toast.success("Thanh toán thất bại !!!")
     dispatch({ type: CREATE_ORDER_FAILURE, payload: error.message });
   }
 };
@@ -59,9 +61,7 @@ export const getOrderById = (orderId) => async (dispatch) => {
 
   dispatch({ type: GET_ORDER_BY_ID_REQUEST });
   try {
-    console.log(orderId)
     const { data } = await api.get(`api/orders/${orderId}`);
-    console.log(data)
     dispatch({ type: GET_ORDER_BY_ID_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_ORDER_BY_ID_FAILURE, payload: error.message });
@@ -87,7 +87,7 @@ export const createOrderItem = (req) => async (dispatch) => {
       "http://localhost:8080/api/orders/order/demo",
       req
     );
-    console.log(data);
+
     dispatch({ type: CREATE_ORDER_ITEM_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: CREATE_ORDER_ITEM_FAILURE, payload: error.message });

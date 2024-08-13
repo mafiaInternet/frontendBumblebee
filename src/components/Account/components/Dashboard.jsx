@@ -137,6 +137,7 @@ const Dashboard = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
+                  <div>chưa có đơn hàng nào</div>
                     {order.orders &&
                       order.orders.map((order, index) => (
                         <StyledTableRow key={index}>
@@ -166,7 +167,7 @@ const Dashboard = () => {
             <div className="dashboard--content--address">
               <h3>SỔ ĐỊA CHỈ</h3>
               <Grid container spacing={3}>
-              {auth.user.address.map((item) => (
+              {auth.user ? auth.user.address.map((item) => (
                 <Grid item xs={6}>
                 <p>{item.lastName}</p>
                 <p>{item.city}</p>
@@ -178,7 +179,7 @@ const Dashboard = () => {
 
                 </div>
               </Grid>
-              ))}
+              )) : (<Grid item xs={12}>Chưa có địa chỉ nào</Grid>)}
 
               </Grid>
               

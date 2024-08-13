@@ -1,7 +1,8 @@
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
 import React from "react";
 
-const Voucher = ({voucher, key, selected, isSelectedVoucher}) => {
+const Voucher = ({ voucher, key, selected, isSelectedVoucher }) => {
+  console.log(selected);
   return (
     <div className="voucher--card" key={key}>
       <svg
@@ -31,15 +32,19 @@ const Voucher = ({voucher, key, selected, isSelectedVoucher}) => {
         </div>
         <div className="voucher--card--info">
           <div>
-            <h5 className="voucher--card--info--title">
-              {voucher.name}
-            </h5>
-            <p className="voucher--card--info--decs">
-              {voucher.description}
-            </p>
+            <h5 className="voucher--card--info--title">{voucher.name}</h5>
+            <p className="voucher--card--info--decs">{voucher.description}</p>
           </div>
-
-          <FormControlLabel control={<Checkbox />} label="Áp dụng" checked={voucher.id === selected.id} onChange={() => isSelectedVoucher(voucher)} />
+          {selected === undefined ? (
+            <span></span>
+          ) : (
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Áp dụng"
+              checked={voucher.id === selected.id}
+              onChange={() => isSelectedVoucher(voucher)}
+            />
+          )}
         </div>
       </Box>
     </div>

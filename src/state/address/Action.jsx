@@ -40,9 +40,9 @@ export const addAddress = (req)=> async (dispatch) =>{
   export const updateAddressByUser = (req) => async (dispatch) => {
     dispatch({type: UPDATE_ADDRESS_REQUEST})
     try {
-      console.log(req)
-      const {data} = await api.put(`/api/users/user/address/${req.addressId}/update`, req.responeData)
-     
+
+      const {data} = await api.put(`/api/users/user/address/${req.addressId}/update`,  req.responseData)
+ 
       dispatch({type: UPDATE_ADDRESS_SUCCESS, payload: data})
     } catch (error) {
       dispatch({type: UPDATE_ADDRESS_FAILURE, payload: error.message})

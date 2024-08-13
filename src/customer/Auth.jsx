@@ -28,7 +28,7 @@ export default function Auth() {
 
   return (
     <div className='auth'>
-      <Button onClick={handleOpen}><AccountCircleOutlinedIcon sx={{ fontSize: "3rem", color: "black" }}></AccountCircleOutlinedIcon> <span>Đăng nhập</span> <ArrowDropDownOutlinedIcon sx={{ fontSize: "2rem", color: "black" }}></ArrowDropDownOutlinedIcon></Button>
+      <Button onClick={handleOpen}><AccountCircleOutlinedIcon sx={{ fontSize: "3rem", color: "black" }}></AccountCircleOutlinedIcon> <span>Đăng nhập</span></Button>
       <Modal
         open={open}
         onClose={handleClose}

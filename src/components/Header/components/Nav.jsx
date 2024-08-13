@@ -5,8 +5,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const Nav = () => {
+const Nav = ({auth}) => {
+  console.log(auth)
   const pages = [
     {
       text: "Trang chủ",
@@ -17,8 +19,8 @@ const Nav = () => {
       href: "/policy",
     },
     {
-      text: "TEELAB",
-      href: "/home",
+      text: `${auth.user && auth.user.role != null ? "TEELAB" : "ADMIN"}`,
+      href: `${auth.user &&  auth.user.role != null ? "/home" : "/admin"}`,
     },
     {
       text: "Bảng size",
@@ -29,6 +31,7 @@ const Nav = () => {
       href: "/system-shop",
     },
   ];
+  
 
   return (
     <Box className="nav">

@@ -17,13 +17,7 @@ const ProductHome = () => {
 
   const handleFile = (event) => {
     const file = event.target.files[0]
-    console.log(file)
-    // const formData = new FormData()
-    // formData.append('file', file)
-    // formData.append('upload_preset', preset_key)
-    // axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, formData)
-    // .then(res => console.log(res.data.secure_url))
-    // .catch(err => console.log(err))
+
   }
   const dispatch = useDispatch();
   const { products } = useSelector((store) => store);
@@ -42,19 +36,9 @@ const ProductHome = () => {
 
     dispatch(getProducts());
   }, [dispatch]);
-  console.log(
-    products.products && products.products && products.products[0]
-      ? products.products[0].category
-      : "loading"
-  );
-  // console.log(products.products.filter((product) => product.price === 1000));
   const text =
     "Không chỉ là thời trang, TEELAB còn là “phòng thí nghiệm” của tuổi trẻ - nơi nghiên cứu và cho ra đời nguồn năng lượng mang tên “Youth”. Chúng mình luôn muốn tạo nên những trải nghiệm vui vẻ, năng động và trẻ trung.";
-  const settings = {
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-  };
+
   return (
     <Box className="productHome">
       <Box
@@ -69,11 +53,6 @@ const ProductHome = () => {
           sx={{ fontSize: { xs: "3rem", md: "3.5rem" }, fontWeight: "400" }}
         >
           Enjoy Your Youth
-          <Box>
-            <input type="file" multiple onChange={handleFile}></input>
-            <img src={image}></img>
-
-          </Box>
         </Typography>
         <Typography
           component="p"
@@ -90,19 +69,20 @@ const ProductHome = () => {
         {navItems &&
           navItems.map((navItem, index) => (
             <div key={index}>
-              <h3 className="product-slide-title">{navItem.name}</h3>
+              <h3 className="product-slide-title" key={index}>{navItem.name}</h3>
               <Grid container spacing={2}>
                 {products.products && products.products ? (
                   products.products.map((product, index) => (
-                    product && product.category && product.category.nameId === navItem.link ? 
-                    <Grid item xs={6} sm={4} md={3} key={index}>
+                    product && product.category && product.category.nameId === navItem.link &&
+                    <Grid  item xs={6} sm={4} md={3} key={index}>
                       <ProductCard product={product}></ProductCard>
                     </Grid>
-                    : <div>Loading</div>
+            
                   ))
                 ) : (
                   <div>Loading...</div>
                 )}
+                {products && products.products.length > 8 && (
 
                 <Link
                   to={`/product/${navItem.link}`}
@@ -110,6 +90,8 @@ const ProductHome = () => {
                 >
                   Xem thêm
                 </Link>
+
+                )}
               </Grid>
             </div>
           ))}

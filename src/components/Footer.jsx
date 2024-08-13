@@ -66,66 +66,51 @@ const Footer = () => {
 
   return (
     <div className="footer">
-      <Box sx={{ flexGrow: 1, width: {xs: "90%", lg: "80%"}, margin: "3rem auto" }}>
-        <Grid container spacing={3} sx={{justifyContent: "space-around"}}>
-        <Grid
-            className="footer__contact"
+      <Box
+        sx={{
+          flexGrow: 1,
+          width: { xs: "90%", lg: "80%" },
+          margin: "3rem auto",
+        }}
+      >
+        <Grid container spacing={3} sx={{ justifyContent: "space-around" }}>
+          <Grid
+            className="footer--signup--notification"
             item
             xs={12}
-
             sx={{ textAlign: "center" }}
           >
-            <Typography component="h5">Đăng ký</Typography>
-            <Box
-              className="footer__contact__input"
-              sx={{
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                border: "1px solid silver",
-                height: "20px",
-                width: {xs: "80%", md: "60%"},
-                fontSize: "1.5rem",
-                margin: "0 auto"
-              }}
+            <h5 >Đăng ký</h5>
+            <div
+              class="footer--signup--notification--input"
+
             >
               <input
                 type="text"
-                style={{
-                  position: "absolute",
-                  top: "0",
-                  left: "0",
-                  padding: "1rem",
-                  width: "100%",
-                  height: "100%",
-                  border: "none",
-                  outline: "none"
-                }}
+
                 placeholder="Nhập địa chỉ email"
               ></input>
               <FaLocationArrow
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  textAlign: "right",
-                }}
+
               ></FaLocationArrow>
-            </Box>
-            <p>Theo dõi Teelab từ các nền tảng khác nhau nhé!</p>
-            <Grid container spacing={2} sx={{ width: "30%", margin: "0 auto" }}>
-              {contacts.map((contact, index) => (
-                <Grid item xs={2} key={index}>
-                  <a href={contact.href}>
-                    <img className="img-fluid" src={contact.image}></img>
-                  </a>
-                </Grid>
-              ))}
-            </Grid>
-          </Grid> 
+            </div>
+              <p>Theo dõi Teelab từ các nền tảng khác nhau nhé!</p>
+            <div className="footer--icons">
+
+      
+                {contacts.map((contact, index) => (
+       
+                    <a href={contact.href} key={index}>
+                      <img className="img-fluid" src={contact.image}></img>
+                    </a>
+     
+                ))}
+ 
+            </div>
+          </Grid>
           <Grid item xs={6} md={4}>
             <h5>TEELAB</h5>
-            <Typography component={'p'} marginTop={'2rem'}>
+            <Typography component={"p"} marginTop={"2rem"}>
               <strong>HKD Vũ Thị Quỳnh Anh</strong>
               <br></br>
               Giấy chứng nhận đăng ký HKD số 17A80041952 do Phòng Tài chính - Kế
@@ -135,27 +120,24 @@ const Footer = () => {
               phố Thái Nguyên, Tỉnh Thái Nguyên, Việt Nam
               <br></br>
               Email: teelabvn@gmail.com Điện thoại: 0865539083
-      
             </Typography>
             <Box width={"50%"}>
               <img className="img-fluid" src="/img/logo_bct.png"></img>
             </Box>
           </Grid>
-        
-          <Grid item xs={6} md={3} >
-            <h5 >ABOUT US</h5>
+
+          <Grid item xs={6} md={3}>
+            <h5>ABOUT US</h5>
             <List>
               {pages.map((page) => (
                 <ListItem>
-
-                <Link to={page.href}>{page.text}</Link>
+                  <Link to={page.href}>{page.text}</Link>
                 </ListItem>
-    
               ))}
             </List>
           </Grid>
           <Grid className="footer__address" item xs={12} md={5}>
-            <Typography component="h5">ĐỊA CHỈ</Typography>
+            <h5>ĐỊA CHỈ</h5>
             <List>
               {addresses.map((address, index) => (
                 <ListItem sx={{ fontSize: "1.5rem" }} key={index}>

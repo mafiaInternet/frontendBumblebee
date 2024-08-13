@@ -1,54 +1,43 @@
-.infomation{
-    background-color: white;
-    padding: 1rem;
-    &__card{
-  
-        label{
-            font-size: 1.5rem;
-            margin: 0 0 1rem 1rem;
-            
-        }
-        p{
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            strong{
-                width: 194px;
-                font-size: 1.5rem;
-                padding-right: 2rem;
-                // margin-left: 2rem;
-               
-                max-width: 38%;
-                color: #707070;
-                text-align: right;
-               
-            }
-            input{
-                padding: 0.5rem 0 0.5rem 1rem;
-                font-size: 1.5rem;
+.infomation {
+  background-color: white;
+  padding: 1rem;
+  min-height: 402.833px;
+  &--card {
+    .form--group {
+      label {
+        width: 194px;
+        font-weight: bold;
+        font-size: 1.5rem;
+        padding-right: 2rem;
+        max-width: 38%;
+        color: #707070;
+        text-align: right;
+      }
+      input {
+        padding: 0.5rem 0 0.5rem 1rem;
+        font-size: 1.5rem;
 
-                &:focus-within{
-                    outline: none;
-                }
-            }
-            span{
-                margin-left: 1rem;
-            }
+        &:focus-within {
+          outline: none;
         }
-        .password{
-            input[type= "text"], input[type="password"]{
-                width: 100%;
-                font-size: 1.5rem;
-                display: block;
-                padding: 0.5rem;
-                margin-bottom: 1rem;
-           }
-           
-           }
-           
+      }
+      span {
+        cursor: pointer;
+        margin-left: 1rem;
+      }
     }
-    .save{
-        text-align: center;
-       }
-    
+    .password {
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        font-size: 1.5rem;
+        display: block;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+  .save {
+    text-align: center;
+  }
 }

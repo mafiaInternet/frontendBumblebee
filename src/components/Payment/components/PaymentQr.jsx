@@ -2,6 +2,8 @@ import { Box, Button, Modal, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { useDispatch } from "react-redux";
+import { createOrder } from "../../../state/order/Action";
 const style = {
   position: "absolute",
   top: "50%",
@@ -14,7 +16,8 @@ const style = {
   p: 4,
 };
 
-const PaymentQr = () => {
+const PaymentQr = (props) => {
+  const dispatch = useDispatch()
   const [open, setOpen] = useState(false);
 
   const [openQr, setOpenQr] = useState({
@@ -31,7 +34,6 @@ const PaymentQr = () => {
   };
 
   const showQr = () => {
-    // console.log("abc");
 
     setOpen(true);
     setOpenQr({
@@ -55,7 +57,7 @@ const PaymentQr = () => {
       timeout = setInterval(() => {
         console.log(seconds);
         setSeconds((seconds) => seconds - 1);
-    
+        checkpaid()
       }, 1000);
     }
 
@@ -81,9 +83,17 @@ const PaymentQr = () => {
       );
       const data = await respone.json();
       const lastPaid = data.data[data.data.length - 1];
-
-      if (10000 <= lastPaid["Giá trị"] && lastPaid["Mã tham chiếu"] === content) {
-     
+      if (0 <= lastPaid["Giá trị"]) {
+        const data = {
+          cart: props.payment,
+          address: props.address,
+          paymentMethod: props.paymentType
+            ? "Thanh toán online"
+            : "Thanh toán khi nhận hàng",
+          discountedPrice: props.discountedPrice,
+        };
+    
+        dispatch(createOrder(data));
           setOpenQr({
               qr: false,
               success: true,
@@ -92,14 +102,7 @@ const PaymentQr = () => {
         setSeconds(0)
         setMinutes(0)
     
-      } else {
-        console.log("thanh toán thất bại");
-        // setOpenQr({
-        //   qr: false,
-        //   success: false,
-        //   failure: true,
-        // });
-      }
+      } 
     } catch (error) {
       console.log(error);
     }
@@ -121,7 +124,7 @@ const PaymentQr = () => {
           <Box sx={style}>
             <img
               className="img-fluid"
-              src={`https://img.vietqr.io/image/MB-6311166668888-qr_only.png?amount=10000&addInfo=abc`}
+              src={`https://img.vietqr.io/image/MB-6311166668888-qr_only.png?amount=10000&addInfo=Phạm Đức Nhân`}
             ></img>
             <div className="payment-qr-content">
               <h5>Mã QR thanh toán tự động</h5>

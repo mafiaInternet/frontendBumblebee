@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Carousel } from "react-responsive-carousel";
+import { Price } from "../../../config/config";
 
 const style = {
   position: "absolute",
@@ -22,125 +23,143 @@ const style = {
 
   boxShadow: 24,
   p: 4,
-  
 };
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const [selected, setSelected] = useState(product && product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState(product && product.colors[0].sizes[0].name)
-  const [quantity, setQuantity] = useState(1)
+  const [selectedSize, setSelectedSize] = useState(
+    product && product.colors[0].sizes[0].name
+  );
+  const [quantity, setQuantity] = useState(1);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleAddItem = () => {
     console.log("abc");
-    if(selectedSize == null){
+    if (selectedSize == null) {
+      alert("vale");
+    } else {
+      const data = {
+        productId: product.id,
+        color: selected.name,
+        imageUrl: selected.imageUrl,
+        size: selectedSize,
+        quantity: quantity,
+      };
 
-      alert("vale")
-    }else{
-      const data = {productId: product.id, color: selected.name, imageUrl: selected.imageUrl, size: selectedSize, quantity: quantity}
-
-      setOpen(false)
-      dispatch(addItemToCart(data))
+      setOpen(false);
+      dispatch(addItemToCart(data));
     }
   };
 
   return (
-    <div className="product__card" key={product.id}>
-      <div className="product__card__image">
-        <div className="product__card__image__wrapper">
+    <div className="product--card" key={product.id}>
+      <div className="product--card--image">
+        <div className="product--card--image--wrapper">
           <Link to={`/product-detail/${product.id}`}>
             <img src={selected.imageUrl}></img>
           </Link>
-          <span
-            className="product__card__image__wrapper__persent"
-     
-          >
+          <span className="product--card--image--wrapper--persent">
             -{product.discountPersent}%
           </span>
-          <div className="product__card__image__wrapper__cart">
-            <span onClick={() => dispatch(addItemToCart(product.id))}>
-              <FavoriteBorderIcon></FavoriteBorderIcon>
-            </span>
+          <div className="product--card--image--wrapper--cart">
             <Button onClick={handleOpen}>Mua hàng</Button>
-         
-       
           </div>
         </div>
       </div>
-      <Box>
-        <div className="product__card__colors ">
-          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+      <div>
+        <div className="product--card--colors ">
+          <Box sx={{ display: "flex" }}>
             {product &&
-              product.colors.map((item) => (
-                <Grid item xs={1.5} onClick={() => setSelected(item)}>
-                  <span className="product__card__colors__image">
-                    <span className="product__card__colors__image__wrapper">
-                      <img
-                        className={`${selected.id === item.id ? "active" : ""}`}
-                   
-                        src={item.imageUrl}
-                      ></img>
-                    </span>
-                  </span>
-                </Grid>
+              product.colors.map((item, index) => (
+                <div
+                  className="product--card--colors--item"
+                  onClick={() => setSelected(item)}
+                  key={index}
+                >
+                  <img
+                    className={`${selected.id === item.id ? "active" : ""}`}
+                    src={item.imageUrl}
+                  ></img>
+                </div>
               ))}
-          </Grid>
+          </Box>
         </div>
         <Link
-          className="product__card__title"
+          className="product--card--title"
           to={`/product-detail/${product.id}`}
         >
           {product.title}
         </Link>
-        <p className="product__card__price">
-          <span>{product.price}.000đ</span>
-          <b>{product.discountedPrice}.000đ</b>
+        <p className="product--card--price">
+          <span>
+            <Price price={product.price}></Price>
+          </span>
+          <b>
+            <Price price={product.discountedPrice}></Price>
+          </b>
         </p>
-      </Box>
+      </div>
       <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Carousel emulateTouch={true}>
+            {product.colors.map((color) => (
+              <div>
+                <img src={color.imageUrl}></img>
+              </div>
+            ))}
+          </Carousel>
+
+          <div className="product--card--model--info">
+            <p className="product--card--model--info--title">{product.title}</p>
+            <p className="product--card--model--info--price">
+              <span>
+                <Price price={product.price}></Price>
+              </span>
+              <span>
+                <Price price={product.discountedPrice}></Price>
+              </span>
+              <span>-{product.discountPersent}%</span>
+            </p>
+            <div className="product--card--model--info--colors">
+              {product.colors.map((color) => (
+                <Button>
+                  <img className="img-fluid" src={color.imageUrl}></img>
+                </Button>
+              ))}
+            </div>
+            <div className="product--card--model--info--sizes">
+              {selected.sizes.map((size) =>
+                selectedSize === size.name ? (
+                  <Typography
+                    component="span"
+                    sx={{ border: "1px solid black" }}
+                    onClick={() => setSelectedSize(size.name)}
+                  >
+                    {size.name}
+                  </Typography>
+                ) : (
+                  <span onClick={() => setSelectedSize(size.name)}>
+                    {size.name}
+                  </span>
+                )
+              )}
+            </div>
+            <button
+              className="product--card--model--info--addItemCart"
+              onClick={() => handleAddItem()}
             >
-              <Box sx={style}>
-                <Carousel  emulateTouch={true} >
-                  {product.colors.map((color) => (
-                    <div>
-                      <img src={color.imageUrl}></img>
-                    </div>
-                  ))}
-                </Carousel>
-
-                <div className="product__card__model__info">
-                <p className="product__card__model__info__title">{product.title}</p>
-                <p className="product__card__model__info__price">
-                  <span>{product.price} ₫</span>
-                  <span>{product.discountedPrice} ₫</span>
-                  <span>-{product.discountPersent}%</span>
-                </p>
-                <div className="product__card__model__info__colors">
-                {product.colors.map((color) => (
-
-                      <Button>
-                        <img className="img-fluid" src={color.imageUrl}></img>
-                      </Button>
-            
-                ))}
-                </div>
-                <div className="product__card__model__info__sizes">
-                      { selected.sizes.map((size) => 
-                        (selectedSize === size.name ? <Typography component='span' sx={{border: "1px solid black"}} onClick={() => setSelectedSize(size.name)}>{size.name}</Typography>
-                        : <span onClick={() => setSelectedSize(size.name)}>{size.name}</span>
-                        )
-                      )}
-                    </div>
-                <button className="product__card__model__info__addItemCart"   onClick={() => handleAddItem()}>Thêm vào giỏ hàng</button>
-                </div>
-              </Box>
-            </Modal>
+              Thêm vào giỏ hàng
+            </button>
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 };

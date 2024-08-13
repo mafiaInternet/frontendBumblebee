@@ -12,6 +12,7 @@ import {
   GET_USER_SUCCESS,
   LOGOUT,
 } from "./ActionType";
+import { toast } from "react-toastify";
 
 
 const registerRequest = () => ({ type: REGISTER_REQUEST });
@@ -24,11 +25,13 @@ export const Register = (userData) => async (dispatch) => {
     const response = await axios.post(`${API_BASE_URL}/auth/signup`, userData);
     const user = response.data;
     if (user.jwt) {
+      toast.success("Đăng ký thành công !!!")
       localStorage.setItem("jwt", user.jwt);
     }
 
     dispatch(registerSuccess);
   } catch (error) {
+    toast.error("Đăng ký thất bại")
     dispatch(registerFailure(error.message));
   }
 };
@@ -41,14 +44,15 @@ export const Login = (userData) => async (dispatch) => {
   dispatch(loginRequest());
   localStorage.removeItem("jwt")
   try {
-
     const response = await axios.post(`${API_BASE_URL}/auth/login`, userData);
     const user = response.data;
     if (user.jwt) {
+      toast.success("Đăng nhập thành công !!!")
       localStorage.setItem("jwt", user.jwt);
     }
     dispatch(loginSuccess(user.jwt));
   } catch (error) {
+    toast.success("Đăng nhập thất bại !!!")
     dispatch(loginFailure(error.message));
   }
 };
@@ -96,7 +100,8 @@ export const Logout = () => async (dispatch) =>{
     dispatch({type: LOGOUT, payload: null})
 
     const response = await axios.post(`${API_BASE_URL}/auth/logout`)
-
+    toast.success("Đăng xuất thành công !!!")
+    // localStorage.removeItem('jwt')
     localStorage.clear()
    
 }

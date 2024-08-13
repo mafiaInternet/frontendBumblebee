@@ -2,6 +2,7 @@ import { Box, Button, Checkbox, Modal, Radio, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { GiPositionMarker } from "react-icons/gi";
 import FormAddress from "../../../layout/FormAddress";
+import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -49,7 +50,8 @@ const style = {
 };
 
 const PaymentAddress = (props) => {
-  console.log(props.address);
+  const {auth} = useSelector(store=> store)
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
 
@@ -59,15 +61,25 @@ const PaymentAddress = (props) => {
   };
 
   const [state, setState] = useState(false);
-  // const [address, setAddress] = useState(null)
+  const [method, setMethod] = useState({
+    title: "",
+    address: null,
+    type: null,
+  });
 
+  const [address, setAddress] = useState(null);
+  const handleOpenSubmit = (item, title, type) => {
+    setState(true);
+    setAddress(item);
+    setMethod({address: item, title: title, type: type });
+  };
   const changeAddress = () => {
     return props.auth.user.address
       .filter((item) => item.state != "Default")
       .map((item) => (
         <div className="address__card">
           <div>
-            {item.lastName} | {"0328310272"} <Button>Cập nhật</Button>
+            {item.name} | {"0328310272"} <Button>Cập nhật</Button>
           </div>
           <p>abc</p>
           <p>{item.state}</p>
@@ -80,10 +92,11 @@ const PaymentAddress = (props) => {
       <h3 className="payment--address--title">
         <GiPositionMarker size={15} /> Địa Chỉ Nhận Hàng
       </h3>
-      <div className="payment--address--info">
+      {props.address && 
+        <div className="payment--address--info">
         <p>
           <b>
-            {props.address.lastName} (+84){" "}
+            {props.address.name} (+84){" "}
             {props.address.mobile && props.address.mobile.slice(1)}
           </b>
 
@@ -94,6 +107,8 @@ const PaymentAddress = (props) => {
           Thay đổi
         </Button>
       </div>
+      }
+    
       <Modal
         className="modal--address--edit"
         open={open}
@@ -105,7 +120,7 @@ const PaymentAddress = (props) => {
           {!state ? (
             <div className="payment--address--list">
               <h3>Địa chỉ của tôi</h3>
-              {props.auth.user.address.map((item, index) => (
+              {auth.user && auth.user.address && auth.user.address.map((item, index) => (
                 <Box
                   className="payment--address--card"
                   sx={{
@@ -116,17 +131,18 @@ const PaymentAddress = (props) => {
                   key={index}
                 >
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Radio
+                  {props.address &&  <Radio
                       color="error"
                       checked={item.id == props.address.id}
                       onChange={() => props.setAddress(item)}
-                    ></Radio>
+                    ></Radio>}
+                   
                     <Box
                       className="payment--address--card--info"
                       sx={{ marginLeft: "1rem" }}
                     >
                       <p>
-                        <b>{item.lastName}</b>
+                        <b>{item.name}</b>
                         <span>(+84) {item.mobile.slice(1)}</span>
                       </p>
                       <p>{item.city}</p>
@@ -140,7 +156,9 @@ const PaymentAddress = (props) => {
                   <span
                     className="payment--address--card--update"
                     sx={{ color: "#c62828", cursor: "pointer" }}
-                    onClick={() => setState(true)}
+                    onClick={() =>
+                      handleOpenSubmit(item, "Sửa địa chỉ", "update")
+                    }
                   >
                     Cập nhật
                   </span>
@@ -149,16 +167,27 @@ const PaymentAddress = (props) => {
               <Button
                 variant="outlined"
                 color="error"
-                onClick={() => setState(true)}
+                onClick={() =>
+                  handleOpenSubmit({
+                    name: "",
+                    mobile: "",
+                    province: [],
+                    district: [],
+                    ward: [],
+                    description: "",
+                    state: "",
+                  }, "Thêm địa chỉ", "create")
+                }
               >
                 + Thêm địa chỉ mới
               </Button>
             </div>
           ) : (
             <FormAddress
-              submit={changeAddress}
-              address={props.address}
+              type={method.type}
+              address={method.address}
               handleClose={setState}
+              title={method.title}
               open={open}
             ></FormAddress>
           )}

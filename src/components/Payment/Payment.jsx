@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
-
   Step,
   Stepper,
   Table,
@@ -18,71 +17,98 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { User } from "../../state/auth/Action";
 import { checkout, createOrder } from "../../state/order/Action";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Voucher from "../../layout/Voucher";
 import PaymentQr from "./components/PaymentQr";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import PaymentIcon from "@mui/icons-material/Payment";
-import axios from "axios";
+
 import PaymentAddress from "./components/PaymentAddress";
 import FormAddress from "../../layout/FormAddress";
 import { handleGetVouchers } from "../../state/voucher/Action";
-
-
+import { Price } from "../../config/config";
+import { toast } from "react-toastify";
 
 const Payment = () => {
   const location = useLocation();
+  const navigate = useNavigate()
   const [paymentType, setPaymentType] = useState(false);
   const dispatch = useDispatch();
 
-  const { auth, cart, voucher } = useSelector((store) => store);
-  const [selected, setSelected] = useState(-1)
+  const { auth, voucher,order } = useSelector((store) => store);
+  const [selected, setSelected] = useState(-1);
   const isSelectedVoucher = (voucher) => {
-    if(voucher.id !== selected.id){
-      setSelected(voucher)
-    }else{
-      setSelected(-1)
+    if (voucher.id !== selected.id) {
+      setSelected(voucher);
+      setTotolPrice(totolPrice - (voucher.discountedPrice > 0
+        ? voucher.discountedPrice
+        : (voucher.discountedPersent *
+            payment.totalDiscountedPrice) /
+          100))
+    } else {
+      setSelected(-1);
+      setTotolPrice(totolPrice + (selected.discountedPrice > 0
+        ? selected.discountedPrice
+        : (selected.discountedPersent *
+            payment.totalDiscountedPrice) /
+          100))
     }
-  }
-  console.log(selected)
+  };
   const payment = JSON.parse(localStorage.getItem("demo"));
+  const [totolPrice, setTotolPrice] = useState(payment && payment.totalDiscountedPrice)
   const jwt = localStorage.getItem("jwt");
   const [address, setAddress] = useState({
-    lastName: "",
+    name: "",
     mobile: "",
-    city: "",
+    province: "",
+    district: "",
+    ward: "",
+    description: "",
     state: "",
   });
-  const checkedOutOnline = () => {
-    const data = {
-      cart: cart.carts,
-      addressId: 1,
-    };
-
-    dispatch(checkout(data));
-  };
   const checkedOutOffline = () => {
     const data = {
-      cart: cart.carts,
+      cart: payment,
       address: address,
-      paymentMethod: paymentType ? "Thanh toán online" : "Thanh toán khi nhận hàng",
-      discountedPrice: selected.discountedPrice
+      paymentMethod: paymentType
+        ? "Thanh toán online"
+        : "Thanh toán khi nhận hàng",
+      discountedPrice: selected != -1 ? selected.discountedPrice : 0,
     };
-
     dispatch(createOrder(data));
+
   };
 
   useEffect(() => {
     if (jwt) {
       dispatch(User(jwt));
-      setAddress(auth.user.address.find((item) => item.state === "Mặc định"));
     }
-    dispatch(handleGetVouchers())
-  }, []);
+    dispatch(handleGetVouchers());
+  }, [dispatch, jwt]);
+
+  useEffect(() => {
+    if (auth.user && auth.user.address) {
+      setAddress(auth.user.address.find((item) => item.state === "Mặc định"));
+
+    }
+  }, [auth.user]);
+
+  useEffect(() => {
+    console.log(order)
+    if (order && order.order && order.error == null) {
+      navigate(`/account/order/${order.order.id}`);
+      toast.success('Đặt hàng thành công !!!');
+    } else if (order && order.error) {
+      console.log(order)
+      toast.error('Đặt hàng thất bại !!!');
+    }
+  }, [order]);
 
   return (
-    payment && (
+    payment &&
+    auth.user &&
+    auth.user.address && (
       <div className="payment">
         <Box className="container" sx={{ marginBottom: "180px" }}>
           <Stepper
@@ -142,20 +168,30 @@ const Payment = () => {
           </Stepper>
           {jwt ? (
             <PaymentAddress
-              auth={auth}
               address={address}
               setAddress={setAddress}
             ></PaymentAddress>
           ) : (
-            <FormAddress address={address}></FormAddress>
+            <FormAddress
+              address={address}
+              title={"Thông tin nhận hàng"}
+            ></FormAddress>
           )}
 
           <div className="payment__method">
             Phương thức thanh toán
-            <Button variant={paymentType ? "contained" : "outlined"} color="error" onClick={() => setPaymentType(true)}>
+            <Button
+              variant={paymentType ? "contained" : "outlined"}
+              color="error"
+              onClick={() => setPaymentType(true)}
+            >
               Thanh toán online
             </Button>
-            <Button variant={!paymentType ? "contained" : "outlined"} color="error" onClick={() => setPaymentType(false)}>
+            <Button
+              variant={!paymentType ? "contained" : "outlined"}
+              color="error"
+              onClick={() => setPaymentType(false)}
+            >
               Thanh toán khi nhận hàng
             </Button>
           </div>
@@ -187,19 +223,14 @@ const Payment = () => {
                         </div>
                       </TableCell>
                       <TableCell align="center">
-                        <p>
-                        {orderItem.product.price}.000đ
-
-                        </p>
-                        <p>
-                        {orderItem.product.discountedPrice}.000đ
-
-                        </p>
+                        <p><Price price={orderItem.product.price}></Price></p>
+                        <p><Price price={orderItem.product.discountedPrice}></Price></p>
                       </TableCell>
 
                       <TableCell align="center">{orderItem.quantity}</TableCell>
                       <TableCell align="center">
-                        {orderItem.discountedPrice}.000đ
+                      <Price price={orderItem.discountedPrice}></Price>
+       
                       </TableCell>
                     </TableRow>
                   ))}
@@ -208,10 +239,14 @@ const Payment = () => {
             </TableContainer>
           </div>
           <div className="payment__voucher">
-                  {voucher.vouchers.map((voucher, index) => (
-            <Voucher voucher={voucher} key={index} selected={selected} isSelectedVoucher={isSelectedVoucher}></Voucher>
-
-                  ))}
+            {voucher.vouchers.map((voucher, index) => (
+              <Voucher
+                voucher={voucher}
+                key={index}
+                selected={selected}
+                isSelectedVoucher={isSelectedVoucher}
+              ></Voucher>
+            ))}
           </div>
         </Box>
         <div className="payment__price">
@@ -227,10 +262,14 @@ const Payment = () => {
                 <span>Tổng thanh toán</span>
               </p>
               <p>
-                <span>{payment.totalDiscountedPrice }.000đ</span>
-                <span>20.000đ</span>
-                {selected != -1 && (<span>- {selected.discountedPrice}.000đ</span>)}
-                <span>{payment.totalDiscountedPrice - (selected.discountedPrice > 0 ? selected.discountedPrice : (selected.discountedPersent * payment.totalDiscountedPrice/100))}.000đ</span>
+                <span><Price price={payment.totalDiscountedPrice}></Price></span>
+                <span><Price price={20000}></Price></span>
+                {selected != -1 && (
+                  <span>- <Price price={selected.discountedPrice}></Price></span>
+                )}
+                <span>
+                <Price price={totolPrice}></Price>
+                </span>
               </p>
             </div>
           </Box>
@@ -249,7 +288,7 @@ const Payment = () => {
                 Đặt hàng
               </Button>
             ) : (
-              <PaymentQr></PaymentQr>
+              <PaymentQr payment={payment} paymentType={paymentType} address={address} discountedPrice={selected.discountedPrice}></PaymentQr>
             )}
           </div>
         </div>

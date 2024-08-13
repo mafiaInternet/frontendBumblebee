@@ -1,12 +1,10 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button, Grid, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import { Password } from "@mui/icons-material";
+import {useNavigate } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Login, User } from "../../state/auth/Action";
-import Alert from '@mui/material/Alert';
 
 export default function AuthLogin() {
   const navigate = useNavigate();
@@ -16,7 +14,9 @@ export default function AuthLogin() {
   React.useEffect(() => {
     if(jwt){
       dispatch(User(jwt))
+
     }
+   
   }, [dispatch,jwt, auth.jwt])
  
   const handleSubmitLogin = (event) =>{
@@ -28,7 +28,9 @@ export default function AuthLogin() {
     }
 
     dispatch(Login(userData))
-  
+ 
+    
+   
   }
   return (
     <div className="login">
@@ -59,7 +61,7 @@ export default function AuthLogin() {
             />
           </Grid>
           <Grid item xs={12}>
-            <Button type="submit"   fullWidth variant="contained">Đăng nhập</Button>
+            <Button type="submit" fullWidth color="error" variant="contained">Đăng nhập</Button>
           </Grid>
         </Grid>
         

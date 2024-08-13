@@ -15,89 +15,90 @@ const style = {
   p: 4,
 };
 
-const ReviewForm = ({product}) => {
-
-  const dispatch = useDispatch()
-  const [rating, setRating] = useState(5)
+const ReviewForm = ({ product, setOpen }) => {
+  const dispatch = useDispatch();
+  const [rating, setRating] = useState(5);
   const [files, setFiles] = useState([]);
 
-  const handleFiles = (event) =>  {
+  const handleFiles = (event) => {
     const imageUrls = event.target.files;
 
-    const newPreviews = Array.from(imageUrls).slice(0, 3).map((file) => URL.createObjectURL(file));
-    setFiles(newPreviews)
-    
+    const newPreviews = Array.from(imageUrls)
+      .slice(0, 3)
+      .map((file) => URL.createObjectURL(file));
+    setFiles(newPreviews);
   };
-  console.log(files)
-  
+
+
   const responseReviewHandler = (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    console.log()
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
     const review = {
-      productId: product,
+      productId: product.id,
       orderId: null,
       rating: rating,
-      description: data.get("comment")
-    }
+      imageIrls: files,
+      description: data.get("comment"),
+    };
 
-    dispatch(createReview(review))
-  }
+    dispatch(createReview(review));
+    setOpen(false)
+  };
 
-
-  return  (<Box className="review__form" sx={style}>
-        <h5 className="review__form__title">Đánh giá sản phẩm
-        
-        </h5>
-        <p className="review__form__title__product">Product title</p>
-        <form method="POST" onSubmit={responseReviewHandler}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <p className="rating d-flex">
-                Đánh giá của bạn về sản phẩm: <Star rating={rating} setRating={setRating}></Star>
-              </p>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
+  return (
+    <Box className="review__form" sx={style}>
+      <h5 className="review__form__title">Đánh giá sản phẩm</h5>
+      <p className="review__form__title__product">Product title</p>
+      <form method="POST" onSubmit={responseReviewHandler}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <p className="rating d-flex">
+              Đánh giá của bạn về sản phẩm:{" "}
+              <Star rating={rating} setRating={setRating}></Star>
+            </p>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
               name="comment"
-                placeholder="Nhập nội dung đánh giá của bạn về sản phẩm này"
-                fullWidth
-                multiline
-              ></TextField>
-            </Grid>
-            <Grid item xs={12}>
+              placeholder="Nhập nội dung đánh giá của bạn về sản phẩm này"
+              fullWidth
+              multiline
+            ></TextField>
+          </Grid>
+          <Grid item xs={12}>
             <label
-                for="file-image-upload"
-                className="custom-file-product-upload"
-              >
-                <span>Chọn tệp</span>
-                <span>
-                  {files.length === 0
-                    ? "Tối đa 3 hình ảnh"
-                    : `${files.length} tệp`}
-                </span>
-              </label>
-              <input
-                id="file-image-upload"
-                type="file"
-                name="files"
-                multiple
-                onChange={handleFiles}
-              ></input>
-              <Grid container spacing={1}>
-                {files.map((file, index) => (
-                  <Grid item xs={1} key={index}>
-                    <img className="img-fluid" src={file} alt="imageUrl"></img>
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ textAlign: "center" }}>
-              <Button type="submit" variant="contained">Gửi đánh giá của bạn</Button>
+              for="file-image-upload"
+              className="custom-file-product-upload"
+            >
+              <span>Chọn tệp</span>
+              <span>
+                {files.length === 0
+                  ? "Tối đa 3 hình ảnh"
+                  : `${files.length} tệp`}
+              </span>
+            </label>
+            <input
+              id="file-image-upload"
+              type="file"
+              name="files"
+              multiple
+              onChange={handleFiles}
+            ></input>
+            <Grid container spacing={1}>
+              {files.map((file, index) => (
+                <Grid item xs={1} key={index}>
+                  <img className="img-fluid" src={file} alt="imageUrl"></img>
+                </Grid>
+              ))}
             </Grid>
           </Grid>
-        </form>
-     
+          <Grid item xs={12} sx={{ textAlign: "center" }}>
+            <Button type="submit" variant="contained">
+              Gửi đánh giá của bạn
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
     </Box>
   );
 };

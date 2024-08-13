@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import { Button, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 // import { Register, User } from "../../state/auth/Action";
 
 export default function AddCustomer() {
@@ -13,11 +14,8 @@ export default function AddCustomer() {
   const {auth} = useSelector(store=>store)
   const [password, setPassword] = React.useState()
   const [confirmPassword, setConfirmPassword] = React.useState()
-  React.useEffect(() => {
-    if(jwt){
-    //   dispatch(User(jwt))
-    }
-  }, [dispatch,jwt, auth.jwt])
+
+ 
 
 
 
@@ -62,7 +60,7 @@ export default function AddCustomer() {
           </Grid>
           <Grid item xs={12}>
      
-            <Button type="submit"  disabled={confirmPassword !== password} fullWidth variant="contained">
+            <Button type="submit" color="error" disabled={confirmPassword !== password} fullWidth variant="contained">
               Đăng ký
             </Button>
           </Grid>

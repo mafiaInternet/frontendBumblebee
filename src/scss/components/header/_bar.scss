@@ -1,0 +1,51 @@
+.bar{
+    dl{
+
+        padding: 1rem;
+        min-width: 25rem;
+        b{
+            font-size: 1.4rem;
+          
+        }
+        a{
+            font-size: 1.4rem;
+            text-decoration: none;
+            color: black;
+            list-style: circle;
+        }
+        dt{
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            &::before{
+                content: ""; 
+                display: inline-block;
+                width: 0.5rem;
+                height: 0.5rem;
+                line-height: 0.5rem;
+                background-color: black;
+                border-radius: 50%;
+                align-items: center;
+                margin-right: 1rem;
+            }
+        }
+        dd{
+            align-items: center;
+            margin-left: 2rem;
+            align-items: center;
+            display: flex;
+            
+            &::before{
+                content: ""; /* Dấu đầu dòng tùy chỉnh */
+                display: inline-block;
+                width: 0.5rem;
+                height: 0.5rem;
+                line-height: 0.5rem;
+                border: 1px solid black;
+                border-radius: 50%;
+                align-items: center;
+                margin-right: 1rem;
+            }
+        }
+    }
+}

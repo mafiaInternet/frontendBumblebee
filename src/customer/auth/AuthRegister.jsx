@@ -5,6 +5,7 @@ import { Button, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Register, User } from "../../state/auth/Action";
+import { toast } from "react-toastify";
 
 export default function AuthRegister() {
   const navigate = useNavigate();
@@ -16,10 +17,10 @@ export default function AuthRegister() {
   React.useEffect(() => {
     if(jwt){
       dispatch(User(jwt))
+    
     }
   }, [dispatch,jwt, auth.jwt])
-
-
+ 
 
   const handleSubmitRegister = (event) =>{
     event.preventDefault();
@@ -33,7 +34,7 @@ export default function AuthRegister() {
       password: data.get("password")
     }
     
-    dispatch(Register(userData))
+
   }
   return (
     <div className="register">
@@ -62,7 +63,7 @@ export default function AuthRegister() {
           </Grid>
           <Grid item xs={12}>
      
-            <Button type="submit"  disabled={confirmPassword !== password} fullWidth variant="contained">
+            <Button type="submit" color="error" disabled={confirmPassword !== password} fullWidth variant="contained">
               Đăng ký
             </Button>
           </Grid>

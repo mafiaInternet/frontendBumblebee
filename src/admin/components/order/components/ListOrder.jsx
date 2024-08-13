@@ -51,24 +51,24 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const orderStatus = [
   {
     text: "Đang chờ xác nhận",
-    color: "#1565c0",
+    color: "#0d6efd",
   },
   {
     text: "Đã xác nhận",
-    color: "",
+    color: "#0d6efd",
   },
   {
-    text: "Đang vận chuyển",
-    color: "#ffeb3b",
+    text: "Đang vận chuyển",
+    color: "#ffc107",
   },
   {
-    text: "Đã giao hàng",
-    color: "#4caf50",
+    text: "Hoàn tất",
+    color: "#198754",
   },
   {
     text: "Đã hủy",
-    color: "#f44336",
-  },
+    color: "#c62828"
+  }
 ];
 
 const ListOrder = () => {
@@ -110,15 +110,11 @@ const ListOrder = () => {
   };
 
   useEffect(() => {
-    if (!order.orders || order.orders.length === 0) {
-      // Nếu chưa tồn tại hoặc là mảng rỗng, gọi action creator `getOrdersAll` để lấy danh sách orders
-      dispatch(getOrdersAll());
-    } else {
-      // Nếu `order.orders` đã tồn tại, cập nhật state `orders`
-      setOrders(order.orders);
-    }
-  }, [dispatch, order.orders]);
-  
+    dispatch(getOrdersAll());
+  }, [dispatch]);
+  useEffect(() => {
+    setOrders(order.orders)
+  }, [order.orders])
 
   return (
     <div className="listOrder">
@@ -179,7 +175,7 @@ const ListOrder = () => {
                     </Typography>
                   </StyledTableCell>
                   <StyledTableCell>
-                    <Link to="/admin/order/info">
+                    <Link to={`/admin/order/${item.id}/info`}>
                       <Button
                         variant="contained"
                         color="error"

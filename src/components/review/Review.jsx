@@ -20,9 +20,7 @@ const Review = ({ product }) => {
   useEffect(() => {
     dispatch(getReviewByProduct(product.id));
    
-  }, []);
-
-
+  }, [product.id, review.review]);
 
   return (
     review.reviews && (
@@ -55,7 +53,7 @@ const Review = ({ product }) => {
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
                 >
-                  <ReviewForm product={product}></ReviewForm>
+                  <ReviewForm product={product} setOpen={setOpen}></ReviewForm>
                 </Modal>
               </div>
             </Grid>

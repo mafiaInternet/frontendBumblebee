@@ -4,13 +4,11 @@ import MyOrder from "./components/Order";
 import {
   NavLink,
   Route,
-  BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
 import Infomation from "./components/Infomation";
-import EditInfomation from "./components/EditInfomation";
 import Address from "./components/Address";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { User } from "../../state/auth/Action";
 import Vouchers from "./components/Vouchers";
 import Dashboard from "./components/Dashboard";

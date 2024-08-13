@@ -67,6 +67,7 @@ export default function PrimarySearchAppBar(props) {
       >
         <Toolbar sx={{display: "flex", justifyContent: "space-between"}}>
           <TemporaryDrawer></TemporaryDrawer>
+     
           <Topbar jwt={props.jwt} cartItems={props.cartItems}></Topbar>
         </Toolbar>
       </AppBar>

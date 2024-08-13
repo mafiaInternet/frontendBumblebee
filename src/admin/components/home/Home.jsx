@@ -28,6 +28,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import CheckIcon from "@mui/icons-material/Check";
 import ChartHome from "./components/ChartHome";
 import ListOrderNeedComfirm from "./components/ListOrderNeedComfirm";
+import { Price } from "../../../config/config";
 const head = [
   "Khách hàng",
   "Ngày đặt hàng",
@@ -94,7 +95,7 @@ console.log(total)
               <Grid item xs={8}>
                 <div className="admin--home--content--quantity--info">
                   <p>Tổng doanh thu</p>
-                  <strong>{total}</strong>
+                  <strong><Price price={total}></Price></strong>
                 </div>
               </Grid>
             </Grid>
@@ -158,7 +159,7 @@ console.log(total)
                         <strong>{item.name}</strong>
                         <Box>
                           <p>Đã bán: {item.totalQuantity}</p>
-                          <p>Tổng: {item.totalPrice}</p>
+                          <p>Tổng: <Price price={item.totalPrice}></Price></p>
                         </Box>
                       </Grid>
                     </Grid>

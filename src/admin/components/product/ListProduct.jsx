@@ -22,6 +22,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteSharpIcon from "@mui/icons-material/EditNoteSharp";
+import { Price } from "../../../config/config";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.common.black,
@@ -67,10 +68,11 @@ const ListProduct = () => {
 
   const handlePagination = (event) => {
     const pageNumber = event.target.innerText;
+    console.log(pageNumber)
     if (pageNumber > 0) {
       setPage(event.target.innerText - 1);
     }
-    console.log(event.target.innerText - 1);
+    console.log(page)
   };
 
 
@@ -95,8 +97,6 @@ const ListProduct = () => {
   const handleFindProducts = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log(data.get("title"))
-    console.log(data.get("category"))
     dispatch(findProductFilter({title: data.get("title") || "", category: data.get("category") || ""}))
   }
 
@@ -109,7 +109,7 @@ const ListProduct = () => {
       <h2 className="listProduct--title">List Product</h2>
       <div className="listProduct--content">
       <div className="layer"></div>
-        <Link to='/admin/product/add'>
+        <Link to='/admin/product/create'>
         <Button className="listProduct--content--add" variant="contained" color="error">Thêm sản phẩm +</Button>
         </Link>
         <div className="listProduct--content--filter">
@@ -139,7 +139,7 @@ const ListProduct = () => {
               </TableRow>
             </TableHead>
             <TableBody className="table-body">
-              {products.products &&
+              {products && products.products &&
                 products.products.slice(page * 6, page * 6 + 6).map((product) => (
                   <StyledTableRow key={product.id}>
                     <StyledTableCell align="center">
@@ -155,10 +155,11 @@ const ListProduct = () => {
                       {product.category && product.category.name}
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      {product.price}
+                      <Price price={product.price}></Price>
+                  
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      {product.discountPersent}
+                      {product.discountPersent}%
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       {product.totalQuantity}
@@ -171,10 +172,10 @@ const ListProduct = () => {
                       )}
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      <Link to="/admin/user/edit">
-                        <EditNoteSharpIcon color="primary"></EditNoteSharpIcon>
+                      <Link to={`/admin/product/${product.id}/edit`}>
+                        <EditNoteSharpIcon color="primary" ></EditNoteSharpIcon>
                       </Link>
-                      <DeleteIcon color="error" onClick={() => handleDelete(product.id)}></DeleteIcon>
+                      <DeleteIcon sx={{cursor: "pointer"}} color="error" onClick={() => handleDelete(product.id)}></DeleteIcon>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
@@ -183,7 +184,7 @@ const ListProduct = () => {
         </TableContainer>
         <Pagination
           sx={{ float: "right" }}
-          count={Math.ceil(products.length / 6)}
+          count={Math.ceil(products.products.length / 6)}
           onClick={(e) => handlePagination(e)}
           color="secondary"
         />

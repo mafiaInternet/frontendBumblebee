@@ -37,7 +37,7 @@ const fetchData = async () => {
                 <h3 className='paymentInfo__title'>Thông tin nhận hàng</h3>
                 
             </div>
-            <input type='text' name='name' value={auth.user.firstName}  placeholder="Họ và tên" />
+            <input type='text' name='name' value={auth.user.name}  placeholder="Họ và tên" />
             
             <PhoneInput country={'vn'} value={auth.user.mobile}></PhoneInput>
             <select name='country' >

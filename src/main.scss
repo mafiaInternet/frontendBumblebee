@@ -6,6 +6,8 @@
 @use "./scss/components/header/nav";
 @use "./scss/components/header/topbar";
 @use "./scss/components/header/menu";
+@use "./scss/components/header/bar";
+
 @use "./scss/components/carousel";
 @use "./scss/components/policy";
 @use "./scss/components/systemShop";
@@ -21,7 +23,7 @@
 @use "./scss/components/rating";
 @use "./scss/components/review";
 
-// @use "./scss/components/voucher";
+@use "./scss/components/voucher";
 
 // User accoutn
 @use "./scss/components/account/account";
@@ -31,27 +33,11 @@
 @use "./scss/components/account/order";
 @use "./scss/components/account/orderInfomation";
 @use "./scss/components/account/orderCard";
-@use "./scss/components/voucher";
 @use "./scss/components/account/reviewUser";
 
 // User layout
 @use "./scss/layout/reviewCard";
-// Admin
-@use "./scss/admin/login";
-// @use "./scss/admin/header";
-@use "./scss/admin/admin";
-@use "./scss/admin/home";
-@use "./scss/admin/addProduct";
-@use "./scss/admin/addProductDemo";
-@use "./scss/admin/listProduct";    
-@use "./scss/admin/customers";
-@use "./scss/admin/customerEdit";
-// admin order
-@use "./scss/admin/orders";
-@use "./scss/admin/order/listOrder";
-@use "./scss/admin/order/infomationOrder";
-@use "./scss/admin/demo";
-@use "./scss/admin/carousel2";
 
-// admin voucher
-// @use "./scss/admin/voucher/voucher"
+
+// admin 
+@use "./scss/routers/admin"

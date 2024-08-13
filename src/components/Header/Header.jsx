@@ -33,7 +33,7 @@ const Header = () => {
         jwt={jwt}
         cartItems={cart.cart && cart.cart.cartItems ? cart.cart.cartItem : []}
       ></Topbar>
-        <Nav></Nav>
+        <Nav auth={auth}></Nav>
         <Menu></Menu>
       </Box>
       <PrimarySearchAppBar

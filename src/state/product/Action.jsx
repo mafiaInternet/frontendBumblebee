@@ -35,6 +35,8 @@ import {
   SORT_PRODUCTS_OLD_REQUEST,
   SORT_PRODUCTS_OLD_SUCCESS,
 } from "./ActionType";
+import { toast } from "react-toastify";
+
 
 export const findProductsById = (req) => async (dispatch) => {
   dispatch({ type: FIND_PRODUCT_BY_ID_REQUEST });
@@ -87,8 +89,10 @@ export const createProduct = (req) => async (dispatch) => {
   dispatch({ type: CREATE_PRODUCT_REQUEST });
   try {
     const { data } = await api.post("/api/admin/products/create", req);
+    toast.success("Thêm sản phẩm mới thành công !!!")
     dispatch({ type: CREATE_PRODUCT_SUCCESS, payload: data });
   } catch (error) {
+    toast.error("Thêm sản phẩm mới thất bại !!!")
     dispatch({ type: CREATE_PRODUCT_FAILURE, payload: error.message });
   }
 };
