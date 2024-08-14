@@ -72,6 +72,18 @@ const tabs = [
   }
 ];
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: {xs: '90%', sm: '80%',  md: '70%', lg: '50%'},
+  margin: '0 auto',
+  bgcolor: 'background.paper',
+  // border: '1px solid #000',
+  p: 4,
+};
+
 const Admin = () => {
   const dispatch = useDispatch();
   const { auth } = useSelector((store) => store);
@@ -84,7 +96,7 @@ const Admin = () => {
     }
   }, [dispatch, jwt, auth.jwt]);
 
-  return jwt ? (
+  return jwt && auth.user && auth.user.role == "ADMIN" ? (
     <div className="admin">
       <Grid container className="admin--navTabs">
         <Grid item xs={2} className="admin--navTabs--link">
@@ -101,7 +113,7 @@ const Admin = () => {
             ></DehazeIcon>
             <Typography sx={{ fontSize: "2rem" }}>TEE LAB</Typography>
           </Typography>
-          <Box sx={{display: "flex", flexDirection: "column", justifyContent: "space-between", height: "calc(100% - 8rem)"}}>
+          <Box sx={{display: "flex", flexDirection: "column", justifyContent: "space-between", height: "calc(100% - 5rem)"}}>
           <ul>
             {tabs.map((item, index) => (
               <li key={index}>
@@ -134,7 +146,10 @@ const Admin = () => {
         </Grid>
       </Grid>
     </div>
-  ) : <AuthLogin></AuthLogin>
+  ) : <Box sx={style}>
+
+  <AuthLogin></AuthLogin>
+  </Box>
 };
 
 export default Admin;

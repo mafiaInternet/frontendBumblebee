@@ -28,7 +28,7 @@ export const Register = (userData) => async (dispatch) => {
       toast.success("Đăng ký thành công !!!")
       localStorage.setItem("jwt", user.jwt);
     }
-
+    
     dispatch(registerSuccess);
   } catch (error) {
     toast.error("Đăng ký thất bại")
@@ -52,7 +52,7 @@ export const Login = (userData) => async (dispatch) => {
     }
     dispatch(loginSuccess(user.jwt));
   } catch (error) {
-    toast.success("Đăng nhập thất bại !!!")
+    toast.error("Đăng nhập thất bại !!!")
     dispatch(loginFailure(error.message));
   }
 };
