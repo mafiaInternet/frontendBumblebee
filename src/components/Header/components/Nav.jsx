@@ -5,10 +5,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
-const Nav = ({auth}) => {
-  console.log(auth)
+
+const Nav = (props) => {
+ console.log(props.jwt && props.auth.user && props.auth.user.role != "ADMIN" ? true : false)
   const pages = [
     {
       text: "Trang chủ",
@@ -19,8 +19,8 @@ const Nav = ({auth}) => {
       href: "/policy",
     },
     {
-      text: `${auth.user && auth.user.role != null ? "TEELAB" : "ADMIN"}`,
-      href: `${auth.user &&  auth.user.role != null ? "/home" : "/admin"}`,
+      text: `${props.jwt && props.auth.user && props.auth.user.role == "ADMIN" ? "ADMIN" : "BUMBLEBEE"}`,
+      href: `${props.jwt && props.auth.user && props.auth.user.role == "ADMIN" ? "/admin" : "/home"}`,
     },
     {
       text: "Bảng size",
@@ -29,10 +29,6 @@ const Nav = ({auth}) => {
     {
       text: "Hệ thống cửa hàng",
       href: "/system-shop",
-    },
-    {
-      text: "Admin",
-      href: "/admin",
     }
   ];
   

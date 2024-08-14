@@ -8,7 +8,6 @@ import Admin from "./admin/Admin";
 const App = () => {
   return (
     <div className="App">
-
       <Router>
         <Routes>
           <Route

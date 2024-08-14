@@ -1,12 +1,13 @@
 import * as React from "react";
 import TextField from "@mui/material/TextField";
 import { Button, Grid, Typography } from "@mui/material";
-import {useNavigate } from "react-router-dom";
+import {useLocation, useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Login, User } from "../../state/auth/Action";
+import { GetAdmin, Login, User } from "../../state/auth/Action";
 
 export default function AuthLogin() {
+  const location = useLocation()
   const navigate = useNavigate();
   const dispatch=useDispatch();
   const jwt = localStorage.getItem("jwt")
@@ -26,10 +27,8 @@ export default function AuthLogin() {
       email: data.get("email"),
       password: data.get("password")
     }
-
     dispatch(Login(userData))
- 
-    
+    navigate("/home")
    
   }
   return (
@@ -66,12 +65,14 @@ export default function AuthLogin() {
         </Grid>
         
         </form>
-      <div className="auth-link">
+      {location.pathname != "/admin" && <div className="auth-link">
         <div>
           <span>Chưa có tài khoản</span>
           <span onClick={() => navigate("/register")}>Đăng ký</span>
         </div>
       </div>
+    }
+      
     </div>
   );
 }
