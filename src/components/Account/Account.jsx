@@ -17,12 +17,6 @@ import Order from "./components/Order";
 import Review from "./components/Review";
 
 
-const Item = styled(Paper)(({ theme }) => ({
-  // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  boxShadow: "none",
-  padding: theme.spacing(1),
-}));
-
 const Account = () => {
   const dispath = useDispatch();
   const jwt = localStorage.getItem("jwt");

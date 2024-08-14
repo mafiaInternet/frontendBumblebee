@@ -15,7 +15,7 @@ export default function AuthLogin() {
   React.useEffect(() => {
     if(jwt){
       dispatch(User(jwt))
-
+      navigate("/home")
     }
    
   }, [dispatch,jwt, auth.jwt])
@@ -28,7 +28,7 @@ export default function AuthLogin() {
       password: data.get("password")
     }
     dispatch(Login(userData))
-    navigate("/home")
+
    
   }
   return (

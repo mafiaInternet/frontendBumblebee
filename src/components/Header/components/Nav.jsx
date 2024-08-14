@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 
 
 const Nav = (props) => {
- console.log(props.jwt && props.auth.user && props.auth.user.role != "ADMIN" ? true : false)
   const pages = [
     {
       text: "Trang chủ",

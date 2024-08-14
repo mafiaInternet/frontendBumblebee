@@ -14,7 +14,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const { auth, cart } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
-  console.log(cart);
   React.useEffect(() => {
     if (jwt) {
       dispatch(User(jwt));

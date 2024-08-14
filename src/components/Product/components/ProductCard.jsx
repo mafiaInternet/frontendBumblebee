@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
   const handleClose = () => setOpen(false);
 
   const handleAddItem = () => {
-    console.log("abc");
+ 
     if (selectedSize == null) {
       alert("vale");
     } else {

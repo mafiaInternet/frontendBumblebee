@@ -95,12 +95,12 @@ const Payment = () => {
   }, [auth.user]);
 
   useEffect(() => {
-    console.log(order)
+
     if (order && order.order && order.error == null) {
       navigate(`/account/order/${order.order.id}`);
       toast.success('Đặt hàng thành công !!!');
     } else if (order && order.error) {
-      console.log(order)
+
       toast.error('Đặt hàng thất bại !!!');
     }
   }, [order]);

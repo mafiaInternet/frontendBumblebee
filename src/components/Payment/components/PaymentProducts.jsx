@@ -10,7 +10,7 @@ const PaymentProducts = () => {
     useEffect(()=>{
         dispatch(getCarts())
 }, [dispatch])
-    console.log(cart)
+
     return (
   
         <div className='paymentProducts'>
