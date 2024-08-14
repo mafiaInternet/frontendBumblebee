@@ -1,3 +1,14 @@
+# Bumblebee
+Customer:
+  User: admin@gmail.com
+  Password: Vandinh@1
+Admin:
+  User: demo@gmail.com
+  Password: Vandinh@1
+
+Link Dashboard: https://frontendbumblebee.onrender.com/admin
+Link Website: https://frontendbumblebee.onrender.com
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
