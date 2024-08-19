@@ -1,29 +1,19 @@
 import * as React from "react";
-
-import Box from "@mui/material/Box";
+import { Box, List, ListItem, ListItemIcon, ListItemText, Typography, Button, Grid } from '@mui/material';
 import ListProduct from "./components/product/ListProduct";
 import { useDispatch, useSelector } from "react-redux";
-
 import Customers from "./components/user/Customers";
 import Orders from "./components/order/Orders";
-
 import Demo from "./components/product/Demo";
-
 import HomeIcon from "@mui/icons-material/Home";
-import { Button, Grid, Typography } from "@mui/material";
-
 import { GetAdmin, Logout } from "../state/auth/Action";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
-
+import { Link, Route, Routes } from "react-router-dom";
 import PrimarySearchAppBar from "./components/Header";
-
 import PersonIcon from "@mui/icons-material/Person";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import CommentIcon from "@mui/icons-material/Comment";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
-
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import DehazeIcon from "@mui/icons-material/Dehaze";
 import OrderInfomation from "./components/order/components/OrderInfomation";
 import Home from "./components/home/Home";
 import ListVoucher from "./components/voucher/ListVoucher";
@@ -96,21 +86,32 @@ const Admin = () => {
               padding: "1rem 0.5rem",
             }}
           >
-            <DehazeIcon
-              sx={{ fontSize: "2rem", marginRight: "1rem" }}
-            ></DehazeIcon>
-            <Typography sx={{ fontSize: "2rem" }}>TEE LAB</Typography>
+            <Typography sx={{ fontSize: "24px", fontWeight: "600" }}>TEELAB</Typography>
           </Typography>
           <Box sx={{display: "flex", flexDirection: "column", justifyContent: "space-between", height: "calc(100% - 8rem)"}}>
-          <ul>
+          <List>
             {tabs.map((item, index) => (
-              <li key={index}>
-                <Link to={item.link}>
-                  {item.icon} {item.name}
-                </Link>
-              </li>
+              <ListItem
+                button
+                key={index}
+                component={Link}
+                to={item.link}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: '#f0f0f0',
+                    color: '#1976d2',
+                  },
+                  borderRadius: '8px',
+                  marginBottom: '8px'
+                }}
+              >
+                <ListItemIcon sx={{ color: 'inherit' }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.name} sx={{fontSize: "20px"}}/>
+              </ListItem>
             ))}
-          </ul>
+          </List>
           <Button onClick={() => dispatch(Logout())}>Đăng xuất</Button>
           </Box>
         
