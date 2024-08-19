@@ -1,0 +1,45 @@
+.order--card{
+    background-color: white;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+    padding: 2rem;
+    &:hover{
+        box-shadow: 1px 1px 10px silver;
+    }
+    &--top{
+        display: flex;
+        justify-content: space-between;
+        span{
+            font-size: 1.3rem;
+            
+        }
+        &--id{
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+    }
+    &--content{
+        display: flex;
+        img{
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+        }
+        p{
+          
+            margin-left: 1rem;
+            font-size: 1.5rem;
+        }
+    }
+    &--total{
+        display: flex;
+        justify-content: space-between;
+        span{
+            font-size: 1.5rem;
+            strong{
+                font-size: 1.5rem;
+            }
+        }
+    }
+}

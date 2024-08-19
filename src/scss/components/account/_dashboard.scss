@@ -1,0 +1,45 @@
+.dashboard{
+    background-color: white;
+    padding: 1rem;
+    &--content{
+        &--point{
+            text-align: center;
+            p{
+                span, strong{
+                    font-size: 2rem;
+
+                }
+                strong{
+                    color: orange;
+                }
+
+            }
+        }
+        &--orders{
+            margin-bottom: 2rem;
+            &--title{
+                display: flex;
+                justify-content: space-between;
+                
+                a{
+                    color:#C92127;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+            }
+        }
+        &--address{
+     
+            p{
+                margin-bottom: 0px;
+                font-size: 1.3rem;
+            }
+            &--act{
+                margin-top: 1rem;
+                button{
+                    margin: 0 1rem 0.5rem 0;
+                }
+            }
+        }
+    }
+}

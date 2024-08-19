@@ -1,0 +1,19 @@
+@use "../admin/voucher/voucher";
+@use "../admin/admin";
+
+@use "../admin/login";
+// @use "../admin/header";
+
+@use "../admin/home";
+
+@use "../admin/product/addProduct";
+@use "../admin/product/addProductDemo";
+@use "../admin/product/listProduct";    
+@use "../admin/product/demo";
+
+@use "../admin/customers";
+@use "../admin/customerEdit";
+// admin order
+@use "../admin/order/orders";
+@use "../admin/order/listOrder";
+@use "../admin/order/infomationOrder";

@@ -1,0 +1,12 @@
+.carousels {
+    width: 90%;
+    max-width: 1300px;
+    margin: 0 auto;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .carousels img {
+    width: 100%;
+    height: auto;
+  }

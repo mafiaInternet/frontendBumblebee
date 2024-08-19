@@ -1,0 +1,24 @@
+.products{
+    width: 80%;
+    margin: 3rem auto;
+    min-height: 100%;
+    height: 100%;
+    &__top{
+        margin-bottom: 3rem;
+       
+        &__find{
+            font-size: 1.8rem;
+            .MuiSelect-select{
+            
+                padding: 1rem;
+            }
+        }
+    }
+    
+    &-list{
+        a{
+            text-decoration: none;
+        }
+    }
+    
+}

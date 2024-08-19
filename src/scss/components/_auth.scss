@@ -1,0 +1,46 @@
+.login,
+.register {
+  &-form {
+    text-align: center;
+    .title {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    input,
+    label {
+      font-size: 1.5rem;
+    }
+    button {
+      font-size: 1.5rem;
+    }
+  }
+
+  .auth-link {
+    margin-top: 1rem;
+    span {
+      font-size: 1.3rem;
+      &:last-of-type {
+        color: rgb(47, 47, 238);
+        margin-left: 0.5rem;
+        cursor: pointer;
+      }
+    }
+  }
+
+}
+
+.auth{
+    button{   
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        span{
+            font-size: 1.4rem;
+            margin: 0 0.5rem;
+            color: black;
+        }
+        &:hover{
+            background-color: transparent;
+        }
+    }
+}   

@@ -1,0 +1,45 @@
+.order{
+    background-color: white;   
+    height: 100%; 
+    &__table{
+        &__head{
+            tr{
+                th{
+                    font-size: 1.5rem;
+                }
+            }
+        }
+        &__body{
+            tr{
+                td{
+                    font-size: 1.2rem;
+                    .orders__table__body__status{
+                        button{
+
+                            border: none;
+                            color: rgb(110, 160, 245);
+                            font-weight: bold;
+                        }
+                        // background-color: transparent;
+                        list-style: none;
+                     
+                        position: relative;
+                        ul{
+                            position: absolute;
+                            background-color: white;
+                            top: 100%;
+                            list-style: none;
+                            border: 1px solid silver;
+                            padding: 1rem;
+                            box-shadow: 0px 1px 5px black;
+                            z-index: 999;
+                           
+                        }
+                    }
+                }
+
+            }
+            
+        }
+    }
+}

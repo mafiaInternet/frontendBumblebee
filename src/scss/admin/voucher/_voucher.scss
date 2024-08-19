@@ -1,0 +1,86 @@
+.voucher{
+    h2{
+        padding: 2rem 3rem;
+        border-bottom: 1px solid ;
+    }
+    &--content{
+        padding: 3rem;
+        .layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10%;
+            background: linear-gradient(
+              to bottom,
+              rgba(0, 0, 0, 0.04),
+              rgba(255, 255, 255, 0)
+            );
+            pointer-events: none; /* Để lớp phủ không chặn các sự kiện click/hover */
+          }
+    }
+    form{
+        label, input, textarea{
+            display: block;
+            font-size: 1.5rem;
+            
+        }
+        .form-group{
+            // margin-bottom: 0.5rem;
+            padding: 0.5rem;
+        }
+        
+        .voucher--type{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            &--card{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                width: 32%;
+                height: 200px;
+                border: 1px solid;
+            }
+        }
+        .voucher--applies{
+       
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px solid silver;
+            .form-group{
+                display: flex;
+                align-items: center;
+                padding: 0;
+                select, option{
+                    outline: none;
+                    margin-right: 1rem;
+                    font-size: 1.3rem;
+                    padding: 0.3rem 0.5rem;
+                }
+                label{
+                    padding: 0.3rem 0.5rem;
+                    margin-right: 1rem;
+    
+
+                }
+                input{
+                    padding: 0 0.5rem;
+                    line-height: none;
+          
+                }
+            }
+        }
+        .voucher--active{
+            margin-top: 1rem;
+            border: 1px solid silver;
+            padding: 1rem;
+            .form-group{
+                display: flex;
+               
+            }
+        }
+    }
+}

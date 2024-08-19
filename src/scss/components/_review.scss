@@ -1,0 +1,74 @@
+.review{
+    border: 1px solid black;
+    &__summary{
+        padding: 2rem;
+        background-color: rgba(208,1,27,0.1);
+        &__average{
+            text-align: center;
+            p:first-child{
+                font-size: 2.5rem;
+                color: red;
+                // font-weight: bold;
+            }
+            p:last-of-type{
+                font-size: 1.5rem;
+            }
+
+            .MuiSvgIcon-root{
+                font-size: 2rem;
+            }
+            button{
+                font-size: 1.5rem;
+            }
+        }
+        button{
+            width: 100%;
+            font-size: 1.5rem;
+        }
+    }
+    &__list{
+        padding: 1rem;
+    }
+    
+    @media screen and (max-width: 1200px) {
+        /* Quy tắc CSS cho thiết bị có màn hình nhỏ */
+        button{
+            font-size: 1.3rem;
+        }
+      }
+      @media screen and (max-width: 768px) {
+        /* Quy tắc CSS cho thiết bị có màn hình nhỏ */
+        button{
+            font-size: 1.2rem;
+        }
+      }
+    &__form{
+        input, textarea{
+            font-size: 1.5rem;
+            
+            
+        }
+        .custom-file-product-upload{
+            border: 1px solid #ccc;
+            display: inline-block;
+            width: 100%;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            span {
+                font-size: 1.5rem;
+              &:first-of-type {
+                border-right: 1px solid #ccc;
+                background-color: silver;
+              }
+      
+              padding: 0.5rem;
+            }
+        }
+        label{
+        }
+        #file-image-upload{
+            display: none;
+        }
+
+    }
+}

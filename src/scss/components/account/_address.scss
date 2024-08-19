@@ -1,0 +1,36 @@
+.address{
+    background-color: white;
+    padding: 1rem;
+    min-height: 402.833px;
+    &-head{
+        display: flex;
+        justify-content: space-between;
+    }
+    &-content{
+        &-card{
+            display: flex;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid silver;
+            &-info{
+                flex: 1;
+                p{
+                    font-size: 1.5rem;
+                    color: silver;
+                    span{
+                        font-size: 1.5rem;
+                        color: black;
+                    }
+                }
+            }
+            &-settings{
+                flex: 1;
+                text-align: right;
+                
+                button{
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}
