@@ -25,38 +25,38 @@ const text = "/admin";
 const tabs = [
   {
     link: "/admin",
-    icon: <HomeIcon></HomeIcon>,
+    icon: <HomeIcon sx={{fontSize: "2.5rem"}}></HomeIcon>,
     name: "Trang chủ",
 
 
   },
   {
     link: text + "/user",
-    icon: <PersonIcon></PersonIcon>,
+    icon: <PersonIcon sx={{fontSize: "2.5rem"}}></PersonIcon>,
     name: "Người dùng",
 
   },
   {
     link: text + "/product",
-    icon: <FullscreenExitIcon></FullscreenExitIcon>,
+    icon: <FullscreenExitIcon sx={{fontSize: "2.5rem"}}></FullscreenExitIcon>,
     name: "Sản phẩm",
 
   },
   {
     link: text + "/voucher",
-    icon: <ConfirmationNumberIcon></ConfirmationNumberIcon>,
+    icon: <ConfirmationNumberIcon sx={{fontSize: "2.5rem"}}></ConfirmationNumberIcon>,
     name: "Mã giảm giá",
 
   },
   {
     link: text + "/order",
-    icon: <ShoppingCartIcon></ShoppingCartIcon>,
+    icon: <ShoppingCartIcon sx={{fontSize: "2.5rem"}}></ShoppingCartIcon>,
     name: "Đơn hàng",
 
   },
   {
     link: text + "/review",
-    icon: <CommentIcon></CommentIcon>,
+    icon: <CommentIcon sx={{fontSize: "2.5rem"}}></CommentIcon>,
     name: "Phản hồi",
 
   }
@@ -86,7 +86,7 @@ const Admin = () => {
               padding: "1rem 0.5rem",
             }}
           >
-            <Typography sx={{ fontSize: "24px", fontWeight: "600" }}>TEELAB</Typography>
+            <Typography sx={{ fontSize: "45px", fontWeight: "600" }}>TEELAB</Typography>
           </Typography>
           <Box sx={{display: "flex", flexDirection: "column", justifyContent: "space-between", height: "calc(100% - 8rem)"}}>
           <List>
@@ -108,11 +108,11 @@ const Admin = () => {
                 <ListItemIcon sx={{ color: 'inherit' }}>
                   {item.icon}
                 </ListItemIcon>
-                <ListItemText primary={item.name} sx={{fontSize: "20px"}}/>
+                <div style={{fontSize: "20px"}}>{item.name}</div>
               </ListItem>
             ))}
           </List>
-          <Button onClick={() => dispatch(Logout())}>Đăng xuất</Button>
+          <Button onClick={() => dispatch(Logout())} variant="contained" style={{marginBottom: "6px", padding: "12px 16px", fontSize: "16px"}}>Đăng xuất</Button>
           </Box>
         
         </Grid>

@@ -25,7 +25,7 @@ const head = [
   ];
 const ListOrderNeedComfirm = (props) => {
     const dispatch = useDispatch
-  const [orders, setOrders] = useState(
+    const [orders, setOrders] = useState(
     props.orders.filter((item) => item.orderStatus === "Đang chờ xác nhận")
   );
 console.log(props.orders.filter((item) => item.orderStatus === "Đang chờ xác nhận"))
@@ -43,7 +43,7 @@ console.log(orders)
   };
   return (
     <div className="admin--home--content--orders--confirm">
-      <h3 className="admin--home--content--orders--confirm--title">
+      <h3 className="admin--home--content--orders--confirm--title" style={{fontSize: "24px", marginBottom: "20px"}}>
         Đơn hàng cần xác nhận
       </h3>
       <hr></hr>
@@ -103,7 +103,11 @@ console.log(orders)
           </TableBody>
         </Table>
       </TableContainer>
-      <Link to="/admin/order">Xem tất cả đơn hàng </Link>
+      {orders && orders.length > 0 ?
+       <Link className= "d-flex justify-content-end" to="/admin/order">Xem tất cả đơn hàng </Link>
+        :
+        <div className="d-flex justify-content-center" style={{fontSize: "20px", marginTop: "20px"}}> Không có dữ liệu </div>
+      }
     </div>
   );
 };

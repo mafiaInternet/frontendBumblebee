@@ -76,7 +76,7 @@ console.log(total)
             <Grid item xs={3} container>
               <Grid sx={{ backgroundColor: "#dc3545" }} item xs={4}>
                 <div className="admin--home--content--quantity--icon">
-                  <ShoppingCartIcon></ShoppingCartIcon>
+                  <ShoppingCartIcon style={{fontSize: "40px"}}/>
                 </div>
               </Grid>
               <Grid item xs={8}>
@@ -89,7 +89,7 @@ console.log(total)
             <Grid item xs={3} container>
               <Grid sx={{ backgroundColor: "green" }} item xs={4}>
                 <div className="admin--home--content--quantity--icon">
-                  <AttachMoneyIcon></AttachMoneyIcon>
+                  <AttachMoneyIcon style={{fontSize: "40px"}}/>
                 </div>
               </Grid>
               <Grid item xs={8}>
@@ -102,7 +102,7 @@ console.log(total)
             <Grid item xs={3} container>
               <Grid sx={{ backgroundColor: "#1565c0" }} item xs={4}>
                 <div className="admin--home--content--quantity--icon">
-                  <FullscreenExitIcon></FullscreenExitIcon>
+                  <FullscreenExitIcon style={{fontSize: "40px"}}/>
                 </div>
               </Grid>
               <Grid item xs={8}>
@@ -115,7 +115,7 @@ console.log(total)
             <Grid item xs={3} container>
               <Grid sx={{ backgroundColor: "yellow" }} item xs={4}>
                 <div className="admin--home--content--quantity--icon">
-                  <ShoppingCartIcon></ShoppingCartIcon>
+                  <ShoppingCartIcon style={{fontSize: "40px"}}/>
                 </div>
               </Grid>
               <Grid item xs={8}>
@@ -131,12 +131,12 @@ console.log(total)
         <Grid container spacing={1}>
           <Grid item xs={7}>
             <div className="admin--home--content--chart">
-              <ChartHome></ChartHome>
+              <ChartHome style={{fontSize: "40px"}}/>
             </div>
           </Grid>
           <Grid item xs={5}>
             <div className="admin--home--content--customer">
-              <h3 className="admin--home--content--customer--title">
+              <h3 className="admin--home--content--customer--title" style={{fontSize: "24px", marginBottom: "20px"}}>
                 Top sản phẩm bán chạy
               </h3>
               <div className="admin--home--content--customer--card">
@@ -150,6 +150,8 @@ console.log(total)
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
+                        backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#ffffff",
+                        marginBottom: "20px"
                       }}
                     >
                       <Grid item xs={2}>

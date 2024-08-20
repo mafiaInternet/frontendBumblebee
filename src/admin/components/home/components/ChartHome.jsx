@@ -76,11 +76,15 @@ const ChartHome = () => {
   );
   return (
     <div className="chart">
-      <h3>Thông kê doanh số</h3>
+      <h3 className="admin--home--content--orders--confirm--title" style={{fontSize: "24px", marginBottom: "20px"}}>Thống kê doanh số</h3>
         <Box sx={{display: "flex", alignItems: "center"}}>
-      <Button variant="contained" onClick={handleChange} sx={{marginRight: "1rem"}}>Lọc</Button>
-      <TextField label="Năm" onChange={(event) => setYear(event.target.value)}></TextField>
-
+          <Button variant="contained" onClick={handleChange} sx={{marginRight: "1rem", padding: "13px 36px", fontSize: "14px"}}>Lọc</Button>
+          <TextField
+            label="Năm" 
+            onChange={(event) => setYear(event.target.value)} 
+            InputProps={{sx: {fontSize: '14px'}}}
+            InputLabelProps={{sx: {fontSize: '14px'}}}
+          />
         </Box>
       <Line options={options} data={data}></Line>
     </div>

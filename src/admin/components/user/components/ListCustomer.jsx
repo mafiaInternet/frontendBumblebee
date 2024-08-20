@@ -13,13 +13,11 @@ import {
   getCustomerAll,
   getUserById,
 } from "../../../state/action/CustomerAction";
-
+import moment from 'moment';
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteSharpIcon from "@mui/icons-material/EditNoteSharp";
-
 import Switch from "@mui/material/Switch";
-
 import AddCustomer from "./AddCustomer";
 import { Link } from "react-router-dom";
 
@@ -38,7 +36,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -54,22 +51,37 @@ const tableHeads = [
   "Ủy quyền",
   "Thao tác",
 ];
-
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
+  width: 660,
+  height: 660,
   bgcolor: "background.paper",
+  border: "1px solid silver",
   boxShadow: 24,
-  textAlign: "center",
   p: 4,
+  borderRadius: "10px"
+};
+
+const styles = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 390,
+  height: 150,
+  bgcolor: "background.paper",
+  border: "1px solid silver",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "10px"
 };
 
 const ListCustomers = () => {
   const dispatch = useDispatch();
   const { customer } = useSelector((store) => store);
-
   const [select, setSelect] = useState();
   const [openDeleteHandle, setOpenDeleteHandle] = React.useState(false);
   const handleOpenDelete = (userId) => {
@@ -77,7 +89,6 @@ const ListCustomers = () => {
     setSelect(userId);
   };
   const handleCloseDelete = () => setOpenDeleteHandle(false);
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -102,19 +113,19 @@ const ListCustomers = () => {
 
   return (
     <div className="customers">
-      <h2 className="customers--title">Quản Lý Người Dùng</h2>
+      <h2 className="admin--home--title">Quản Lý Người Dùng</h2>
       <div className="customers--content">
         <Button
           className="customers--content--add"
           variant="contained"
-          color="error"
           onClick={handleOpen}
+          style={{padding: "10px 15px", fontSize: "12px"}}
         >
           Thêm người dùng mới +
         </Button>
         <form className="customers--content--form" onSubmit={handleFilterUser}>
           <TextField label="Email" name="email"></TextField>
-          <Button variant="outlined" color="error" type="submit">
+          <Button variant="contained" type="submit">
             Lọc
           </Button>
         </form>
@@ -146,7 +157,7 @@ const ListCustomers = () => {
                   <StyledTableCell align="left">{item.mobile}</StyledTableCell>
 
                   <StyledTableCell align="left">
-                    {item.createAt}
+                    {item.createAt ? moment(item.createAt).format('DD/MM/YYYY HH:mm:ss') : 'N/A'}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <Switch {...label} />
@@ -157,11 +168,12 @@ const ListCustomers = () => {
                       to="/admin/user/edit"
                       onClick={() => dispatch(getUserById(item.id))}
                     >
-                      <EditNoteSharpIcon color="primary"></EditNoteSharpIcon>
+                      <EditNoteSharpIcon color="primary" sx={{fontSize: "32px"}}></EditNoteSharpIcon>
                     </Link>
                     <DeleteIcon
                       color="error"
                       onClick={handleOpenDelete}
+                      sx={{fontSize: "24px"}}
                     ></DeleteIcon>
                   </StyledTableCell>
                 </StyledTableRow>
@@ -177,29 +189,30 @@ const ListCustomers = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <Typography sx={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
+        <Box sx={styles}>
+          <Typography id="modal-modal-title" style={{fontSize: "16px"}}>
             Bạn chắc chắn muốn xóa người dùng này ?
           </Typography>
-
-          <Button
-            sx={{ marginRight: "1rem" }}
-            color="primary"
-            variant="contained"
-            onClick={handleClose}
-          >
-            Không
-          </Button>
-          <Button
-            sx={{ marginLeft: "1rem" }}
-            color="error"
-            variant="contained"
-            onClick={() => {
-              dispatch(deleteCustomerById(select));
-            }}
-          >
-            Có
-          </Button>
+          <div className="d-flex justify-content-end" style={{gap: "5px", marginTop: "10px"}}>
+            <Button
+              style={{fontSize: "14px", marginTop: "10px"}}
+              color="error"
+              variant="outlined"
+              onClick={handleCloseDelete}
+            >
+              Hủy
+            </Button>
+            <Button
+              style={{fontSize: "14px", marginTop: "10px"}}
+              color="error"
+              variant="contained"
+              onClick={() => {
+                dispatch(deleteCustomerById(select));
+              }}
+            >
+              Xóa
+            </Button>
+          </div>
         </Box>
       </Modal>
       <Modal
