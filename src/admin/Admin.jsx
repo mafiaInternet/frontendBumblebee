@@ -88,7 +88,7 @@ const Admin = () => {
           >
             <Typography sx={{ fontSize: "45px", fontWeight: "600" }}>TEELAB</Typography>
           </Typography>
-          <Box sx={{display: "flex", flexDirection: "column", justifyContent: "space-between", height: "calc(100% - 8rem)"}}>
+          <Box sx={{display: "flex", flexDirection: "column", justifyContent: "space-between", height: "calc(100% - 3rem)"}}>
           <List>
             {tabs.map((item, index) => (
               <ListItem

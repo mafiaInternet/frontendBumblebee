@@ -120,9 +120,7 @@ const ListCustomers = () => {
           variant="contained"
           onClick={handleOpen}
           style={{padding: "10px 15px", fontSize: "12px"}}
-        >
-          Thêm người dùng mới +
-        </Button>
+        >Thêm người dùng mới +</Button>
         <form className="customers--content--form" onSubmit={handleFilterUser}>
           <TextField label="Email" name="email"></TextField>
           <Button variant="contained" type="submit">

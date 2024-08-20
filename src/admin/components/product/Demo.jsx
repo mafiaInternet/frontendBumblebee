@@ -181,7 +181,7 @@ const Demo = () => {
 
   return product ? (
     <div className="addProduct">
-      <h2 className="addProduct--title">Thêm sản phẩm</h2>
+      <h2 className="admin--home--title">Thêm sản phẩm</h2>
       <div className="addProduct--content">
         <div className="layer"></div>
         <form method="POST" onSubmit={handleAddProduct}>

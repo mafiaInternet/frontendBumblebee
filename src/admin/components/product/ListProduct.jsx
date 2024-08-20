@@ -16,13 +16,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProductById, findProductFilter, getProducts, sortProductsHigh, sortProductsLow, sortProductsNew, sortProductsOld } from "../../../state/product/Action";
 import { CheckBox } from "@mui/icons-material";
-
+import moment from 'moment';
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteSharpIcon from "@mui/icons-material/EditNoteSharp";
 import { Price } from "../../../config/config";
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.common.black,
@@ -37,7 +38,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -106,11 +106,15 @@ const ListProduct = () => {
 
   return (
     <div className="listProduct">
-      <h2 className="listProduct--title">List Product</h2>
+      <h2 className="admin--home--title">List Product</h2>
       <div className="listProduct--content">
-      <div className="layer"></div>
+      <div className="layer" style={{marginBottom: "10px"}}></div>
         <Link to='/admin/product/create'>
-        <Button className="listProduct--content--add" variant="contained" color="error">Thêm sản phẩm +</Button>
+          <Button 
+            className="listProduct--content--add" 
+            variant="contained"
+            style={{padding: "10px 15px", fontSize: "12px", marginTop: "20px"}}
+          >Thêm sản phẩm mới +</Button>
         </Link>
         <div className="listProduct--content--filter">
           <div className="listProduct--content--filter--sort">
@@ -126,7 +130,7 @@ const ListProduct = () => {
           <form className="listProduct--content--filter--find" method="POST" onSubmit={handleFindProducts}>
             <TextField label="Tên sản phẩm" name="title"></TextField>
             <TextField label="Thể loại" name="category"></TextField>
-            <Button variant="contained" color="error" type="submit">Lọc</Button>
+            <Button variant="contained" type="submit">Lọc</Button>
           </form>
         </div>
         <TableContainer>
@@ -146,7 +150,7 @@ const ListProduct = () => {
                       <CheckBox></CheckBox>
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      {product.createAt}
+                      {product.createAt ? moment(product.createAt).format('DD/MM/YYYY HH:mm:ss') : 'N/A'}
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       {product.title}
@@ -173,9 +177,9 @@ const ListProduct = () => {
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       <Link to={`/admin/product/${product.id}/edit`}>
-                        <EditNoteSharpIcon color="primary" ></EditNoteSharpIcon>
+                        <EditNoteSharpIcon color="primary" sx={{fontSize: "28px"}}></EditNoteSharpIcon>
                       </Link>
-                      <DeleteIcon sx={{cursor: "pointer"}} color="error" onClick={() => handleDelete(product.id)}></DeleteIcon>
+                      <DeleteIcon sx={{cursor: "pointer", fontSize: "19px"}} color="error" onClick={() => handleDelete(product.id)}></DeleteIcon>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
