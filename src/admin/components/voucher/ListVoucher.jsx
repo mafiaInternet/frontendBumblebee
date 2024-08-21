@@ -7,10 +7,10 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import moment from 'moment';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -26,7 +26,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -44,6 +43,7 @@ const tableHeads = [
   "Ngày tạo",
   "Ngày kết thúc",
 ];
+
 const ListVoucher = () => {
   const dispatch = useDispatch();
   const { voucher } = useSelector((store) => store);
@@ -53,16 +53,17 @@ const ListVoucher = () => {
   }, [dispatch]);
   return (
     voucher.vouchers && (
-      <div className="listVoucher">
-        <h2>Danh sách voucher</h2>
-   
+      <div className="listVoucher" style={{padding: "10px 30px"}}>
+        <h2 className="admin--home--title" style={{paddingLeft: "0px"}}>Danh sách voucher</h2>
           <div className="listVoucher--content">
-          <div className="layer"></div>
+          <div className="layer" style={{marginBottom: "10px"}}></div>
             <Link to="/admin/voucher/create">
-            <Button variant="contained" color="error">
-
-              Thêm voucher +
-            </Button>
+              <Button 
+                variant="contained" 
+                className="listProduct--content--add"
+                style={{padding: "10px 15px", fontSize: "12px", marginTop: "20px"}}>
+                Thêm voucher +
+              </Button>
             </Link>
             <TableContainer>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -92,7 +93,6 @@ const ListVoucher = () => {
                             ? item.discountedPrice + "VND"
                             : item.discountedPersent + "%"}
                         </StyledTableCell>
-
                         <StyledTableCell align="left">
                           {item.totalPriceOrdered
                             ? "Đơn hàng " + item.totalPriceOrdered + " VNĐ"
@@ -111,10 +111,10 @@ const ListVoucher = () => {
                             : "Toàn bộ khách hàng"}
                         </StyledTableCell>
                         <StyledTableCell align="left">
-                          {item.start}
+                          {item.start ? moment(item.start).format('DD/MM/YYYY HH:mm:ss') : 'N/A'}
                         </StyledTableCell>
                         <StyledTableCell align="left">
-                          {item.end}
+                          {item.end ? moment(item.end).format('DD/MM/YYYY HH:mm:ss') : 'N/A'}
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
@@ -123,7 +123,6 @@ const ListVoucher = () => {
             </TableContainer>
           </div>
         </div>
- 
     )
   );
 };

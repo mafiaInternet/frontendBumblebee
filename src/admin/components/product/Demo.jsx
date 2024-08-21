@@ -1,13 +1,10 @@
 import { Button, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { createProduct, findProductsById } from "../../../state/product/Action";
 import { getCategory } from "../../../state/category/Action";
 import axios from "axios";
-
 import {  useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const Demo = () => {
   const { products } = useSelector((store) => store);
@@ -23,7 +20,6 @@ const Demo = () => {
     const formData = new FormData();
     formData.append("file", image);
     formData.append("upload_preset", preset_key);
-
     try {
       const res = await axios.post(
         `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
@@ -35,6 +31,7 @@ const Demo = () => {
       throw error;
     }
   };
+
   const { category } = useSelector((store) => store);
   const [files, setFiles] = useState([]);
   const [formColor, setFormColor] = useState([]);
@@ -43,7 +40,6 @@ const Demo = () => {
   const handleFiles = (event) => {
     const files = event.target.files;
     let imageUrls = [];
-
     for (let i = 0; i < files.length; i++) {
       console.log(i);
       imageUrls.push(files[i]);
@@ -68,16 +64,16 @@ const Demo = () => {
         </Grid>
         <Grid item xs={11.2} container spacing={1}>
           <Grid item xs={4}>
-            <label>Màu sắc</label>
-            <input type="text" name="colorName"></input>
+            <label style={{fontSize: "18px"}}>Màu sắc</label>
+            <input type="text" name="colorName" style={{borderRadius: "10px", padding: "10px", fontSize: "14px", border: "1px solid"}}></input>
           </Grid>
           <Grid item xs={4}>
-            <label>Kích Thước</label>
-            <input type="text" name="sizes"></input>
+            <label style={{fontSize: "18px"}}>Kích Thước</label>
+            <input type="text" name="sizes" style={{borderRadius: "10px", padding: "10px", fontSize: "14px", border: "1px solid"}}></input>
           </Grid>
           <Grid item xs={4}>
-            <label>Số lượng (mỗi size)</label>
-            <input type="text" name="quantity"></input>
+            <label style={{fontSize: "18px"}}>Số lượng (mỗi size)</label>
+            <input type="text" name="quantity" style={{borderRadius: "10px", padding: "10px", fontSize: "14px", border: "1px solid"}}></input>
           </Grid>
         </Grid>
       </Grid>,
@@ -97,7 +93,6 @@ const Demo = () => {
   const handleAddProduct = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
     const request = {
       title: data.get("title"),
       category: JSON.parse(data.get("category")),
@@ -108,7 +103,6 @@ const Demo = () => {
       totalQuantity: 0,
       description: data.get("desc"),
     };
-
     for (let i = 0; i < colors.length; i++) {
       const arr = data.getAll("sizes")[i].split(",");
       let sizeTmp = [];
@@ -118,7 +112,6 @@ const Demo = () => {
           quantity: Number(data.getAll("quantity")[i]),
         });
       });
-
       const imageUrl = await handleUploadCloundiry(colors[i]);
       console.log("color", i);
       request.colors.push({
@@ -127,32 +120,26 @@ const Demo = () => {
         sizes: sizeTmp,
       });
     }
-    console.log(files);
     for (let i = 0; i < files.length; i++) {
       const imageUrl = await handleUploadCloundiry(files[i]);
       console.log("file", i);
       request.listImageUrl.push(imageUrl);
     }
-
     request.colors.forEach((item) => {
       request.totalQuantity = item.sizes.reduce(
         (acc, curr) => acc + curr.quantity,
         0
       );
     });
-
     localStorage.setItem("product", JSON.stringify(request));
-
     dispatch(createProduct(request));
     navigate("/admin/product")
   };
-
 
   useEffect(() => {
     dispatch(getCategory());
   }, [dispatch]);
 
-  // Lấy sản phẩm khi `param.productId` thay đổi
   useEffect(() => {
     if (param.productId) {
       setLoading(true);
@@ -160,7 +147,6 @@ const Demo = () => {
     }
   }, [dispatch, param.productId]);
 
-  // Cập nhật sản phẩm khi `products` thay đổi
   useEffect(() => {
     if (products && products.product) {
       setProduct(products.product);
@@ -187,7 +173,7 @@ const Demo = () => {
         <form method="POST" onSubmit={handleAddProduct}>
           <Grid container spacing={1}>
             <Grid item xs={6}>
-              <label>Tên sản phẩm*</label>
+              <label style={{fontSize: "18px"}}>Tên sản phẩm</label>
               <input
                 type="text"
                 name="title"
@@ -197,11 +183,12 @@ const Demo = () => {
                   setProduct({ ...product, title: event.target.value })
                 }
                 required
+                style={{borderRadius: "10px", padding: "10px", fontSize: "14px", border: "1px solid"}}
               ></input>
             </Grid>
             <Grid item xs={6}>
-              <label>Loại sản phẩm*</label>
-              <select name="category">
+              <label style={{fontSize: "18px"}}>Loại sản phẩm</label>
+              <select name="category" style={{borderRadius: "10px", padding: "10px", fontSize: "14px", border: "1px solid"}}>
                 {category.categories &&
                   category.categories.map((category) => (
                     <option
@@ -220,8 +207,9 @@ const Demo = () => {
               </select>
             </Grid>
             <Grid item xs={6}>
-              <label>Giá</label>
+              <label style={{fontSize: "18px"}}>Giá</label>
               <input
+                style={{borderRadius: "10px", padding: "10px", fontSize: "14px", border: "1px solid"}}
                 type="text"
                 name="price"
                 placeholder="Giá"
@@ -233,8 +221,9 @@ const Demo = () => {
               ></input>
             </Grid>
             <Grid item xs={6}>
-              <label>Giảm giá</label>
+              <label style={{fontSize: "18px"}}>Giảm giá</label>
               <input
+                style={{borderRadius: "10px", padding: "10px", fontSize: "14px", border: "1px solid"}}
                 type="text"
                 name="discountPersent"
                 placeholder="Giảm giá"
@@ -248,13 +237,14 @@ const Demo = () => {
               ></input>
             </Grid>
             <Grid item xs={12}>
-              <label>Ảnh</label>
+              <label style={{fontSize: "18px"}}>Ảnh</label>
               <label
                 htmlFor="file-image-upload"
                 className="custom-file-product-upload"
+                style={{borderRadius: "10px", padding: "10px", border: "1px solid"}}
               >
-                <span>Chọn tệp</span>
-                <span>
+                <span style={{fontSize: "14px"}}>Chọn tệp</span>
+                <span style={{fontSize: "14px"}}>
                   {files.length === 0
                     ? "Chưa có tệp nào"
                     : `${files.length} tệp`}
@@ -302,15 +292,16 @@ const Demo = () => {
                 </Grid>
                 <Grid item xs={11.2} container spacing={1}>
                   <Grid item xs={4}>
-                    <input type="text" name="colorName"></input>
+                    <label style={{fontSize: "18px"}}>Màu sắc</label>
+                    <input type="text" name="colorName" style={{borderRadius: "10px", padding: "10px", fontSize: "14px", border: "1px solid"}}></input>
                   </Grid>
                   <Grid item xs={4}>
-                    <label>Kích Thước</label>
-                    <input type="text" name="sizes"></input>
+                    <label style={{fontSize: "18px"}}>Kích Thước</label>
+                    <input type="text" name="sizes" style={{borderRadius: "10px", padding: "10px", fontSize: "14px", border: "1px solid"}}></input>
                   </Grid>
                   <Grid item xs={4}>
-                    <label>Số lượng (mỗi size)</label>
-                    <input type="text" name="quantity"></input>
+                    <label style={{fontSize: "18px"}}>Số lượng (mỗi size)</label>
+                    <input type="text" name="quantity" style={{borderRadius: "10px", padding: "10px", fontSize: "14px", border: "1px solid"}}></input>
                   </Grid>
                 </Grid>
               </Grid>
@@ -321,8 +312,8 @@ const Demo = () => {
             <Grid item xs={12}>
               <Button
                 variant="contained"
-                color="error"
                 onClick={handleAddColor}
+                style = {{padding: "10px 18px", fontSize: "12px"}}
               >
                 Thêm color
               </Button>
@@ -330,13 +321,15 @@ const Demo = () => {
                 variant="outlined"
                 color="error"
                 onClick={handleDeleteColor}
+                style = {{padding: "10px 18px", fontSize: "12px"}}
               >
                 Xóa màu
               </Button>
             </Grid>
             <Grid item xs={12}>
-              <label>Mô tả</label>
+              <label style={{fontSize: "18px"}}>Mô tả</label>
               <textarea
+                style={{borderRadius: "10px"}}
                 name="desc"
                 value={product.description}
                 onChange={(event) =>
@@ -345,7 +338,7 @@ const Demo = () => {
               ></textarea>
             </Grid>
             <Grid item xs={12}>
-              <button className="btn btn-danger" type="submit">
+              <button className="btn btn-primary" type="submit" style={{padding: "10px 18px", fontSize: "15px", backgroundColor: "#1976d2", borderRadius: "4px"}}>
                 Thêm sản phẩm
               </button>
             </Grid>

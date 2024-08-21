@@ -118,7 +118,7 @@ const ListOrder = () => {
 
   return (
     <div className="listOrder">
-      <h2 className="listOrder--title">Quản lý đơn hàng</h2>
+      <h2 className="admin--home--title" style={{fontWeight: "400"}}>Quản lý đơn hàng</h2>
       <div className="listOrder--content">
         <div className="layer"></div>
         <div className="listOrder--content--filter">
@@ -137,7 +137,7 @@ const ListOrder = () => {
           </div>
           <form className="listOrder--content--filter--find" method="POST" onSubmit={handleFindOrderById}>
             <TextField label="Mã đơn hàng" name="orderId"></TextField>
-            <Button variant="contained" color="error" type="submit">
+            <Button variant="contained" type="submit">
               Lọc
             </Button>
           </form>
