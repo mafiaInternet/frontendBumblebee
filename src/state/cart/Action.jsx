@@ -21,8 +21,7 @@ export const getCarts = () => async (dispatch) => {
   dispatch({ type: GET_CART_REQUEST });
   try {
     const { data } = await api.get(`/cart/user`);
-    console.log(data)
-    if(data != ""){
+    if (data != "") {
       localStorage.setItem("cart", JSON.stringify(data))
     }
     dispatch({ type: GET_CART_SUCCESS, payload: data });
@@ -37,7 +36,7 @@ export const addItemToCart = (req) => async (dispatch) => {
   try {
     localStorage.getItem("cart")
 
-    const {data} = await apiBase.put("/cart/test", req)
+    const { data } = await apiBase.put("/cart/test", req)
     localStorage.setItem("cart", JSON.stringify(data))
     dispatch({ type: ADD_ITEM_TO_CART_SUCCESS, payload: data });
   } catch (error) {

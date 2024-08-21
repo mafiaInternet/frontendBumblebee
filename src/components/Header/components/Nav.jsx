@@ -5,8 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { Link } from "react-router-dom";
 import '../style.css'
 
-const Nav = ({auth}) => {
-  console.log(auth)
+const Nav = ({ auth }) => {
   const pages = [
     {
       text: "Trang chủ",
@@ -26,10 +25,10 @@ const Nav = ({auth}) => {
     },
     {
       text: `${auth.user && auth.user.role != null ? "" : "Quản lý"}`,
-      href: `${auth.user &&  auth.user.role != null ? "/home" : "/admin"}`,
+      href: `${auth.user && auth.user.role != null ? "/home" : "/admin"}`,
     },
   ];
-  
+
   return (
     <Box className="nav">
       <AppBar
@@ -40,15 +39,15 @@ const Nav = ({auth}) => {
           borderRadius: "none"
         }}
       >
-          <Toolbar>
-            <Box className="navbar">
-              {pages.map((page, index) => (
-                <Link to={page.href} key={index}>
-                  {page.text}
-                </Link>
-              ))}
-            </Box>
-          </Toolbar>
+        <Toolbar>
+          <Box className="navbar">
+            {pages.map((page, index) => (
+              <Link to={page.href} key={index}>
+                {page.text}
+              </Link>
+            ))}
+          </Box>
+        </Toolbar>
       </AppBar>
     </Box>
   );

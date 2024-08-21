@@ -14,7 +14,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const { auth, cart } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
-  console.log(cart);
+
   React.useEffect(() => {
     if (jwt) {
       dispatch(User(jwt));
@@ -27,7 +27,6 @@ const Header = () => {
       className="header"
       sx={{ position: "sticky", top: "0px", width: "100%", zIndex: "9" }}
     >
-
       <Box sx={{ display: { xs: "none", lg: "block" } }}>
         <Topbar
           jwt={jwt}

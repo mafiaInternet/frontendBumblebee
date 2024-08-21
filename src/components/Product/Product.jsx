@@ -62,7 +62,7 @@ const Product = () => {
   return (
     <div className="products ">
       <Box className="products__top">
-        <h2 className="products__top__title">
+        <h2 className="products__top__title" style={{fontSize: "24px"}}>
           {navItems.find((item) => item.link == param.name).name}
         </h2>
         <hr></hr>
