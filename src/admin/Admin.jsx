@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, List, ListItem, ListItemIcon, ListItemText, Typography, Button, Grid } from '@mui/material';
+import { Box, List, ListItem, ListItemIcon, Typography, Button, Grid } from '@mui/material';
 import ListProduct from "./components/product/ListProduct";
 import { useDispatch, useSelector } from "react-redux";
 import Customers from "./components/user/Customers";
@@ -7,7 +7,7 @@ import Orders from "./components/order/Orders";
 import Demo from "./components/product/Demo";
 import HomeIcon from "@mui/icons-material/Home";
 import { GetAdmin, Logout } from "../state/auth/Action";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import PrimarySearchAppBar from "./components/Header";
 import PersonIcon from "@mui/icons-material/Person";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
@@ -66,7 +66,11 @@ const Admin = () => {
   const dispatch = useDispatch();
   const { auth } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
+  const navigate = useNavigate();
 
+  const handleClick = () => {
+    navigate("/");
+  };
 
   React.useEffect(() => {
     if (jwt) {
@@ -86,7 +90,7 @@ const Admin = () => {
               padding: "1rem 0.5rem",
             }}
           >
-            <Typography sx={{ fontSize: "45px", fontWeight: "600" }}>TEELAB</Typography>
+            <Typography onClick={handleClick} sx={{ fontSize: "35px", fontWeight: "600", cursor: "pointer" }}>TEELAB</Typography>
           </Typography>
           <Box sx={{display: "flex", flexDirection: "column", justifyContent: "space-between", height: "calc(100% - 3rem)"}}>
           <List>

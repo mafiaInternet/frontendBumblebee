@@ -8,12 +8,12 @@ const Header = () => {
   return (
     <div className="admin--header" style={{height: "60px", backgroundColor: "#1976d2"}}>
       <div className="admin--header--content d-flex" style={{alignItems: "center", height: "100%"}}>
-        <Badge badgeContent={4} color="secondary" sx={{margin: "0 5px"}}>
+        {/* <Badge badgeContent={4} color="secondary" sx={{margin: "0 5px"}}>
           <MailIcon color="action" />
         </Badge>
         <div style={{margin: "0 5px"}}>
           <SettingsIcon/>
-        </div>
+        </div> */}
         <Box className="d-flex justify-content-center align-items-center" sx={{marginRight: "25px"}}>
           <AccountCircleOutlinedIcon/>
           <span>Admin</span>

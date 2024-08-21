@@ -24,13 +24,10 @@ ChartJS.register(
   Legend
 );
 
-const ChartHome = () => {
-  
-
+const ChartHome = () => { 
   const [year, setYear] = useState(new Date().getFullYear());
   const dispatch = useDispatch();
   const { order } = useSelector((store) => store);
-
   const options = {};
 
   const data = {
@@ -63,10 +60,12 @@ const ChartHome = () => {
       },
     ]
   };
+
   const handleChange = () => {
     dispatch(getOrderTotalPriceOfYear(year))
       dispatch(getOrderTotalQuantityOfYear(year))
-  }
+  };
+
   useEffect(() => 
     {
       dispatch(getOrderTotalPriceOfYear(year))
@@ -74,6 +73,7 @@ const ChartHome = () => {
     },
     []
   );
+
   return (
     <div className="chart">
       <h3 className="admin--home--content--orders--confirm--title" style={{fontSize: "24px", marginBottom: "20px"}}>Thống kê doanh số</h3>

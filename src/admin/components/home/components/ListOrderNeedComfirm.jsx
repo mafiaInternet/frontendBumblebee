@@ -28,8 +28,6 @@ const ListOrderNeedComfirm = (props) => {
     const [orders, setOrders] = useState(
     props.orders.filter((item) => item.orderStatus === "Đang chờ xác nhận")
   );
-console.log(props.orders.filter((item) => item.orderStatus === "Đang chờ xác nhận"))
-console.log(orders)
   const handleStatusOrder = (orderId) => {
     dispatch(
       statusOrderHandler({
