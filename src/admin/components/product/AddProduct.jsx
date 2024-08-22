@@ -165,8 +165,6 @@ const AddProduct = () => {
           URL.revokeObjectURL(file.preview);
         }}
       />
-
-     
     </div>
   ));
 
