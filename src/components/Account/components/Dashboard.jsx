@@ -7,9 +7,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Box,
-  Button,
-  Grid,
+  Box
 } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -17,7 +15,7 @@ import { Link } from "react-router-dom";
 import DescriptionIcon from '@mui/icons-material/Description';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-const heads = ["Đơn hàng", "Ngày", "Tổng đơn hàng", "Trạng thái", "Hành động"];
+const heads = ["Đơn hàng", "Ngày", "Tổng đơn hàng", "Trạng thái", " "];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -46,15 +44,14 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <div className="container">
-        <h2 style={{fontSize: "24px", fontWeight: "500"}}>Bảng điều khiển</h2>
-        <hr></hr>
+        <h2 style={{fontSize: "24px", fontWeight: "500"}}>BẢNG ĐIỀU KHIỂN</h2>
+        <hr style={{marginBottom: "0px"}}/>
         <div className="dashboard--content">
           <div className="dashboard--content--point">
             <p>
               <span>Điểm tích lũy: </span>
               <strong>11k</strong>
             </p>
-           
           </div>
           <Box
               sx={{
@@ -134,65 +131,37 @@ const Dashboard = () => {
                   <TableHead>
                     <TableRow>
                       {heads.map((head) => (
-                        <StyledTableCell align="left">{head}</StyledTableCell>
+                        <StyledTableCell align="left" key={head}>{head}</StyledTableCell>
                       ))}
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {order?.orders &&
+                    {order?.orders && order.orders.length > 0 ? (
                       order.orders.map((order, index) => (
                         <StyledTableRow key={index}>
+                          <StyledTableCell align="left">{order.id}</StyledTableCell>
+                          <StyledTableCell align="left">{order.createAt}</StyledTableCell>
+                          <StyledTableCell align="left">{order.totalDiscountedPrice}</StyledTableCell>
+                          <StyledTableCell align="left">{order.orderStatus}</StyledTableCell>
                           <StyledTableCell align="left">
-                            {order.id}
-                          </StyledTableCell>
-                          <StyledTableCell align="left">
-                            {order.createAt}
-                          </StyledTableCell>
-                          <StyledTableCell align="left">
-                            {order.totalDiscountedPrice}
-                          </StyledTableCell>
-                          <StyledTableCell align="left">
-                            {order.orderStatus}
-                          </StyledTableCell>
-                          <StyledTableCell align="left">
-                            <Link to={"/order/order-details/"}>
-                              <VisibilityIcon style={{fontSize: "20px", marginBottom: "5px"}}/>
+                            <Link to={`/order/order-details/${order.id}`}>
+                              <VisibilityIcon style={{ fontSize: "20px", marginBottom: "5px" }} />
                             </Link>
                           </StyledTableCell>
                         </StyledTableRow>
                       ))
-                    }
+                    ) : (
+                      <StyledTableRow>
+                        <StyledTableCell colSpan={heads.length} align="center">
+                          <div style={{ color: "silver", fontSize: "20px", fontWeight: "500", marginTop: "20px" }}>
+                            <DescriptionIcon style={{ fontSize: "24px", marginBottom: "5px" }} /> Chưa có đơn hàng
+                          </div>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    )}
                   </TableBody>
                 </Table>
-                {order === null ?
-                  <div style={{color: "silver", fontSize: "20px", fontWeight: "500", marginTop: "20px", width: "200px"}}> 
-                    <DescriptionIcon style={{fontSize: "24px", marginBottom: "5px"}}/> Chưa có đơn hàng
-                  </div>
-                :
-                  <></>
-                }
               </TableContainer>
-            </div>
-            <div className="dashboard--content--address" style={{marginTop: "60px"}}>
-              <h2 style={{fontSize: "24px", fontWeight: "500"}}>SỔ ĐỊA CHỈ</h2>
-              <hr></hr>
-              <Grid container spacing={3}>
-              {auth.user ? auth.user.address.map((item) => (
-                <Grid item xs={6}>
-                <p>{item.lastName}</p>
-                <p>{item.city}</p>
-                <p>Phường Văn Quán, Quận Hà Đông, Hà Nội, Việt Nam</p>
-                <p>Tel: {item.mobile}</p>
-                <div className="dashboard--content--address--act">
-                <Button variant="contained" color="error" style={{paddingTop: "10px"}}>Sửa địa chỉ</Button>
-                <Button variant="outlined" color="error" style={{paddingTop: "10px"}}>Xóa địa chỉ</Button>
-                </div>
-              </Grid>
-              )) : (<Grid item xs={12}>Chưa có địa chỉ nào</Grid>)}
-
-              </Grid>
-              
-              
             </div>
         </div>
       </div>

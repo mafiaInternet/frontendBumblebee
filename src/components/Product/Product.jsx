@@ -10,14 +10,22 @@ import {
 import {
   useParams,
 } from "react-router-dom";
-import {
-  Box,
-  Grid,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Box, Grid, MenuItem, Select, Typography } from "@mui/material";
 import ProductCard from "./components/ProductCard";
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+
+const StyledMessageBox = {
+  backgroundColor: '#f9f9f9',
+  borderRadius: '8px',
+  color: "silver",
+  textAlign: "center",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+  width: '100%',
+  height: "100px"
+};
 
 const navItems = [
   { link: "all", name: "Tất cả sản phẩm" },
@@ -81,7 +89,7 @@ const Product = () => {
           </Select>
         </div>
       </Box>
-      <div className="products-list">
+      <Box className="products-list">
         <Grid container spacing={2} className="row">
           {products.products ? (
             products.products.length > 0 ? (
@@ -92,19 +100,21 @@ const Product = () => {
               ))
             ) : (
               <Grid item xs={12}>
-                <div style={{fontSize: "20px", color: "silver", textAlign: "center", marginBottom: "100px" }}>
-                <RemoveShoppingCartIcon style={{fontSize: "25px", marginBottom: "8px"}} /> 
-                  Hết sản phẩm
-                </div>
+                <Box sx={StyledMessageBox}>
+                  <RemoveShoppingCartIcon style={{ fontSize: "28px", marginBottom: "8px" }} />
+                  <Typography style={{fontSize: "24px"}}>Đã hết hàng</Typography>
+                </Box>
               </Grid>
             )
           ) : (
             <Grid item xs={12}>
-              <div style={{fontSize: "20px", color: "silver", textAlign: "center", marginBottom: "100px" }}>Loading...</div>
+              <Box sx={StyledMessageBox}>
+                <Typography>Loading...</Typography>
+              </Box>
             </Grid>
           )}
         </Grid>
-      </div>
+      </Box>
     </div>
   );
 };

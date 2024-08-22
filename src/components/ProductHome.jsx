@@ -1,15 +1,49 @@
-import { Typography, Box, Grid, Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Typography, Box, Grid } from "@mui/material";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../state/product/Action";
-import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import { Link } from "react-router-dom";
 import ProductCard from "./Product/components/ProductCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import DescriptionIcon from '@mui/icons-material/Description';
+
+
+const StyledBox = {
+  backgroundColor: '#f9f9f9',
+  borderRadius: '8px',
+  padding: '20px',
+  marginTop: '20px',
+  width: '100%',
+};
+
+const EmptyStateBox = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  ...StyledBox,
+};
+
+const LoadingText = {
+  textAlign: 'center',
+  color: 'silver',
+  fontSize: '20px',
+  marginTop: '40px',
+  width: '100%',
+};
+
+const ProductSlideLink = {
+  textAlign: 'center',
+  color: '#1976d2',
+  fontWeight: 'bold',
+  textDecoration: 'none',
+  marginTop: '20px',
+  display: 'block',
+};
 
 const ProductHome = () => {
   const dispatch = useDispatch();
+  const text ="Không chỉ là thời trang, TEELAB còn là “phòng thí nghiệm” của tuổi trẻ - nơi nghiên cứu và cho ra đời nguồn năng lượng mang tên “Youth”. Chúng mình luôn muốn tạo nên những trải nghiệm vui vẻ, năng động và trẻ trung.";
   const { products } = useSelector((store) => store);
   const navItems = [
     { link: "ao-thun", name: "Áo thun" },
@@ -25,8 +59,6 @@ const ProductHome = () => {
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
-  
-  const text ="Không chỉ là thời trang, TEELAB còn là “phòng thí nghiệm” của tuổi trẻ - nơi nghiên cứu và cho ra đời nguồn năng lượng mang tên “Youth”. Chúng mình luôn muốn tạo nên những trải nghiệm vui vẻ, năng động và trẻ trung.";
 
   return (
     <Box className="productHome">
@@ -50,40 +82,49 @@ const ProductHome = () => {
           {text}
         </Typography>
       </Box>
-      <Box className="product-slide" sx={{ width: { xs: "70%", md: "90%", lg: "80%" } }}>
-        {navItems &&
-          navItems.map((navItem, index) => (
-            <div key={index} style={{marginBottom: "30px"}}>
-              <Typography style={{ fontSize: "40px" }} key={index}>{navItem.name}</Typography>
+      <Box className="product-slide" sx={{ width: { xs: '70%', md: '90%', lg: '80%' }, mx: 'auto' }}>
+        {navItems?.map((navItem, index) => (
+          <Box key={index} mb={4}>
+            <Typography style={{fontSize: "32px"}} gutterBottom>
+              {navItem.name}
+            </Typography>
+            <Box sx={StyledBox}>
               <Grid container spacing={2}>
                 {products.products && products.products.length > 0 ? (
-                  products.products.filter(product => product && product.category && product.category.nameId === navItem.link).length > 0 ? (
+                  products.products.filter(
+                    product =>
+                      product &&
+                      product.category &&
+                      product.category.nameId === navItem.link
+                  ).length > 0 ? (
                     products.products.map((product, index) => (
-                      product && product.category && product.category.nameId === navItem.link &&
-                      <Grid item xs={6} sm={4} md={3} key={index}>
-                        <ProductCard product={product}></ProductCard>
-                      </Grid>
+                      product &&
+                      product.category &&
+                      product.category.nameId === navItem.link && (
+                        <Grid item xs={6} sm={4} md={3} key={index}>
+                          <ProductCard product={product} />
+                        </Grid>
+                      )
                     ))
                   ) : (
-                    <div style={{ margin: "40px 0 0 250px"}}>
-                      <RemoveShoppingCartIcon style={{fontSize: "25px", marginBottom: "13px", color: "silver"}} /> 
-                      <span style={{ fontSize: "20px", color: "silver" }}>Hết sản phẩm</span>
-                    </div>
+                    <Box sx={EmptyStateBox}>
+                      <Typography style={{ fontSize: '18px' }} color="textSecondary">
+                        <DescriptionIcon style={{ fontSize: '24px', marginBottom: '5px' }} /> Đã hết hàng
+                      </Typography>
+                    </Box>
                   )
                 ) : (
-                  <div style={{ margin: "40px 0 0 250px", fontSize: "20px", color: "silver" }}>Loading...</div>
-                )}
-                {products && products.products.length > 8 && (
-                  <Link
-                    to={`/product/${navItem.link}`}
-                    className="product-slide-link col-3"
-                  >
-                    Xem thêm
-                  </Link>
+                  <Typography sx={LoadingText}>Loading...</Typography>
                 )}
               </Grid>
-            </div>
-          ))}
+            </Box>
+            {products?.products.length > 8 && (
+              <Link to={`/product/${navItem.link}`} style={ProductSlideLink}>
+                Xem thêm
+              </Link>
+            )}
+          </Box>
+        ))}
       </Box>
     </Box>
   );

@@ -44,8 +44,7 @@ const Account = () => {
               <NavLink to="/account/address">Địa chỉ</NavLink>
               <NavLink to={`/account/order`}>Đơn hàng của tôi</NavLink>
               <NavLink to="/account/voucher">Voucher</NavLink>
-              <NavLink to="/account/review">Nhận xét của tôi</NavLink>
-              <NavLink to="/account/order/id">Đơn hàng</NavLink>
+              {/* <NavLink to="/account/review">Nhận xét của tôi</NavLink> */}
             </div>
           </Grid>
           <Grid item xs={12} md={9}>
