@@ -14,17 +14,22 @@ import { Box, Grid, MenuItem, Select, Typography } from "@mui/material";
 import ProductCard from "./components/ProductCard";
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 
-const StyledMessageBox = {
+const styledBox ={
   backgroundColor: '#f9f9f9',
   borderRadius: '8px',
-  color: "silver",
+  padding: '20px',
+  width: '100%',
+}
+
+const StyledMessageBox = {
+  color: "rgba(0, 0, 0, 0.6)",
   textAlign: "center",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "column",
-  width: '100%',
-  height: "100px"
+  height: "100px",
+  ...styledBox,
 };
 
 const navItems = [
@@ -89,8 +94,8 @@ const Product = () => {
           </Select>
         </div>
       </Box>
-      <Box className="products-list">
-        <Grid container spacing={2} className="row">
+      <Box sx={styledBox}>
+        <Grid container spacing={2}>
           {products.products ? (
             products.products.length > 0 ? (
               products.products.map((product, index) => (
