@@ -109,7 +109,7 @@ const Product = () => {
           ) : (
             <Grid item xs={12}>
               <Box sx={StyledMessageBox}>
-                <Typography>Loading...</Typography>
+                <Typography style={{fontSize: "24px"}}>Loading...</Typography>
               </Box>
             </Grid>
           )}
