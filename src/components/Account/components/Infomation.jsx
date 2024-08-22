@@ -57,7 +57,7 @@ const Infomation = () => {
   return (
     <div className="infomation">
       <div className="container">
-        <h2 style={{ fontSize: "24px", fontWeight: "500" }}>Tài khoản của tôi</h2>
+        <h2 style={{ fontSize: "24px", fontWeight: "500" }}>TÀI KHOẢN CỦA TÔI</h2>
         <hr />
         {auth?.user && (
           <Box sx={{ padding: "1rem 3rem" }}>

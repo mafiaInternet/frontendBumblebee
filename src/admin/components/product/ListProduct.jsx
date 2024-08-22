@@ -75,15 +75,12 @@ const ListProduct = () => {
     console.log(page)
   };
 
-
   const handleSortProducts = (event) => {
     const sortType = event.target.value
     setSort(event.target.value);
     const data = Object.values(products.products)
-
     if(sortType == "Từ thấp đến cao"){
       dispatch(sortProductsLow(data))
-
     }else if(sortType === "Từ cao đến thấp"){
       console.log("abc")
       dispatch(sortProductsHigh(data))

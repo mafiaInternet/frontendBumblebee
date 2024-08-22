@@ -1,19 +1,10 @@
-import {
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  tableCellClasses,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Box
-} from "@mui/material";
+import { styled, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Box } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import DescriptionIcon from '@mui/icons-material/Description';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import moment from 'moment';
 
 const heads = ["Đơn hàng", "Ngày", "Tổng đơn hàng", "Trạng thái", " "];
 
@@ -40,6 +31,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Dashboard = () => {
   const { auth, order } = useSelector((store) => store);
+
+  console.log(order);
 
   return (
     <div className="dashboard">
@@ -140,11 +133,11 @@ const Dashboard = () => {
                       order.orders.map((order, index) => (
                         <StyledTableRow key={index}>
                           <StyledTableCell align="left">{order.id}</StyledTableCell>
-                          <StyledTableCell align="left">{order.createAt}</StyledTableCell>
-                          <StyledTableCell align="left">{order.totalDiscountedPrice}</StyledTableCell>
+                          <StyledTableCell align="left">{order.createAt ? moment(order.createAt).format('DD/MM/YYYY HH:mm:ss') : 'N/A'}</StyledTableCell>
+                          <StyledTableCell align="left">{order.totalPrice}</StyledTableCell>
                           <StyledTableCell align="left">{order.orderStatus}</StyledTableCell>
                           <StyledTableCell align="left">
-                            <Link to={`/order/order-details/${order.id}`}>
+                            <Link to={`/account/order/${order.id}`}>
                               <VisibilityIcon style={{ fontSize: "20px", marginBottom: "5px" }} />
                             </Link>
                           </StyledTableCell>
