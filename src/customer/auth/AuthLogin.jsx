@@ -28,8 +28,6 @@ export default function AuthLogin() {
       password: data.get("password")
     }
     dispatch(Login(userData))
-
-   
   }
   return (
     <div className="login">
@@ -77,4 +75,3 @@ export default function AuthLogin() {
   );
 }
 
-// export default AuthLogin();

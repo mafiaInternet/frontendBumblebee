@@ -4,7 +4,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CustomerRouters from "./routes/CustomerRouters";
 import Admin from "./admin/Admin";
-
 const App = () => {
   return (
     <div className="App">

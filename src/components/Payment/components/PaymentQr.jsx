@@ -57,7 +57,7 @@ const PaymentQr = (props) => {
       timeout = setInterval(() => {
         console.log(seconds);
         setSeconds((seconds) => seconds - 1);
-        checkpaid()
+        // checkpaid()
       }, 1000);
     }
 
