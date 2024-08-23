@@ -21,7 +21,7 @@ const orderStatus = [
 ];
 
 export default function Order() {
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = React.useState("Tất cả");
   const dispatch = useDispatch();
   const { order } = useSelector((store) => store);
   const handleChange = (event, newValue) => {
@@ -54,7 +54,17 @@ export default function Order() {
                 aria-label="scrollable force tabs example"
               >
                 {orderStatus.map((item, index) => (
-                  <Tab label={item} value={item} key={index}></Tab>
+                  <Tab label={item} value={item} key={index}
+                    sx={{
+                      textTransform: "none",
+                      fontSize: "1rem",
+                      fontWeight: "bold",
+                      "&:hover": {
+                        backgroundColor: "#f0f0f0",
+                        color: "red",
+                      }
+                    }}
+                  />
                 ))}
               </Tabs>
             </Box>
