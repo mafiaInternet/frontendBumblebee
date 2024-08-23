@@ -168,7 +168,7 @@ const Infomation = () => {
                 </Grid>
               </Grid>
               <div className="save">
-                <Button type="submit" color="error" variant="contained" style={{ paddingTop: "10px" }}>
+                <Button type="submit" color="error" variant="contained" style={{ padding: "10px 30px", fontSize: "14px", marginTop: "30px" }}>
                   Lưu
                 </Button>
               </div>
