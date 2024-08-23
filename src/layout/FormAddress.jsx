@@ -22,13 +22,13 @@ const style = {
 const FormAddress = (props) => {
   const dispatch = useDispatch();
   const [address, setAddress] = useState({
-    name: props.address.name || "",
-    mobile: props.address.mobile || "",
+    name: props.address?.name || "",
+    mobile: props.address?.mobile || "",
     province: "",
     district: "",
     ward: "",
-    desc: props.address.desc || "",
-    state: props.address.state === "Mặc định" || false,
+    desc: props.address?.desc || "",
+    state: props.address?.state === "Mặc định" || false,
     provinces: [],
     districts: [],
     wards: []
@@ -58,15 +58,14 @@ const FormAddress = (props) => {
       description: address.desc,
       state: address.state ? "Mặc định" : "",
     };
-    console.log(request)
-    // if (props.type === "create") {
-    //   dispatch(addAddress(request));
-    // } else if (props.type === "update") {
-    //   dispatch(updateAddressByUser({
-    //     addressId: props.address.id,
-    //     responseData: request,
-    //   }));
-    // }
+    if (props.type === "create") {
+      dispatch(addAddress(request));
+    } else if (props.type === "update") {
+      dispatch(updateAddressByUser({
+        addressId: props.address.id,
+        responseData: request,
+      }));
+    }
   };
 
   const handleGetApiAddress = async (event) => {
@@ -87,6 +86,8 @@ const FormAddress = (props) => {
       }
     }
   };
+
+  console.log(address);
 
   return (
     <Box sx={style}>
@@ -125,15 +126,22 @@ const FormAddress = (props) => {
           fullWidth
           labelId="province-label"
           name="province"
-          value={address.province}
+          value={address.province_id}
           onChange={(e) => {
-            setAddress({ ...address, province: e.target.value });
+            const selectedProvince = address.provinces.find(
+              (province) => province.province_id === e.target.value
+            );
+            setAddress({ 
+              ...address, 
+              province_id: selectedProvince.province_id,
+              province: selectedProvince.province_name
+            });
             handleGetApiAddress(e);
           }}
           label="Tỉnh/ Thành phố"
         >
           {address.provinces.map((province) => (
-            <MenuItem key={province.province_id} value={province.province_name}>
+            <MenuItem key={province.province_id} value={province.province_id}>
               {province.province_name}
             </MenuItem>
           ))}
@@ -144,16 +152,23 @@ const FormAddress = (props) => {
           fullWidth
           labelId="district-label"
           name="district"
-          value={address.district}
+          value={address.district_id}
           onChange={(e) => {
-            setAddress({ ...address, district: e.target.value });
+            const selectedDistrict = address.districts.find(
+              (district) => district.district_id === e.target.value
+            );
+            setAddress({ 
+              ...address, 
+              district_id: selectedDistrict.district_id,
+              district: selectedDistrict.district_name
+            });
             handleGetApiAddress(e);
           }}
           label="Quận/ Huyện"
           disabled={!address.province}
         >
           {address.districts.map((district) => (
-            <MenuItem key={district.district_id} value={district.district_name}>
+            <MenuItem key={district.district_id} value={district.district_id}>
               {district.district_name}
             </MenuItem>
           ))}
@@ -164,13 +179,22 @@ const FormAddress = (props) => {
           fullWidth
           labelId="ward-label"
           name="ward"
-          value={address.ward}
-          onChange={(e) => setAddress({ ...address, ward: e.target.value })}
+          value={address.ward_id}
+          onChange={(e) => {
+            const selectedWard = address.wards.find(
+              (ward) => ward.ward_id === e.target.value
+            );
+            setAddress({ 
+              ...address, 
+              ward_id: selectedWard.ward_id,
+              ward: selectedWard.ward_name
+            });
+          }}
           label="Phường/ Xã"
           disabled={!address.district}
         >
           {address.wards.map((ward) => (
-            <MenuItem key={ward.ward_id} value={ward.ward_name}>
+            <MenuItem key={ward.ward_id} value={ward.ward_id}>
               {ward.ward_name}
             </MenuItem>
           ))}
@@ -192,16 +216,6 @@ const FormAddress = (props) => {
             style: { fontSize: '14px' }
           }}
         />
-
-        {/* <FormControlLabel
-          control={
-            <Checkbox
-              checked={address.state}
-              onChange={() => setAddress({ ...address, state: !address.state })}
-            />
-          }
-          label="Đặt làm mặc định"
-        /> */}
 
         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px", gap: "10px" }}>
           <Button
