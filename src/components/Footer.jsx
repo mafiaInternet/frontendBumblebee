@@ -40,7 +40,7 @@ const Footer = () => {
     "Trang chủ",
     "Tất cả sản phẩm",
     "Chính sách đổi trả",
-    "Bảng size",
+    "Bảng kích thước",
     "Kiểm tra đơn hàng",
     "Hệ thống cửa hàng",
   ];
@@ -55,7 +55,7 @@ const Footer = () => {
       href: "/policy",
     },
     {
-      text: "Bảng size",
+      text: "Bảng kích thước",
       href: "/table-size",
     },
     {
@@ -80,32 +80,18 @@ const Footer = () => {
             xs={12}
             sx={{ textAlign: "center" }}
           >
-            <h5 >Đăng ký</h5>
-            <div
-              class="footer--signup--notification--input"
-
-            >
-              <input
-                type="text"
-
-                placeholder="Nhập địa chỉ email"
-              ></input>
-              <FaLocationArrow
-
-              ></FaLocationArrow>
+            <h5>Đăng ký</h5>
+            <div class="footer--signup--notification--input">
+              <input type="text" placeholder="Nhập địa chỉ email"></input>
+              <FaLocationArrow></FaLocationArrow>
             </div>
-              <p>Theo dõi Teelab từ các nền tảng khác nhau nhé!</p>
+            <p>Theo dõi Teelab từ các nền tảng khác nhau nhé!</p>
             <div className="footer--icons">
-
-      
-                {contacts.map((contact, index) => (
-       
-                    <a href={contact.href} key={index}>
-                      <img className="img-fluid" src={contact.image}></img>
-                    </a>
-     
-                ))}
- 
+              {contacts.map((contact, index) => (
+                <a href={contact.href} key={index}>
+                  <img className="img-fluid" src={contact.image}></img>
+                </a>
+              ))}
             </div>
           </Grid>
           <Grid item xs={6} md={4}>

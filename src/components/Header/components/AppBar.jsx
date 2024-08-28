@@ -38,7 +38,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -65,9 +64,8 @@ export default function PrimarySearchAppBar(props) {
         }}
         position="static"
       >
-        <Toolbar sx={{display: "flex", justifyContent: "space-between"}}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <TemporaryDrawer></TemporaryDrawer>
-     
           <Topbar jwt={props.jwt} cartItems={props.cartItems}></Topbar>
         </Toolbar>
       </AppBar>

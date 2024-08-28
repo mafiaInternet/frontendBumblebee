@@ -35,7 +35,11 @@ export default function Order() {
   return (
     order.orders && (
       <div className="order">
-        <h2>Đơn hàng của tôi</h2>
+        <h2 style={{ fontSize: "24px", fontWeight: "500" }}>
+          Đơn hàng của tôi
+        </h2>
+        <hr></hr>
+
         <Box sx={{ backgroundColor: "#f0f0f0" }}>
           <TabContext value={value}>
             <Box
@@ -59,9 +63,9 @@ export default function Order() {
                 ))}
               </Tabs>
             </Box>
-                <div>
+            <div>
               {orderStatus.map((item, index) => (
-                <TabPanel sx={{padding: "0"}} value={item} key={index}>
+                <TabPanel sx={{ padding: "0" }} value={item} key={index}>
                   {order &&
                     order.orders &&
                     order.orders
@@ -70,7 +74,8 @@ export default function Order() {
                           a.orderStatus == item ||
                           (item === "Đang xử lý" &&
                             (a.orderStatus === "Đang chờ xác nhận" ||
-                              a.orderStatus === "Đã xác nhận")) || (item === "Tất cả")
+                              a.orderStatus === "Đã xác nhận")) ||
+                          item === "Tất cả"
                       )
                       .map((b) => (
                         <Link
@@ -82,7 +87,7 @@ export default function Order() {
                       ))}
                 </TabPanel>
               ))}
-              </div>
+            </div>
           </TabContext>
         </Box>
       </div>

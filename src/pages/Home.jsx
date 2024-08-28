@@ -5,10 +5,8 @@ import ACarousel from '../components/Carousel';
 const Home = () => {
     return (
         <div className='home'>
-
             <ACarousel></ACarousel>
             <ProductHome></ProductHome>
-       
         </div>
     );
 }

@@ -1,16 +1,16 @@
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useState } from "react";
-
 import { Link } from "react-router-dom";
-import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "../../../state/cart/Action";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Carousel } from "react-responsive-carousel";
 import { Price } from "../../../config/config";
+
+import "../style.css";
 
 const style = {
   position: "absolute",
@@ -36,7 +36,6 @@ const ProductCard = ({ product }) => {
   const handleClose = () => setOpen(false);
 
   const handleAddItem = () => {
- 
     if (selectedSize == null) {
       alert("vale");
     } else {
@@ -54,7 +53,7 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="product--card" key={product.id}>
+    <div className="product--card hover-div" key={product.id}>
       <div className="product--card--image">
         <div className="product--card--image--wrapper">
           <Link to={`/product-detail/${product.id}`}>

@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -32,7 +32,7 @@ const tableHeads = [
   "Email",
   "Mobile",
   "Address",
-  "Price",  
+  "Price",
   "Status",
   "",
 ];
@@ -73,7 +73,6 @@ const Order = () => {
     dispatch(deleteOrder(orderId));
   };
 
-
   const [status, setStatus] = useState("STATUS");
   const [anchorEl, setAnchorEl] = useState(null);
   const openAnchorEl = Boolean(anchorEl);
@@ -83,7 +82,7 @@ const Order = () => {
   };
   const handleCloseStatus = (event, orderId) => {
     console.log("abc");
-    
+
     setAnchorEl(null);
     console.log(event);
     setStatus(event.target.innerText);
@@ -116,25 +115,31 @@ const Order = () => {
           <TableBody className="order__table__body">
             {order.orders &&
               order.orders.map((order) => (
-                <TableRow
-                  
-                  sx={{ cursor: "pointer" }}
-                >
-                  <TableCell align="left" onClick={() => handleOpen(order.id)}>{order.createAt}</TableCell>
-                  <TableCell align="left" onClick={() => handleOpen(order.id)}>{order.address.lastName}</TableCell>
-                  <TableCell align="left" onClick={() => handleOpen(order.id)}>{order.user.email}</TableCell>
-                  <TableCell align="left" onClick={() => handleOpen(order.id)}>{order.address.mobile}</TableCell>
-                  <TableCell align="left" onClick={() => handleOpen(order.id)}>{order.address.city}</TableCell>
-     
+                <TableRow sx={{ cursor: "pointer" }}>
+                  <TableCell align="left" onClick={() => handleOpen(order.id)}>
+                    {order.createAt}
+                  </TableCell>
+                  <TableCell align="left" onClick={() => handleOpen(order.id)}>
+                    {order.address.lastName}
+                  </TableCell>
+                  <TableCell align="left" onClick={() => handleOpen(order.id)}>
+                    {order.user.email}
+                  </TableCell>
+                  <TableCell align="left" onClick={() => handleOpen(order.id)}>
+                    {order.address.mobile}
+                  </TableCell>
+                  <TableCell align="left" onClick={() => handleOpen(order.id)}>
+                    {order.address.city}
+                  </TableCell>
+
                   <TableCell align="left">{order.totalPrice}</TableCell>
-                  <TableCell align="center" >
+                  <TableCell align="center">
                     <Button
                       id="basic-button"
                       aria-controls={openAnchorEl ? "basic-menu" : undefined}
                       aria-haspopup="true"
                       aria-expanded={openAnchorEl ? "true" : undefined}
                       variant="outlined"
-                      
                       onClick={handleClick}
                     >
                       {status == "" ? "STATUS" : status}
@@ -149,7 +154,9 @@ const Order = () => {
                       }}
                     >
                       {StatusOrders.map((statusOrder) => (
-                        <MenuItem onClick={(e) => handleCloseStatus(e, order.id)}>
+                        <MenuItem
+                          onClick={(e) => handleCloseStatus(e, order.id)}
+                        >
                           {statusOrder}
                         </MenuItem>
                       ))}
@@ -163,7 +170,6 @@ const Order = () => {
                       Delete
                     </DeleteIcon>
                   </TableCell>
-                
                 </TableRow>
               ))}
           </TableBody>
@@ -171,14 +177,14 @@ const Order = () => {
       </TableContainer>
       {order.orders &&
         order.orders.map((order) => (
-                  <Modal
-                    open={open.id == order.id ? true : false}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <Box sx={style}>
-                      {/* {order.orderItems.map((orderItem) => (
+          <Modal
+            open={open.id == order.id ? true : false}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              {/* {order.orderItems.map((orderItem) => (
                         <Grid container spacing={1}>
                           <Grid item xs={3}>
                             <img
@@ -191,63 +197,74 @@ const Order = () => {
                           </Grid>
                         </Grid>
                       ))} */}
-                      <TableContainer>
-                        <Table>
-                          <TableHead>
-                            <TableRow><TableCell>Thông tin sản phẩm</TableCell>
-                            <TableCell>Số lượng</TableCell>
-                            <TableCell>Giá</TableCell>
-                            <TableCell>Tổng giá</TableCell></TableRow>
-                          </TableHead>
-                          <TableBody>
-                           {order.orderItems.map((orderItem) => (
-                            <TableRow>
-                            <TableCell>
-                              <Grid container spacing={1} sx={{display: "flex"}}>
-                              <Grid item xs={3}>
-                                <img className="img-fluid" src={orderItem.imageUrl} alt="hình ảnh"></img>
-
-                              </Grid>
-                               <Grid item xs={9}>
-                               <div>
-                                  {/* <p>{orderItem.product.title}</p> */}
-                                  <p>{orderItem.color} / {orderItem.size}</p>
-                                </div>
-                               </Grid>
-                              </Grid>
-                            </TableCell>
-                            <TableCell>{orderItem.quantity}</TableCell>
-                            {/* <TableCell>{orderItem.product.discountedPrice}</TableCell> */}
-                            <TableCell>{orderItem.price}</TableCell>
-                            </TableRow>
-                           ))}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                      <Box sx={{display: "flex", justifyContent: "space-between"}}>
-                      <div>
-                      <h4>Thông tin địa chỉ giao hàng</h4>
-                        <p>
-            <span>Họ và tên: </span>
-            <strong>{order.address.lastName}</strong>
-          </p>
-          <p>
-            <span>Số điện thoại </span>
-            <strong>{order.address.mobile}</strong>
-          </p>
-          <p>
-            <span>Địa chỉ: </span>
-            <strong>{order.address.city}</strong>
-          </p>
-                      </div>
-                     <div>
-                      <h4>Tổng thanh toán</h4>
-                      <p>{order.paymentDetails != null ? "Đã thanh toán Online" : "Thanh toán khi nhận hàng"}</p>
-                     </div>
-                      </Box>
-                      <Button variant="contained">In phiếu</Button>
-                    </Box>
-                  </Modal>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Thông tin sản phẩm</TableCell>
+                      <TableCell>Số lượng</TableCell>
+                      <TableCell>Giá</TableCell>
+                      <TableCell>Tổng giá</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {order.orderItems.map((orderItem) => (
+                      <TableRow>
+                        <TableCell>
+                          <Grid container spacing={1} sx={{ display: "flex" }}>
+                            <Grid item xs={3}>
+                              <img
+                                className="img-fluid"
+                                src={orderItem.imageUrl}
+                                alt="hình ảnh"
+                              ></img>
+                            </Grid>
+                            <Grid item xs={9}>
+                              <div>
+                                {/* <p>{orderItem.product.title}</p> */}
+                                <p>
+                                  {orderItem.color} / {orderItem.size}
+                                </p>
+                              </div>
+                            </Grid>
+                          </Grid>
+                        </TableCell>
+                        <TableCell>{orderItem.quantity}</TableCell>
+                        {/* <TableCell>{orderItem.product.discountedPrice}</TableCell> */}
+                        <TableCell>{orderItem.price}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <div>
+                  <h4>Thông tin địa chỉ giao hàng</h4>
+                  <p>
+                    <span>Họ và tên: </span>
+                    <strong>{order.address.lastName}</strong>
+                  </p>
+                  <p>
+                    <span>Số điện thoại </span>
+                    <strong>{order.address.mobile}</strong>
+                  </p>
+                  <p>
+                    <span>Địa chỉ: </span>
+                    <strong>{order.address.city}</strong>
+                  </p>
+                </div>
+                <div>
+                  <h4>Tổng thanh toán</h4>
+                  <p>
+                    {order.paymentDetails != null
+                      ? "Đã thanh toán Online"
+                      : "Thanh toán khi nhận hàng"}
+                  </p>
+                </div>
+              </Box>
+              <Button variant="contained">In phiếu</Button>
+            </Box>
+          </Modal>
         ))}
     </div>
   );

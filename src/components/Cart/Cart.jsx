@@ -42,10 +42,8 @@ const Cart = () => {
     const index = selected.findIndex(
       (item) => item.id === parseInt(event.target.value)
     );
-
     if (index === -1) {
       setSelected([...selected, cartItem]);
-
       setTotalItem(totalItem + 1);
       setTotalPrice(totalPrice + cartItem.discountedPrice * cartItem.quantity);
     } else {
@@ -60,7 +58,6 @@ const Cart = () => {
   const isSelectedAll = () => {
     if (selectedCartItems) {
       setSelected([]);
-
       setTotalPrice(0);
       setTotalItem(0);
     } else {
@@ -70,7 +67,6 @@ const Cart = () => {
         price += item.discountedPrice * item.quantity;
       });
       setTotalPrice(price);
-
       setTotalItem(cart.cart.cartItems.length);
     }
     setSelectedCartItems(!selectedCartItems);
@@ -79,7 +75,6 @@ const Cart = () => {
   // Delete Cart Item
   const deleteHandleCartItem = () => {
     let cartItemIds = [];
-
     selected.forEach((item) => {
       cartItemIds.push(item.id);
     });
@@ -124,7 +119,7 @@ const Cart = () => {
       className="cart"
       sx={{
         width: { xs: "95%", md: "85%", lg: "75%", xl: "70%" },
-        margin: "1rem auto",
+        margin: "30px auto",
       }}
     >
       <Stepper className="step" activeStep={activeStep}>
@@ -231,7 +226,9 @@ const Cart = () => {
                         </p>
                         <p>
                           <span className="cart--item--discountedPrice">
-                            <Price price={cartItem.product.discountedPrice}></Price>
+                            <Price
+                              price={cartItem.product.discountedPrice}
+                            ></Price>
                           </span>
                           <span className="cart--item--price">
                             <Price price={cartItem.product.price}></Price>

@@ -15,14 +15,14 @@ const navItems = [
 ];
 
 const Menu = () => {
-
   return (
     <Box className="menu" sx={{ display: { md: "none", lg: "flex" } }}>
       <AppBar
         component="nav"
         position="static"
         sx={{
-          backgroundColor: "white",
+          backgroundColor: "#F5F5F5",
+
           color: "#555555",
           boxShadow: "none",
           borderRadius: "none",
@@ -34,8 +34,8 @@ const Menu = () => {
               to={`/product/${navItem.link}`}
               key={navItem}
               style={{
-                fontSize: "1.5rem",
-                marginRight: "10px",
+                fontSize: "16px",
+                marginRight: "20px",
                 cursor: "pointer",
               }}
             >

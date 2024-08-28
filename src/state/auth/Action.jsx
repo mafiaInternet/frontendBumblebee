@@ -11,9 +11,12 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   LOGOUT,
+  PUT_USER_REQUEST,
+  PUT_USER_FAILURE,
+  PUT_USER_SUCCESS,
 } from "./ActionType";
 import { toast } from "react-toastify";
-
+import { type } from "@testing-library/user-event/dist/type";
 
 const registerRequest = () => ({ type: REGISTER_REQUEST });
 const registerSuccess = (user) => ({ type: REGISTER_SUCCESS, payload: user });
@@ -25,13 +28,12 @@ export const Register = (userData) => async (dispatch) => {
     const response = await axios.post(`${API_BASE_URL}/auth/signup`, userData);
     const user = response.data;
     if (user.jwt) {
-      toast.success("Đăng ký thành công !!!")
+      toast.success("Đăng ký thành công !!!");
       localStorage.setItem("jwt", user.jwt);
     }
-    
     dispatch(registerSuccess);
   } catch (error) {
-    toast.error("Đăng ký thất bại")
+    toast.error("Đăng ký thất bại");
     dispatch(registerFailure(error.message));
   }
 };
@@ -42,17 +44,17 @@ const loginFailure = (error) => ({ type: LOGIN_FAILURE, payload: error });
 
 export const Login = (userData) => async (dispatch) => {
   dispatch(loginRequest());
-  localStorage.removeItem("jwt")
+  localStorage.removeItem("jwt");
   try {
     const response = await axios.post(`${API_BASE_URL}/auth/login`, userData);
     const user = response.data;
     if (user.jwt) {
-      toast.success("Đăng nhập thành công !!!") 
+      toast.success("Đăng nhập thành công !!!");
       localStorage.setItem("jwt", user.jwt);
     }
     dispatch(loginSuccess(user.jwt));
   } catch (error) {
-    toast.error("Đăng nhập thất bại !!!")
+    toast.success("Đăng nhập thất bại !!!");
     dispatch(loginFailure(error.message));
   }
 };
@@ -65,10 +67,10 @@ export const User = (jwt) => async (dispatch) => {
   dispatch(getUserRequest());
   try {
     const response = await axios.get(`${API_BASE_URL}/api/users/profile`, {
-        headers: {
-            "Authorization": `Bearer ${jwt}`,
-            "Content-Type": "application/json"
-        }
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
     });
     const user = response.data;
 
@@ -82,10 +84,10 @@ export const GetAdmin = (jwt) => async (dispatch) => {
   dispatch(getUserRequest());
   try {
     const response = await axios.get(`${API_BASE_URL}/api/users/admin`, {
-        headers: {
-            "Authorization": `Bearer ${jwt}`,
-            "Content-Type": "application/json"
-        }
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
     });
     const user = response.data;
 
@@ -95,13 +97,21 @@ export const GetAdmin = (jwt) => async (dispatch) => {
   }
 };
 
+export const Logout = () => async (dispatch) => {
+  dispatch({ type: LOGOUT, payload: null });
 
-export const Logout = () => async (dispatch) =>{
-    dispatch({type: LOGOUT, payload: null})
+  const response = await axios.post(`${API_BASE_URL}/auth/logout`);
+  toast.success("Đăng xuất thành công !!!");
+  // localStorage.removeItem('jwt')
+  localStorage.clear();
+};
 
-    const response = await axios.post(`${API_BASE_URL}/auth/logout`)
-    toast.success("Đăng xuất thành công !!!")
-    // localStorage.removeItem('jwt')
-    localStorage.clear()
-   
+export const putUser = (req) => async (dispatch) => {
+  dispatch({type: PUT_USER_REQUEST})
+  try {
+    const {data} = await api.put('api/users/user/update', req)
+    dispatch({type: PUT_USER_SUCCESS, payload: data})
+  } catch (error) {
+    dispatch({type: PUT_USER_FAILURE, payload: error.message})
+  }
 }

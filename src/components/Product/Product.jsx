@@ -7,17 +7,28 @@ import {
   sortProductsNew,
   sortProductsOld,
 } from "../../state/product/Action";
-import {
-  useParams,
-
-} from "react-router-dom";
-import {
-  Box,
-  Grid,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { useParams } from "react-router-dom";
+import { Box, Grid, MenuItem, Select, Typography } from "@mui/material";
 import ProductCard from "./components/ProductCard";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
+
+const styledBox = {
+  backgroundColor: "#f9f9f9",
+  borderRadius: "8px",
+  padding: "20px",
+  width: "100%",
+};
+
+const StyledMessageBox = {
+  color: "rgba(0, 0, 0, 0.6)",
+  textAlign: "center",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+  height: "100px",
+  ...styledBox,
+};
 
 const navItems = [
   { link: "all", name: "Tất cả sản phẩm" },
@@ -39,35 +50,32 @@ const Product = () => {
   const dispatch = useDispatch();
   const { products } = useSelector((store) => store);
   const [sort, setAge] = useState("Mới nhất");
+
   const handleChange = (event) => {
-    const sortType = event.target.value
+    const sortType = event.target.value;
     setAge(event.target.value);
-    const data = Object.values(products.products)
+    const data = Object.values(products.products);
 
-    if(sortType == "Từ thấp đến cao"){
-      dispatch(sortProductsLow(data))
-
-    }else if(sortType === "Từ cao đến thấp"){
-      console.log("abc")
-      dispatch(sortProductsHigh(data))
-    }else if(sortType === "Cũ nhất"){
-      dispatch(sortProductsOld(data))
-    }else if(sortType === "Mới nhất"){
-      dispatch(sortProductsNew(data))
+    if (sortType == "Từ thấp đến cao") {
+      dispatch(sortProductsLow(data));
+    } else if (sortType === "Từ cao đến thấp") {
+      console.log("abc");
+      dispatch(sortProductsHigh(data));
+    } else if (sortType === "Cũ nhất") {
+      dispatch(sortProductsOld(data));
+    } else if (sortType === "Mới nhất") {
+      dispatch(sortProductsNew(data));
     }
   };
 
   useEffect(() => {
-
     dispatch(findProductsByCategory(param.name));
+  }, [param.name]);
 
-  }, [ param.name]);
-
- 
   return (
     <div className="products ">
       <Box className="products__top">
-        <h2 className="products__top__title">
+        <h2 className="products__top__title" style={{ fontSize: "24px" }}>
           {navItems.find((item) => item.link == param.name).name}
         </h2>
         <hr></hr>
@@ -77,6 +85,7 @@ const Product = () => {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={sort}
+            style={{ fontSize: "14px", fontWeight: "500", marginLeft: "10px" }}
             onChange={handleChange}
           >
             {sorts.map((item) => (
@@ -85,19 +94,36 @@ const Product = () => {
           </Select>
         </div>
       </Box>
-
-      <div className="products-list">
-        <Grid container spacing={2} className="row">
-          {products.products &&
-          products.products 
-            ? products.products.map((product) => (
-                <Grid item xs={6} sm={4} md={3}>
-                  <ProductCard product={product}></ProductCard>
+      <Box sx={styledBox}>
+        <Grid container spacing={2}>
+          {products.products ? (
+            products.products.length > 0 ? (
+              products.products.map((product, index) => (
+                <Grid item xs={6} sm={4} md={3} key={index}>
+                  <ProductCard product={product} />
                 </Grid>
               ))
-            : ""}
+            ) : (
+              <Grid item xs={12}>
+                <Box sx={StyledMessageBox}>
+                  <RemoveShoppingCartIcon
+                    style={{ fontSize: "28px", marginBottom: "8px" }}
+                  />
+                  <Typography style={{ fontSize: "24px" }}>
+                    Đã hết hàng
+                  </Typography>
+                </Box>
+              </Grid>
+            )
+          ) : (
+            <Grid item xs={12}>
+              <Box sx={StyledMessageBox}>
+                <Typography style={{ fontSize: "24px" }}>Loading...</Typography>
+              </Box>
+            </Grid>
+          )}
         </Grid>
-      </div>
+      </Box>
     </div>
   );
 };

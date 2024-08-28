@@ -16,10 +16,9 @@ import Account from "../components/Account/Account";
 
 const CustomerRouters = () => {
   const location = useLocation()
-  console.log(location)
   return (
     <div className="customer">
-    {/* <Alert className="alert" severity="success">This is a success Alert.</Alert> */}
+
       <Header></Header>
 
       <Routes>
@@ -41,12 +40,12 @@ const CustomerRouters = () => {
 
         <Route path="/payment" element={<Payment></Payment>}></Route>
       </Routes>
-  
-     {location.pathname != "/payment" ? 
-      <Footer></Footer>
-      : ""
-     
-     }
+
+      {location.pathname != "/payment" ?
+        <Footer></Footer>
+        : ""
+
+      }
     </div>
   );
 };

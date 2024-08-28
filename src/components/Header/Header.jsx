@@ -26,13 +26,12 @@ const Header = () => {
       className="header"
       sx={{ position: "sticky", top: "0px", width: "100%", zIndex: "9" }}
     >
-      
       <Box sx={{ display: { xs: "none", lg: "block" } }}>
-      <Topbar
-        jwt={jwt}
-        cartItems={cart.cart && cart.cart.cartItems ? cart.cart.cartItem : []}
-      ></Topbar>
-        <Nav auth={auth} jwt={jwt}></Nav>
+        <Topbar
+          jwt={jwt}
+          cartItems={cart.cart && cart.cart.cartItems ? cart.cart.cartItem : []}
+        ></Topbar>
+        <Nav auth={auth}></Nav>
         <Menu></Menu>
       </Box>
       <PrimarySearchAppBar
@@ -42,7 +41,6 @@ const Header = () => {
         }
       ></PrimarySearchAppBar>
     </Box>
-    //  <Voucher></Voucher>
   );
 };
 

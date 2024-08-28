@@ -1,11 +1,7 @@
 import { Box, Grid, Paper, styled } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import MyOrder from "./components/Order";
-import {
-  NavLink,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { NavLink, Route, Routes } from "react-router-dom";
 import Infomation from "./components/Infomation";
 import Address from "./components/Address";
 import { useDispatch } from "react-redux";
@@ -16,6 +12,11 @@ import OrderInfomation from "./components/OrderInfomation";
 import Order from "./components/Order";
 import Review from "./components/Review";
 
+const Item = styled(Paper)(({ theme }) => ({
+  // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  boxShadow: "none",
+  padding: theme.spacing(1),
+}));
 
 const Account = () => {
   const dispath = useDispatch();
@@ -24,7 +25,6 @@ const Account = () => {
     if (jwt) {
       dispath(User(jwt));
     }
-
   }, [dispath]);
   return (
     <div className="account">
@@ -32,14 +32,12 @@ const Account = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={3}>
             <div className="account--nav">
-              <b>Tài khoản</b>
+              <b style={{ textAlign: "center" }}>Tài khoản</b>
               <NavLink to={"/account/"}>Bảng điều khiển</NavLink>
               <NavLink to="/account/edit">Thông tin tài khoản</NavLink>
               <NavLink to="/account/address">Địa chỉ</NavLink>
               <NavLink to={`/account/order`}>Đơn hàng của tôi</NavLink>
               <NavLink to="/account/voucher">Voucher</NavLink>
-              <NavLink to="/account/review">Nhận xét của tôi</NavLink>
-              <NavLink to="/account/order/id">Order id</NavLink>
             </div>
           </Grid>
           <Grid item xs={12} md={9}>
@@ -50,7 +48,10 @@ const Account = () => {
                 <Route path="/address" element={<Address></Address>}></Route>
                 <Route path="/voucher" element={<Vouchers></Vouchers>}></Route>
                 <Route path={`/order`} element={<Order></Order>}></Route>
-                <Route path={`/order/:name`} element={<OrderInfomation></OrderInfomation>}></Route>
+                <Route
+                  path={`/order/:name`}
+                  element={<OrderInfomation></OrderInfomation>}
+                ></Route>
                 <Route path="/review" element={<Review></Review>}></Route>
                 <Route
                   path="/order/id"

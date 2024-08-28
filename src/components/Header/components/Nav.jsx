@@ -2,12 +2,11 @@ import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Container from "@mui/material/Container";
 
 import { Link } from "react-router-dom";
+import "../style.css";
 
-
-const Nav = (props) => {
+const Nav = ({ auth }) => {
   const pages = [
     {
       text: "Trang chủ",
@@ -18,43 +17,38 @@ const Nav = (props) => {
       href: "/policy",
     },
     {
-      text: `${props.jwt && props.auth.user && props.auth.user.role == "ADMIN" ? "ADMIN" : "BUMBLEBEE"}`,
-      href: `${props.jwt && props.auth.user && props.auth.user.role == "ADMIN" ? "/admin" : "/home"}`,
-    },
-    {
-      text: "Bảng size",
+      text: "Bảng kích thước",
       href: "/table-size",
     },
     {
       text: "Hệ thống cửa hàng",
       href: "/system-shop",
-    }
+    },
+    {
+      text: `${auth.user && auth.user.role != null ? "" : "Quản lý"}`,
+      href: `${auth.user && auth.user.role != null ? "/home" : "/admin"}`,
+    },
   ];
-  
 
   return (
     <Box className="nav">
       <AppBar
         position="static"
         sx={{
-          backgroundColor: "white",
-          color: "#555555",
+          backgroundColor: "#F5F5F5",
           boxShadow: "none",
           borderRadius: "none",
-          borderBottom: "1px solid silver",
         }}
       >
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Box class="nav__list">
-              {pages.map((page, index) => (
-                <Link to={page.href} key={index}>
-                  {page.text}
-                </Link>
-              ))}
-            </Box>
-          </Toolbar>
-        </Container>
+        <Toolbar>
+          <Box className="navbar">
+            {pages.map((page, index) => (
+              <Link to={page.href} key={index}>
+                {page.text}
+              </Link>
+            ))}
+          </Box>
+        </Toolbar>
       </AppBar>
     </Box>
   );

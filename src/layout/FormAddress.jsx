@@ -1,13 +1,33 @@
 import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import axios from "axios";
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addAddress, updateAddressByUser } from "../state/address/Action";
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 750,
+  height: 580,
+  bgcolor: "background.paper",
+  border: "1px solid silver",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "10px"
+};
+
+const inputs = {
+  padding: "17px 0 17px 14px", 
+  fontSize: "16px", 
+  borderRadius: "5px", 
+  width: "100%",
+  border: "1px solid silver"
+}
+
 const FormAddress = (props) => {
   const jwt = localStorage.getItem("jwt");
-  console.log(props);
   const dispatch = useDispatch();
   const handleAddress = (event, type) => {
     event.preventDefault();
@@ -21,10 +41,6 @@ const FormAddress = (props) => {
       description: data.get("desc"),
       state: data.get("state") == "true" ? "Mặc định" : "",
     };
-    
-    console.log(type);
-    console.log(request);
-
     if (type === "create") {
       dispatch(addAddress(request));
     } else if (type === "update") {
@@ -60,12 +76,10 @@ const FormAddress = (props) => {
     const type = event.target.name;
     if (type === "province") {
       const province = JSON.parse(event.target.value);
-
       try {
         const { data } = await axios.get(
           `https://vapi.vnappmob.com/api/province/district/${province.province_id}`
         );
-
         setAddress({
           ...address,
           district: { ...address.district, data: data.results, status: false },
@@ -79,7 +93,6 @@ const FormAddress = (props) => {
         const { data } = await axios.get(
           `https://vapi.vnappmob.com/api/province/ward/${district.district_id}`
         );
-
         setAddress({
           ...address,
           ward: { ...address.ward, data: data.results, status: false },
@@ -109,17 +122,18 @@ const FormAddress = (props) => {
     },
     []
   );
-  console.log(address);
+
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={style}>
+
       <form
         method="POST"
         onSubmit={(event) => handleAddress(event, props.type)}
       >
-        <h4>{props.title}</h4>
-        <hr></hr>
-        <div className="form-group">
-          <label>Họ và tên người nhận</label>
+
+        <h2 style={{fontSize: "24px", fontWeight: "500", textAlign: "center"}}>{props.title}</h2>
+        <div className="form-group" style={{marginBottom: "10px", marginTop: "30px"}}>
+
           <input
             type="text"
             name="name"
@@ -127,11 +141,13 @@ const FormAddress = (props) => {
             onChange={(event) =>
               setAddress({ ...address, name: event.target.value })
             }
-            placeholder="Họ và tên"
-          ></input>
+
+            placeholder="Họ tên người nhận"
+            style={inputs}
+          />
         </div>
-        <div className="form-group">
-          <label>Số điện thoại</label>
+        <div className="form-group" style={{marginBottom: "10px"}}>
+
           <input
             type="text"
             name="mobile"
@@ -140,11 +156,17 @@ const FormAddress = (props) => {
               setAddress({ ...address, mobile: event.target.value })
             }
             placeholder="Số điện thoại"
-          ></input>
+
+            style={inputs}
+          />
         </div>
-        <div className="form-group">
-          <label>Tỉnh/ Thành phố</label>
-          <select name="province" onChange={handleGetApiAddress}>
+        <div className="form-group" style={{marginBottom: "10px"}}>
+          <select 
+            name="province" 
+            onChange={handleGetApiAddress}
+            style={inputs} 
+          >
+
             <option>Chọn tỉnh/ Thành phố</option>
             {!address.province.status &&
               address.province.data &&
@@ -155,9 +177,11 @@ const FormAddress = (props) => {
               ))}
           </select>
         </div>
-        <div className="form-group">
-          <label>Quận/ Huyện</label>
+
+        <div className="form-group" style={{marginBottom: "10px"}}>
           <select
+            style={inputs}
+
             name="district"
             disabled={address.district.status}
             onChange={handleGetApiAddress}
@@ -175,12 +199,12 @@ const FormAddress = (props) => {
               ))}
           </select>
         </div>
-        <div className="form-group">
-          <label>Phường/ Xã</label>
+        <div className="form-group" style={{marginBottom: "10px"}}>
           <select
             name="ward"
             disabled={address.ward.status}
             onChange={handleGetApiAddress}
+            style={inputs}
           >
             <option>Chọn phường xã</option>
             {!address.ward.status &&
@@ -191,8 +215,7 @@ const FormAddress = (props) => {
               ))}
           </select>
         </div>
-        <div className="form-group">
-          <label>Địa chỉ cụ thể</label>
+        <div className="form-group" style={{marginBottom: "20px"}}>
           <input
             type="text"
             name="desc"
@@ -202,10 +225,11 @@ const FormAddress = (props) => {
             }
             multiple
             placeholder="Địa chỉ cụ thể"
-          ></input>
+            style={inputs}
+          />
         </div>
   
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Checkbox
                 value={address.state}
@@ -217,19 +241,25 @@ const FormAddress = (props) => {
               ></Checkbox>
             }
             label="Đặt làm mặc định"
-          ></FormControlLabel>
+          ></FormControlLabel> */}
  
  
         {jwt && (
-          <div className="form-group">
+          <div className="form-group d-flex justify-content-end" style={{gap: "10px"}}>
             <Button
               variant="outlined"
               color="error"
-              onClick={() => props.handleClose(false)}
+              onClick={() => props.handleClose()}
+              style={{paddingTop: "10px", fontSize: "14px"}}
             >
               Hủy
             </Button>
-            <Button type="submit" variant="contained" color="error">
+            <Button 
+              type="submit" 
+              variant="contained" 
+              color="error"
+              style={{paddingTop: "10px", fontSize: "14px"}}
+            >
               Xác nhận
             </Button>
           </div>

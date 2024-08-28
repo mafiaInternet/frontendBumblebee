@@ -67,8 +67,8 @@ const orderStatus = [
   },
   {
     text: "Đã hủy",
-    color: "#c62828"
-  }
+    color: "#c62828",
+  },
 ];
 
 const ListOrder = () => {
@@ -83,17 +83,16 @@ const ListOrder = () => {
   };
 
   const handleFindOrderById = (event) => {
-    event.preventDefault()
- 
-    const data = new FormData(event.currentTarget)
-    if(data.get("orderId") != ""){
-      dispatch(getOrderById(data.get("orderId")))
-      setOrders([order.order])
-    }else{
-      setOrders(order.orders)
+    event.preventDefault();
+
+    const data = new FormData(event.currentTarget);
+    if (data.get("orderId") != "") {
+      dispatch(getOrderById(data.get("orderId")));
+      setOrders([order.order]);
+    } else {
+      setOrders(order.orders);
     }
-   
-  }
+  };
 
   const handleSortOrder = (event) => {
     const typeSort = event.target.value;
@@ -113,12 +112,14 @@ const ListOrder = () => {
     dispatch(getOrdersAll());
   }, [dispatch]);
   useEffect(() => {
-    setOrders(order.orders)
-  }, [order.orders])
+    setOrders(order.orders);
+  }, [order.orders]);
 
   return (
     <div className="listOrder">
-      <h2 className="listOrder--title">Quản lý đơn hàng</h2>
+      <h2 className="admin--home--title" style={{ fontWeight: "400" }}>
+        Quản lý đơn hàng
+      </h2>
       <div className="listOrder--content">
         <div className="layer"></div>
         <div className="listOrder--content--filter">
@@ -135,9 +136,13 @@ const ListOrder = () => {
               <MenuItem value={"Đã hủy"}>Đã hủy</MenuItem>
             </Select>
           </div>
-          <form className="listOrder--content--filter--find" method="POST" onSubmit={handleFindOrderById}>
+          <form
+            className="listOrder--content--filter--find"
+            method="POST"
+            onSubmit={handleFindOrderById}
+          >
             <TextField label="Mã đơn hàng" name="orderId"></TextField>
-            <Button variant="contained" color="error" type="submit">
+            <Button variant="contained" type="submit">
               Lọc
             </Button>
           </form>

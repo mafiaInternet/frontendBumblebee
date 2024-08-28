@@ -1,35 +1,34 @@
 import React, { useState } from "react";
 import {
-    Button,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-    Box
-  } from "@mui/material";
-  import VisibilityIcon from "@mui/icons-material/Visibility";
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  Box,
+} from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import CheckIcon from "@mui/icons-material/Check";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getOrderById } from "../../../../state/order/Action";
 import { statusOrderHandler } from "../../../state/action/OrderAction";
 const head = [
-    "Khách hàng",
-    "Ngày đặt hàng",
-    "Giỏ hàng",
-    "Trạng thái",
-    "Thao tác",
-  ];
+  "Khách hàng",
+  "Ngày đặt hàng",
+  "Giỏ hàng",
+  "Trạng thái",
+  "Thao tác",
+];
 const ListOrderNeedComfirm = (props) => {
-    const dispatch = useDispatch
+  const dispatch = useDispatch;
   const [orders, setOrders] = useState(
     props.orders.filter((item) => item.orderStatus === "Đang chờ xác nhận")
   );
-console.log(props.orders.filter((item) => item.orderStatus === "Đang chờ xác nhận"))
-console.log(orders)
+
   const handleStatusOrder = (orderId) => {
     dispatch(
       statusOrderHandler({
@@ -38,12 +37,15 @@ console.log(orders)
       })
     );
 
-    const newOrderNeedConfirm = orders.filter((item) => item.id != orderId)
-    setOrders(newOrderNeedConfirm)
+    const newOrderNeedConfirm = orders.filter((item) => item.id != orderId);
+    setOrders(newOrderNeedConfirm);
   };
   return (
     <div className="admin--home--content--orders--confirm">
-      <h3 className="admin--home--content--orders--confirm--title">
+      <h3
+        className="admin--home--content--orders--confirm--title"
+        style={{ fontSize: "24px", marginBottom: "20px" }}
+      >
         Đơn hàng cần xác nhận
       </h3>
       <hr></hr>
@@ -81,7 +83,7 @@ console.log(orders)
                 <TableCell align="left">
                   <Box>
                     <Button
-                      sx={{ marginRight: "1rem", fontSize:"1.3rem" }}
+                      sx={{ marginRight: "1rem", fontSize: "1.3rem" }}
                       variant="contained"
                       color="primary"
                       onClick={() => handleStatusOrder(order.id)}
@@ -103,7 +105,19 @@ console.log(orders)
           </TableBody>
         </Table>
       </TableContainer>
-      <Link to="/admin/order">Xem tất cả đơn hàng </Link>
+      {orders && orders.length > 0 ? (
+        <Link className="d-flex justify-content-end" to="/admin/order">
+          Xem tất cả đơn hàng{" "}
+        </Link>
+      ) : (
+        <div
+          className="d-flex justify-content-center"
+          style={{ fontSize: "20px", marginTop: "20px" }}
+        >
+          {" "}
+          Không có dữ liệu{" "}
+        </div>
+      )}
     </div>
   );
 };

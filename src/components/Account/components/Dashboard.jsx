@@ -7,22 +7,28 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Box,
-  Button,
-  Grid,
+  Box
 } from "@mui/material";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import DescriptionIcon from '@mui/icons-material/Description';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { getOrderByUser } from "../../../state/order/Action";
 
-const heads = ["Đơn hàng", "Ngày", "Tổng đơn hàng", "Trạng thái", ""];
+const heads = ["Đơn hàng", "Ngày", "Tổng đơn hàng", "Trạng thái", " "];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
+    width: "25%",
+
     color: theme.palette.common.black,
     fontSize: 15,
   },
   [`&.${tableCellClasses.body}`]: {
+
+    width: "25%",
+
     fontSize: 14,
   },
 }));
@@ -31,25 +37,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
 const Dashboard = () => {
   const { auth, order } = useSelector((store) => store);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getOrderByUser())
+  }, [dispatch])
 
   return (
     <div className="dashboard">
       <div className="container">
-        <h2>Bảng điều khiển</h2>
+
+        <h2 style={{fontSize: "24px", fontWeight: "500"}}>BẢNG ĐIỀU KHIỂN</h2>
+        <hr style={{marginBottom: "0px"}}/>
+
         <div className="dashboard--content">
           <div className="dashboard--content--point">
             <p>
               <span>Điểm tích lũy: </span>
-              <strong>11k</strong>
+              <strong>{order.orders.length > 0 ? order.orders.reduce((curr, item) => {return curr + (item.totalPrice - item.discountedPrice)}) : 0 / 150}k</strong>
             </p>
-           
           </div>
           <Box
               sx={{
@@ -59,8 +70,8 @@ const Dashboard = () => {
                 height: "0.5rem",
                 border: "1px solid silver",
                 background: `linear-gradient(to right, orange ${
-                  (100 / 150) * 100
-                }%, white ${(100 / 150) * 100}%)`,
+                  (order.orders.length > 0 ? order.orders.reduce((curr, item) => {return curr + (item.totalPrice - item.discountedPrice)}) : 0 / 150) * 100
+                }%, white ${(order.orders.length > 0 ? order.orders.reduce((curr, item) => {return curr + (item.totalPrice - item.discountedPrice)}) : 0 / 150) * 100}%)`,
               }}
             >
               <Box
@@ -121,69 +132,51 @@ const Dashboard = () => {
                 150K
               </Box>
             </Box>
-            <div className="dashboard--content--orders">
-              <div className="dashboard--content--orders--title">
-                <h3>NHỮNG ĐƠN HÀNG GẦN ĐÂY</h3>
-                <Link>Xem tất cả</Link>
-              </div>
+
+            <div className="dashboard--content--orders" style={{marginTop: "60px"}}>
+              <h2 style={{fontSize: "24px", fontWeight: "500"}}>NHỮNG ĐƠN HÀNG GẦN ĐÂY</h2>
+
               <hr></hr>
               <TableContainer>
                 <Table>
                   <TableHead>
                     <TableRow>
                       {heads.map((head) => (
-                        <StyledTableCell align="left">{head}</StyledTableCell>
+
+                        <StyledTableCell align="left" key={head}>{head}</StyledTableCell>
+
                       ))}
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                  <div>chưa có đơn hàng nào</div>
-                    {order.orders &&
+
+                    {order?.orders && order.orders.length > 0 ? (
                       order.orders.map((order, index) => (
                         <StyledTableRow key={index}>
+                          <StyledTableCell align="left">{order.id}</StyledTableCell>
+                          <StyledTableCell align="left">{order.createAt}</StyledTableCell>
+                          <StyledTableCell align="left">{order.totalPrice - order.totalDiscountedPrice}</StyledTableCell>
+                          <StyledTableCell align="left">{order.orderStatus}</StyledTableCell>
                           <StyledTableCell align="left">
-                            {order.id}
-                          </StyledTableCell>
-                          <StyledTableCell align="left">
-                            {order.createAt}
-                          </StyledTableCell>
-                          <StyledTableCell align="left">
-                            {order.totalDiscountedPrice}
-                          </StyledTableCell>
-                          <StyledTableCell align="left">
-                            {order.orderStatus}
-                          </StyledTableCell>
-                          <StyledTableCell align="left">
-                            <Link to={"/order/order-details/"}>
-                              Xem chi tiết
+                            <Link to={`/order/order-details/${order.id}`}>
+                              <VisibilityIcon style={{ fontSize: "20px", marginBottom: "5px" }} />
                             </Link>
                           </StyledTableCell>
                         </StyledTableRow>
-                      ))}
+                      ))
+                    ) : (
+                      <StyledTableRow>
+                        <StyledTableCell colSpan={heads.length} align="center">
+                          <div style={{ color: "silver", fontSize: "20px", fontWeight: "500", marginTop: "20px" }}>
+                            <DescriptionIcon style={{ fontSize: "24px", marginBottom: "5px" }} /> Chưa có đơn hàng
+                          </div>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    )}
+ 
                   </TableBody>
                 </Table>
               </TableContainer>
-            </div>
-            <div className="dashboard--content--address">
-              <h3>SỔ ĐỊA CHỈ</h3>
-              <Grid container spacing={3}>
-              {auth.user ? auth.user.address.map((item) => (
-                <Grid item xs={6}>
-                <p>{item.lastName}</p>
-                <p>{item.city}</p>
-                <p>Phường Văn Quán, Quận Hà Đông, Hà Nội, Việt Nam</p>
-                <p>Tel: {item.mobile}</p>
-                <div className="dashboard--content--address--act">
-                <Button variant="contained" color="error">Sửa địa chỉ</Button>
-                <Button variant="outlined" color="error">Xóa địa chỉ</Button>
-
-                </div>
-              </Grid>
-              )) : (<Grid item xs={12}>Chưa có địa chỉ nào</Grid>)}
-
-              </Grid>
-              
-              
             </div>
         </div>
       </div>

@@ -1,112 +1,217 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import EditIcon from "@mui/icons-material/Edit";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { putUser } from "../../../state/auth/Action";
 
 const Infomation = () => {
+  const dispatch = useDispatch()
   const { auth } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
-  const [user, setUser] = useState({
-    name: null,
-    email: null,
-    mobile: null,
-    sex: null,
-    birthday: null,
-    password: null,
-  });
-  const [showChangePass, setShowChangePass] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState(false);
-  const [name, setName] = useState(false);
-  const [phone, setPhone] = useState(false);
-  const [state, setState] = useState(new Date().toISOString());
-  const handleUpdateUser = (event) => {
-    event.preventDefault();
-  };
+  const [isEditing, setIsEditing] = useState({
+    name: false,
+    email: false,
+    phone: false,
+  });
+  const [state, setState] = useState(auth?.user?.birthday || "");
+  const [user, setUser] = useState({
+    id: null,
+    name: "",
+    email: "",
+    mobile: "",
+    password: "",
+    passwordAgain: "",
+    passwordAuthentic: "",
+  });
+
   useEffect(() => {
-    if (auth && auth.user && jwt) {
+    if (auth?.user && jwt) {
+  
       setUser({
-        ...user,
-        name: auth.user.name,
-        email: auth.user.email,
-        mobile: auth.user.mobile,
+        id: auth?.user.id,
+        name: auth?.user?.name || "",
+        email: auth?.user?.email || "",
+        mobile: auth?.user?.mobile || "",
       });
     }
-  }, [auth.user,auth.jwt, jwt]);
+  }, [auth, jwt]);
+
+  const handleUpdateUser = (e) => {
+    e.preventDefault();
+    setIsEditing({ name: false, email: false, phone: false });
+    if (user?.passwordAuthentic !== user?.passwordAgain) {
+      toast.error("Mật khẩu không khớp!");
+      return;
+    }
+    const sendData = {
+      id: user?.id, 
+      name: user?.name || "",
+      email: user?.email || "",
+      mobile: user?.mobile || "",
+      birthday: state || "",
+      password: user?.passwordAgain || null,
+    };
+    dispatch(putUser(sendData))
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+    console.log(user)
+  };
+
   return (
     <div className="infomation">
       <div className="container">
-        <h2>Tài khoản của tôi</h2>
-        <hr></hr>
-
-        {auth && auth.user && (
+        <h2 style={{ fontSize: "24px", fontWeight: "500" }}>
+          Tài khoản của tôi
+        </h2>
+        <hr />
+        {auth?.user && (
           <Box sx={{ padding: "1rem 3rem" }}>
-            <h4>Thông tin cá nhân</h4>
             <form className="infomation--card" onSubmit={handleUpdateUser}>
               <Grid container>
                 <Grid item xs={12} md={6}>
                   <div className="form--group">
-                    <div>
-                      <label>Họ và tên: </label>
+                    <div style={{ marginBottom: "10px" }}>
+                      <label style={{ textAlign: "start" }}>Họ và tên:</label>
                       <input
                         type="text"
+                        name="name"
                         style={{
-                          border: !name
+                          border: !isEditing.name
                             ? "1px solid transparent"
                             : "1px solid silver",
+                          borderRadius: "10px",
                         }}
                         value={user.name}
-                      ></input>
-                      <span onClick={() => setName(!name)}>Sửa</span>
+                        onChange={handleInputChange}
+                        disabled={!isEditing.name}
+                      />
+                      <EditIcon
+                        onClick={() =>
+                          setIsEditing((prev) => ({
+                            ...prev,
+                            name: !prev.name,
+                          }))
+                        }
+                        style={{ fontSize: "20px", marginLeft: "10px" }}
+                      />
                     </div>
-                    <div className="form--group">
-                      <label>Email: </label>
+                    <div style={{ marginBottom: "10px" }}>
+                      <label style={{ textAlign: "start" }}>Email:</label>
                       <input
                         type="text"
+                        name="email"
                         style={{
-                          border: !email
+                          border: !isEditing.email
                             ? "1px solid transparent"
                             : "1px solid silver",
+                          borderRadius: "10px",
                         }}
                         value={user.email}
-                      ></input>
-                      <span onClick={() => setEmail(!email)}>Sửa</span>
+                        onChange={handleInputChange}
+                        disabled={!isEditing.email}
+                      />
+                      <EditIcon
+                        onClick={() =>
+                          setIsEditing((prev) => ({
+                            ...prev,
+                            email: !prev.email,
+                          }))
+                        }
+                        style={{ fontSize: "20px", marginLeft: "10px" }}
+                      />
                     </div>
-                    <div className="form--group">
-                      <label>Số điện thoại:</label>
+                    <div style={{ marginBottom: "10px" }}>
+                      <label style={{ textAlign: "start" }}>
+                        Số điện thoại:
+                      </label>
                       <input
                         type="text"
+                        name="mobile"
                         style={{
-                          border: !phone
+                          border: !isEditing.phone
                             ? "1px solid transparent"
                             : "1px solid silver",
+                          borderRadius: "10px",
                         }}
                         value={user.mobile}
-                      ></input>
-
-                      <span onClick={() => setPhone(!phone)}>Sửa</span>
+                        onChange={handleInputChange}
+                        disabled={!isEditing.phone}
+                      />
+                      <EditIcon
+                        onClick={() =>
+                          setIsEditing((prev) => ({
+                            ...prev,
+                            phone: !prev.phone,
+                          }))
+                        }
+                        style={{ fontSize: "20px", marginLeft: "10px" }}
+                      />
                     </div>
-
-                    <div className="form--group">
-                      <label>Ngày sinh:</label>
+                    <div style={{ marginBottom: "10px" }}>
+                      <label style={{ textAlign: "start" }}>Ngày sinh:</label>
                       <input
                         type="date"
+                        name="birthday"
                         style={{
-                          border: !phone
-                            ? "1px solid transparent"
-                            : "1px solid silver",
+                          border: "1px solid silver",
+                          borderRadius: "10px",
                         }}
                         value={state}
                         onChange={(e) => setState(e.target.value)}
-                      ></input>
+                      />
                     </div>
+                  </div>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <div className="password">
+                    <input
+                      style={{
+                        borderRadius: "10px",
+                        border: "1px solid silver",
+                        marginBottom: "17px",
+                        padding: "8px",
+                      }}
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      onChange={handleInputChange}
+                      placeholder="Mật khẩu hiện tại"
+                    />
 
-                    <div className="form--group">
+                    <input
+                      style={{
+                        borderRadius: "10px",
+                        border: "1px solid silver",
+                        marginBottom: "17px",
+                        padding: "8px",
+                      }}
+                      type={showPassword ? "text" : "password"}
+                      name="passwordAgain"
+                      onChange={handleInputChange}
+                      placeholder="Mật khẩu mới"
+                    />
+                    <input
+                      style={{
+                        borderRadius: "10px",
+                        border: "1px solid silver",
+                        marginBottom: "17px",
+                        padding: "8px",
+                      }}
+                      type={showPassword ? "text" : "password"}
+                      name="passwordAuthentic"
+                      onChange={handleInputChange}
+                      placeholder="Xác nhận mật khẩu mới"
+                    />
+                    <div className="d-flex" style={{ justifyContent: "end" }}>
                       <input
                         type="checkbox"
-                        onClick={() => setShowChangePass(!showChangePass)}
-                      ></input>
-
+                        onClick={() => setShowPassword(!showPassword)}
+                      />
                       <Typography
                         component={"span"}
                         sx={{ marginLeft: "1rem", fontSize: "1.4rem" }}
@@ -116,41 +221,15 @@ const Infomation = () => {
                     </div>
                   </div>
                 </Grid>
-
-                <Grid item xs={12} md={6}>
-                  {showChangePass && (
-                    <div className="password">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Mật khẩu hiện tại *"
-                      ></input>
-
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Mật khẩu mới"
-                      ></input>
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Xác nhận mật khẩu mới"
-                      ></input>
-                      <div>
-                        <input
-                          type="checkbox"
-                          onClick={() => setShowPassword(!showPassword)}
-                        ></input>
-                        <Typography
-                          component={"span"}
-                          sx={{ marginLeft: "1rem", fontSize: "1.4rem" }}
-                        >
-                          Hiển thị mật khẩu
-                        </Typography>
-                      </div>
-                    </div>
-                  )}
-                </Grid>
               </Grid>
               <div className="save">
-                <Button type="submit" color="error" variant="contained">
+                <Button
+                  type="submit"
+                  color="error"
+                  variant="contained"
+                  // disabled={user.passwordAgain == user.passwordAuthentic ? false : true}
+                  style={{ paddingTop: "10px" }}
+                >
                   Lưu
                 </Button>
               </div>

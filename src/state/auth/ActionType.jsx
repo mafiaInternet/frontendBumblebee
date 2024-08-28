@@ -11,3 +11,7 @@ export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USER_FAILURE = 'GET_USER_FAILURE';
 
 export const LOGOUT = 'LOGOUT';
+
+export const PUT_USER_REQUEST = "PUT_USER_REQUEST"
+export const PUT_USER_SUCCESS = "PUT_USER_SUCCESS"
+export const PUT_USER_FAILURE = "PUT_USER_FAILURE"

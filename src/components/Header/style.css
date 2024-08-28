@@ -1,0 +1,25 @@
+.navbar {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    background-color: #F5F5F5;
+}
+
+.navbar a {
+    color: #232323;
+    text-decoration: none;
+    margin-right: 20px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar a:hover {
+    background-color: rgb(221, 218, 218);
+    color: #fff;
+}
+
+.navbar a:last-child {
+    margin-right: 0;
+}

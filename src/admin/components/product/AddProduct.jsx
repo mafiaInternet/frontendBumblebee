@@ -165,8 +165,11 @@ const AddProduct = () => {
           URL.revokeObjectURL(file.preview);
         }}
       />
+<<<<<<< HEAD
 
      
+=======
+>>>>>>> feature/new-teelab
     </div>
   ));
 

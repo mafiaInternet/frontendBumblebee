@@ -3,22 +3,15 @@ import { styled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-
 import Badge from "@mui/material/Badge";
-
-
 import { Link } from "react-router-dom";
-
 import Auth from "../../../customer/Auth.jsx";
 import Navigation from "./Navigation.jsx";
 import { useSelector } from "react-redux";
-
-import { Container } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-
+import Typography from '@mui/material/Typography';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -49,7 +42,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "#545457",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     width: "100%",
     paddingLeft: "10px",
   },
@@ -65,10 +57,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Topbar = (props) => {
-
-  const {cart} = useSelector(store => store)
-
-
+  const { cart } = useSelector(store => store)
   return (
     <div className="topbar">
       <Box sx={{ flexGrow: 1 }}>
@@ -80,38 +69,35 @@ const Topbar = (props) => {
             borderRadius: "none",
           }}
         >
-          <Container>
-            <Toolbar sx={{ justifyContent: "end" }}>
+          <Toolbar sx={{ display: "flex", justifyContent: "space-between", paddingTop: "24px" }}>
+            <Link to="/home" style={{textDecoration: "none"}}>
+              <Typography variant="h2" sx={{ color: "#232323", fontWeight: "700", paddingLeft: "15px"}}>
+                  TEELAB
+              </Typography>
+            </Link>
+            <Box className="topbar-icons d-flex" style={{ gap: "15px" }}>
               <Search>
                 <SearchIconWrapper>
-                  <SearchIcon />
+                  <SearchIcon style={{fontSize: "22px"}}/>
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Search…"
+                  sx={{ fontSize: "16px"}}
+                  placeholder="Tìm kiếm…"
                   inputProps={{ "aria-label": "search" }}
                 />
               </Search>
-              <Box
-                className="topbar-icons"
-                // sx={{ display: { xs: "none", md: "flex" } }}
-                sx={{display: 'flex'}}
-              >
-                <div className="topbar-icons-shoppingBag">
-                  <Link to="/cart">
-                    <StyledBadge badgeContent={cart.cart && cart.cart.totalItem || 0} color="secondary">
-                      <ShoppingCartOutlinedIcon
-                        sx={{ fontSize: "3rem", color: "black" }}
-                      />
-                    </StyledBadge>
-                   
-                  </Link>
- 
-                </div>
-
-                {props.jwt ? <Navigation></Navigation> : <Auth></Auth>}
-              </Box>
-            </Toolbar>
-          </Container>
+              <div className="topbar-icons-shoppingBag" style={{marginRight: "20px"}}>
+                <Link to="/cart">
+                  <StyledBadge badgeContent={cart.cart && cart.cart.totalItem || 0} color="secondary">
+                    <ShoppingCartOutlinedIcon
+                      sx={{ fontSize: "3rem", color: "black" }}
+                    />
+                  </StyledBadge>
+                </Link>
+              </div>
+              {props.jwt ? <Navigation></Navigation> : <Auth></Auth>}
+            </Box>
+          </Toolbar>
         </AppBar>
       </Box>
     </div>

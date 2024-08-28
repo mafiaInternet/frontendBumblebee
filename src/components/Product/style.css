@@ -1,0 +1,8 @@
+.hover-div {
+    background-color: #F0F0F0;
+    transition: background-color 0.3s ease;
+}
+
+.hover-div:hover {
+    background-color: rgb(221, 218, 218);
+}

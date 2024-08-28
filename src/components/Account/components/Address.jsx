@@ -1,9 +1,7 @@
 import {
   Box,
   Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
+  InputAdornment,
   Grid,
   TextField,
   Typography,
@@ -17,21 +15,38 @@ import {
   updateAddressByUser,
   updateAddressDefault,
 } from "../../../state/address/Action";
-
 import Modal from "@mui/material/Modal";
 import FormAddress from "../../../layout/FormAddress";
-
+import PersonIcon from "@mui/icons-material/Person";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import HomeIcon from "@mui/icons-material/Home";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 600,
+  height: 370,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  border: "1px solid silver",
   boxShadow: 24,
   p: 4,
+  borderRadius: "10px",
+};
+
+const styles = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 380,
+  height: 150,
+  bgcolor: "background.paper",
+  border: "1px solid silver",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "10px",
 };
 const Address = () => {
   const [open, setOpen] = React.useState(false);
@@ -42,7 +57,6 @@ const Address = () => {
   const dispath = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
-  // create address
   const addAddressHandle = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -53,12 +67,10 @@ const Address = () => {
       city: data.get("city"),
       state: data.get("state") == "true" ? "Mặc định" : "",
     };
-    console.log(responeData)
+    console.log(responeData);
     dispath(addAddress(responeData));
     handleClose();
   };
-
-  // delete address
   const [openDeleteHandle, setOpenDeleteHandle] = React.useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const handleOpenDelete = (id) => {
@@ -73,7 +85,6 @@ const Address = () => {
     dispath(deleteAddressByUser(addressId));
   };
 
-  // update address
   const [openUpdateHandle, setOpenUpdateHandle] = React.useState(false);
 
   const handleOpenUpdate = (item) => {
@@ -111,7 +122,7 @@ const Address = () => {
     dispath(
       updateAddressByUser({ addressId: addressId, responeData: responeData })
     );
-    setIsLoading(true)
+    setIsLoading(true);
   };
 
   const changeAddressDefault = (addressId) => {
@@ -120,7 +131,6 @@ const Address = () => {
   };
 
   useEffect(() => {
-    // Tải danh sách địa chỉ khi component được khởi tạo
     dispath(getAddressByUser());
   }, [dispath]);
 
@@ -141,14 +151,20 @@ const Address = () => {
     <div className="address">
       <div className="container">
         <div className="address-head">
-          <h2>Địa chỉ của tôi</h2>
-          <Button onClick={handleOpen} variant="contained" color="error">
+          <h2 style={{ fontSize: "24px", fontWeight: "500" }}>
+            Địa chỉ của tôi
+          </h2>
+          <Button
+            onClick={handleOpen}
+            variant="contained"
+            color="error"
+            style={{ paddingTop: "10px" }}
+          >
             + Thêm địa chỉ
           </Button>
         </div>
         <hr></hr>
         <div className="address-content">
-          <h3>Địa chỉ</h3>
           {address && address.address ? (
             address.address.map((item) => (
               <div className="address-content-card">
@@ -164,7 +180,7 @@ const Address = () => {
                         border: "1px solid red",
                         padding: "0.5rem",
                         fontSize: "1.3rem",
-                        color: "red"
+                        color: "red",
                       }}
                       className="address-content-card-default"
                     >
@@ -174,10 +190,7 @@ const Address = () => {
                 </div>
 
                 <div className="address-content-card-settings">
-                  <Button
-                    variant="text"
-                    onClick={() => handleOpenUpdate(item)}
-                  >
+                  <Button variant="text" onClick={() => handleOpenUpdate(item)}>
                     Cập nhật
                   </Button>
                   <Modal
@@ -186,17 +199,28 @@ const Address = () => {
                     aria-describedby="modal-modal-description"
                   >
                     <Box sx={style}>
-                      <h4>Địa chỉ mới</h4>
+                      <h2
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: "500",
+                          textAlign: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        Cập nhật địa chỉ
+                      </h2>
+
                       <form
                         method="POST"
                         onSubmit={(event) => updateAddress(item.id, event)}
                       >
-                        <Grid container spacing={1}>
-                          <Grid item xs={6}>
+                        <Grid container spacing={2}>
+                          <Grid item xs={12}>
                             <TextField
                               id="name"
                               label="Họ tên"
                               name="name"
+                              fullWidth
                               value={
                                 data.lastName != null
                                   ? data.lastName
@@ -205,13 +229,44 @@ const Address = () => {
                               onChange={(e) =>
                                 setData({ lastName: e.target.value })
                               }
+                              InputProps={{
+                                sx: {
+                                  fontSize: "16px",
+                                },
+                                endAdornment: (
+                                  <InputAdornment position="end">
+                                    <PersonIcon fontSize="large" />
+                                  </InputAdornment>
+                                ),
+                              }}
+                              InputLabelProps={{
+                                sx: {
+                                  fontSize: "16px",
+                                },
+                              }}
                             ></TextField>
                           </Grid>
-                          <Grid item xs={6}>
+                          <Grid item xs={12}>
                             <TextField
                               id="mobile"
                               label="Số điện thoại"
                               name="mobile"
+                              fullWidth
+                              InputProps={{
+                                sx: {
+                                  fontSize: "16px",
+                                },
+                                endAdornment: (
+                                  <InputAdornment position="end">
+                                    <LocalPhoneIcon fontSize="large" />
+                                  </InputAdornment>
+                                ),
+                              }}
+                              InputLabelProps={{
+                                sx: {
+                                  fontSize: "16px",
+                                },
+                              }}
                             ></TextField>
                           </Grid>
                           <Grid item xs={12}>
@@ -221,9 +276,25 @@ const Address = () => {
                               name="city"
                               value={item.city}
                               fullWidth
+                              InputProps={{
+                                sx: {
+                                  fontSize: "16px",
+                                },
+                                endAdornment: (
+                                  <InputAdornment position="end">
+                                    <HomeIcon fontSize="large" />
+                                  </InputAdornment>
+                                ),
+                              }}
+                              InputLabelProps={{
+                                sx: {
+                                  fontSize: "16px",
+                                },
+                              }}
                             ></TextField>
                           </Grid>
-                          <Grid item xs={6}>
+                          {/* <Grid item xs={12} style={{marginLeft: "15px"}}>
+>>>>>>> feature/new-teelab
                             <FormControlLabel
                               control={
                                 <Checkbox
@@ -234,16 +305,31 @@ const Address = () => {
                                   fullWidth
                                 ></Checkbox>
                               }
-                              label="Đặt làm mặc định"
                             ></FormControlLabel>
-                          </Grid>
+                            <label style={{fontSize: "14px", marginLeft: "-18px"}}>Đặt làm mặc định</label>
+                          </Grid> */}
                         </Grid>
-                        <Button variant="contained" onClick={handleCloseUpdate}>
-                          Trở lại
-                        </Button>
-                        <Button type="submit" variant="contained">
-                          Hoàn thành
-                        </Button>
+                        <div
+                          className="d-flex justify-content-end"
+                          style={{ gap: "5px", marginTop: "15px" }}
+                        >
+                          <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={handleCloseUpdate}
+                            style={{ paddingTop: "10px", fontSize: "14px" }}
+                          >
+                            Hủy
+                          </Button>
+                          <Button
+                            type="submit"
+                            color="error"
+                            variant="contained"
+                            style={{ paddingTop: "10px", fontSize: "14px" }}
+                          >
+                            Hoàn thành
+                          </Button>
+                        </div>
                       </form>
                     </Box>
                   </Modal>
@@ -261,6 +347,7 @@ const Address = () => {
                     variant="outlined"
                     onClick={() => changeAddressDefault(item.id)}
                     color="error"
+                    style={{ paddingTop: "8px" }}
                   >
                     Thiết lập mặc định
                   </Button>
@@ -278,52 +365,12 @@ const Address = () => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          {/* <Box sx={style}>
-            <h4>Địa chỉ mới</h4>
-            <form method="POST" onSubmit={addAddressHandle}>
-              <Grid container spacing={1}>
-                <Grid item xs={6}>
-                  <TextField id="name" label="Họ tên" name="name"></TextField>
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="mobile"
-                    label="Số điện thoại"
-                    name="mobile"
-                  ></TextField>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="city"
-                    label="Địa chỉ cụ thể"
-                    name="city"
-                    fullWidth
-                  ></TextField>
-                </Grid>
-
-                <Grid item xs={6}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={state}
-                        name="state"
-                        onChange={() => setState(!state)}
-                        fullWidth
-                      ></Checkbox>
-                    }
-                    label="Đặt làm mặc định"
-                  ></FormControlLabel>
-                </Grid>
-              </Grid>
-              <Button variant="contained" onClick={handleClose}>
-                Trở lại
-              </Button>
-              <Button type="submit" variant="contained">
-                Hoàn thành
-              </Button>
-            </form>
-          </Box> */}
-          <FormAddress address title={"Sửa địa chỉ"}></FormAddress>
+          <FormAddress
+            address
+            handleClose={handleClose}
+            title={"Thêm mới địa chỉ"}
+            style
+          ></FormAddress>
         </Modal>
 
         <Modal
@@ -332,14 +379,31 @@ const Address = () => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Bạn có chắc chắn muốn xóa địa chỉ này ? {deleteId}
+          <Box sx={styles}>
+            <Typography id="modal-modal-title" style={{ fontSize: "16px" }}>
+              Bạn có chắc chắn muốn xóa địa chỉ này?
             </Typography>
-            <Button>Trở lại</Button>
-            <Button variant="contained" onClick={() => deleteAddress(deleteId)}>
-              Xóa
-            </Button>
+            <div
+              className="d-flex justify-content-end"
+              style={{ gap: "5px", marginTop: "10px" }}
+            >
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={handleCloseDelete}
+                style={{ fontSize: "14px", marginTop: "10px" }}
+              >
+                Hủy
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => deleteAddress(deleteId)}
+                style={{ fontSize: "14px", marginTop: "10px" }}
+              >
+                Xóa
+              </Button>
+            </div>
           </Box>
         </Modal>
       </div>

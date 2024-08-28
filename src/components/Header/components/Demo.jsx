@@ -30,7 +30,7 @@ export default function TemporaryDrawer() {
       href: "/product/all",
     },
     {
-      text: "Bảng size",
+      text: "Bảng kích thước",
       href: "/table-size",
     },
     {
@@ -80,45 +80,42 @@ export default function TemporaryDrawer() {
 
   return (
     <Box sx={{ display: { lg: "none" } }}>
-   
-        <IconButton
-          size="large"
-          edge="start"
-          color="dark"
-          aria-label="open drawer"
-          sx={{ mr: 2 }}
-          onClick={() => setState(true)}
-        >
-          <MenuIcon />
-        </IconButton>
+      <IconButton
+        size="large"
+        edge="start"
+        color="dark"
+        aria-label="open drawer"
+        sx={{ mr: 2 }}
+        onClick={() => setState(true)}
+      >
+        <MenuIcon />
+      </IconButton>
 
-        <Drawer open={state} onClose={() => setState(false)}>
-          <Box
+      <Drawer open={state} onClose={() => setState(false)}>
+        <Box
           class="bar"
-            role="presentation"
-            onClick={() => setState(false)}
-            onKeyDown={() => setState(false)}
-          >
-            <dl>
-              <b>MENU</b>
-              {pages.map((page, index) => (
-                index != 1 ? (
-                  <dt key={index}>
-                    <Link>{page.text}</Link>
-                  </dt>
-                ) : (
-                  categories.map((item, a) => (
-                    <dd key={a}>
-                     <Link to={item.href}>{item.text}</Link>
-                    </dd>
-                  ))
-                )
-              ))}
-            </dl>
-          </Box>
-          
-        </Drawer>
-    
+          role="presentation"
+          onClick={() => setState(false)}
+          onKeyDown={() => setState(false)}
+        >
+          <dl>
+            <b>MENU</b>
+            {pages.map((page, index) =>
+              index != 1 ? (
+                <dt key={index}>
+                  <Link>{page.text}</Link>
+                </dt>
+              ) : (
+                categories.map((item, a) => (
+                  <dd key={a}>
+                    <Link to={item.href}>{item.text}</Link>
+                  </dd>
+                ))
+              )
+            )}
+          </dl>
+        </Box>
+      </Drawer>
     </Box>
   );
 }

@@ -1,4 +1,4 @@
-import { GET_USER_FAILURE, GET_USER_REQUEST, GET_USER_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "./ActionType"
+import { GET_USER_FAILURE, GET_USER_REQUEST, GET_USER_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, PUT_USER_FAILURE, PUT_USER_REQUEST, PUT_USER_SUCCESS, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "./ActionType"
 
 const initialState={
     user: null,
@@ -25,7 +25,12 @@ export const authReducer=(state=initialState, action)=>{
             return {...state, isLoading:false, erorr:action.payload}
         case LOGOUT:
             return {...state, isLoading: true, jwt: action.payload}
-    
+        case PUT_USER_REQUEST:
+            return {...state, isLoading: true, erorr: null}
+        case PUT_USER_SUCCESS:
+            return {...state, isLoading: false, erorr: null, user: action.payload}
+        case PUT_USER_FAILURE:
+            return {...state, isLoading: false, erorr: action.payload}
         default:
             return state;
     }

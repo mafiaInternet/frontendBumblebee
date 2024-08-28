@@ -15,6 +15,7 @@ export default function Navigation() {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
   const { auth } = useSelector((store) => store);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -42,7 +43,7 @@ export default function Navigation() {
           aria-expanded={open ? "true" : undefined}
           sx={{ color: "black", fontSize: "3.5rem" }}
         ></PersonOutlineOutlinedIcon>
-        {auth.user && `Xin chào, ${auth.user.name}`}
+        {auth.user && `${auth.user.name}`}
       </div>
 
       <Menu
