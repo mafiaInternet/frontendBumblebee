@@ -1,15 +1,13 @@
-import { Box } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addItemToCart } from "../../../state/cart/Action";
-
+import { useDispatch, useSelector } from "react-redux";
+import { addItemToCart, createCartItem } from "../../../state/cart/Action";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Carousel } from "react-responsive-carousel";
 import { Price } from "../../../config/config";
-
 import "../style.css";
 
 const style = {
@@ -20,11 +18,12 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: "auto",
   bgcolor: "background.paper",
-
   boxShadow: 24,
   p: 4,
 };
+
 const ProductCard = ({ product }) => {
+  const { products, review, auth } = useSelector((store) => store);
   const dispatch = useDispatch();
   const [selected, setSelected] = useState(product && product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(
@@ -34,10 +33,38 @@ const ProductCard = ({ product }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [totalQuantity, setTotalQuantity] = useState(
+    products.product &&
+      products.product.colors &&
+      products.product.totalQuantity
+  );
 
-  const handleAddItem = () => {
+  const handleAddItem = (e) => {
     if (selectedSize == null) {
-      alert("vale");
+      alert("value");
+      e.preventDefault();
+    } else {
+      const data = {
+        user: auth.user,
+        cart: localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart")) : [],
+        req: {
+          productId: product.id,
+          color: selected.name,
+          imageUrl: selected.imageUrl,
+          size: selectedSize,
+          quantity: quantity,
+        }
+      };
+      console.log(data);
+      setOpen(false);
+      dispatch(addItemToCart(data));
+    }
+  };
+
+  const createCheckOut = (e) => {
+    if (selectedSize == null) {
+      alert("value");
+      e.preventDefault();
     } else {
       const data = {
         productId: product.id,
@@ -45,19 +72,17 @@ const ProductCard = ({ product }) => {
         imageUrl: selected.imageUrl,
         size: selectedSize,
         quantity: quantity,
-      };
-
-      setOpen(false);
-      dispatch(addItemToCart(data));
+      }
+      dispatch(createCartItem({ addItemRequest: data }));
     }
-  };
+  }
 
   return (
     <div className="product--card hover-div" key={product.id}>
       <div className="product--card--image">
         <div className="product--card--image--wrapper">
           <Link to={`/product-detail/${product.id}`}>
-            <img src={selected.imageUrl}></img>
+            <img src={selected.imageUrl} alt={product.title} />
           </Link>
           <span className="product--card--image--wrapper--persent">
             -{product.discountPersent}%
@@ -68,7 +93,7 @@ const ProductCard = ({ product }) => {
         </div>
       </div>
       <div>
-        <div className="product--card--colors ">
+        <div className="product--card--colors">
           <Box sx={{ display: "flex" }}>
             {product &&
               product.colors.map((item, index) => (
@@ -80,7 +105,8 @@ const ProductCard = ({ product }) => {
                   <img
                     className={`${selected.id === item.id ? "active" : ""}`}
                     src={item.imageUrl}
-                  ></img>
+                    alt={item.name}
+                  />
                 </div>
               ))}
           </Box>
@@ -93,10 +119,10 @@ const ProductCard = ({ product }) => {
         </Link>
         <p className="product--card--price">
           <span>
-            <Price price={product.price}></Price>
+            <Price price={product.price} />
           </span>
           <b>
-            <Price price={product.discountedPrice}></Price>
+            <Price price={product.discountedPrice} />
           </b>
         </p>
       </div>
@@ -109,8 +135,8 @@ const ProductCard = ({ product }) => {
         <Box sx={style}>
           <Carousel emulateTouch={true}>
             {product.colors.map((color) => (
-              <div>
-                <img src={color.imageUrl}></img>
+              <div key={color.id}>
+                <img src={color.imageUrl} alt={color.name} />
               </div>
             ))}
           </Carousel>
@@ -119,17 +145,17 @@ const ProductCard = ({ product }) => {
             <p className="product--card--model--info--title">{product.title}</p>
             <p className="product--card--model--info--price">
               <span>
-                <Price price={product.price}></Price>
+                <Price price={product.price} />
               </span>
               <span>
-                <Price price={product.discountedPrice}></Price>
+                <Price price={product.discountedPrice} />
               </span>
               <span>-{product.discountPersent}%</span>
             </p>
             <div className="product--card--model--info--colors">
               {product.colors.map((color) => (
-                <Button>
-                  <img className="img-fluid" src={color.imageUrl}></img>
+                <Button key={color.id} onClick={() => setSelected(color)}>
+                  <img className="img-fluid" src={color.imageUrl} alt={color.name} />
                 </Button>
               ))}
             </div>
@@ -138,24 +164,61 @@ const ProductCard = ({ product }) => {
                 selectedSize === size.name ? (
                   <Typography
                     component="span"
-                    sx={{ border: "1px solid black" }}
+                    sx={{ border: "1px solid black", margin: "0 4px", padding: "2px 4px" }}
                     onClick={() => setSelectedSize(size.name)}
+                    key={size.name}
                   >
                     {size.name}
                   </Typography>
                 ) : (
-                  <span onClick={() => setSelectedSize(size.name)}>
+                  <span onClick={() => setSelectedSize(size.name)} key={size.name}>
                     {size.name}
                   </span>
                 )
               )}
             </div>
-            <button
+            <Box className="product__quantity">
+              <Typography>Số lượng</Typography>
+              <div>
+                <Button
+                  className="product__quantity__toggle"
+                  onClick={() => setQuantity(quantity - 1)}
+                  disabled={quantity <= 1}
+                >
+                  -
+                </Button>
+                <TextField
+                  variant="outlined"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
+                />
+                <Button
+                  className="product__quantity__toggle"
+                  onClick={() => setQuantity(quantity + 1)}
+                >
+                  +
+                </Button>
+              </div>
+              <p>
+                {selectedSize != null
+                  ? selected.sizes.find(size => size.name === selectedSize).quantity
+                  : totalQuantity}{" "}
+                sản phẩm có sẵn
+              </p>
+            </Box>
+            <Button
               className="product--card--model--info--addItemCart"
-              onClick={() => handleAddItem()}
+              onClick={handleAddItem}
+              variant="contained"
+              color="primary"
             >
               Thêm vào giỏ hàng
-            </button>
+            </Button>
+            <Link to="/payment">
+              <Button class="btn btn-dark " onClick={createCheckOut}>
+                Mua ngay
+              </Button>
+            </Link>
           </div>
         </Box>
       </Modal>

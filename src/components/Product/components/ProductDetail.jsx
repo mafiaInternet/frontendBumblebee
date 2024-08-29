@@ -1,24 +1,11 @@
-import {
-  Grid,
-  Box,
-  Typography,
-  Paper,
-  Button,
-  ButtonGroup,
-  TextField,
-  Rating,
-  Stack,
-} from "@mui/material";
+import { Grid, Box, Typography, Button, ButtonGroup, TextField, Rating } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import { Link, useParams } from "react-router-dom";
-import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { findProductsById } from "../../../state/product/Action";
 import { addItemToCart, createCartItem } from "../../../state/cart/Action";
 import ProductText from "./ProductText";
-
-
 import { getReviewByProduct } from "../../../state/review/Action";
 import Review from "../../review/Review";
 import { Price } from "../../../config/config";
@@ -29,7 +16,7 @@ const ProductDetail = () => {
   const { products, review, auth } = useSelector((store) => store);
   const param = useParams();
   const [product, setProduct] = useState(null);
-
+  const [selectedColor, setSelectedColor] = useState();
   const [color, setColor] = useState(
     products.product && products.product.colors && products.product.colors[0]
   );
@@ -62,7 +49,6 @@ const ProductDetail = () => {
           quantity: quantity,
         }
       }
-      console.log(data)
       dispatch(addItemToCart(data));
     }
   };
@@ -83,12 +69,11 @@ const ProductDetail = () => {
     }
   };
 
-  const [selectedColor, setSelectedColor] = useState();
-
   const handleClick = (item) => {
     setSelectedColor(item);
     setSelectedSize(null);
   };
+
   const [selectedSize, setSelectedSize] = useState();
   const handleClickSize = (item) => {
     setSelectedSize(item);
@@ -144,13 +129,11 @@ const ProductDetail = () => {
                     precision={0.1}
                     readOnly
                   />
-                  {/* <p>(Xem {review && review.review.length} đánh giá)</p> */}
                 </div>
                 <Typography class="productDetail__intro__price">
                 <span><Price price={products.product.discountedPrice}></Price></span>
                 <span><Price price={products.product.price}></Price></span>
                 <span>- {products.product.discountPersent}%</span>
-            
                 </Typography>
                 <div className="productDetail__intro__policy">
                   <p>
@@ -236,7 +219,6 @@ const ProductDetail = () => {
                   <div>
                     <Button
                       className="product__quantity__toggle"
-                      // onClick={() => setQuantity(quantity - 1)}
                       onClick={() => setQuantity(quantity - 1)}
                     >
                       -
@@ -248,7 +230,6 @@ const ProductDetail = () => {
                     ></TextField>
                     <Button
                       className="product__quantity__toggle"
-                      // onClick={() => setQuantity(quantity + 1)}
                       onClick={() => setQuantity(quantity + 1)}
                     >
                       +
