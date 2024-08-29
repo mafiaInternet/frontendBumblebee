@@ -156,6 +156,7 @@ const Address = () => {
             <FormAddress
               type="update"
               handleClose={() => setOpenEdit(false)}
+              setOpenEdit={setOpenEdit}
               title='Chỉnh sửa địa chỉ'
               address={editAddress} // Passing the address to be edited
             />

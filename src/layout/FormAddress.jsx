@@ -1,7 +1,8 @@
-import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
+// FormAddress.jsx
+import { Box, Button, Checkbox, FormControlLabel, TextField, MenuItem, Select, InputLabel } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addAddress, updateAddressByUser } from "../state/address/Action";
 
 const style = {
@@ -10,7 +11,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 750,
-  height: 580,
+  height: 650,
   bgcolor: "background.paper",
   border: "1px solid silver",
   boxShadow: 24,
@@ -18,252 +19,223 @@ const style = {
   borderRadius: "10px"
 };
 
-const inputs = {
-  padding: "17px 0 17px 14px", 
-  fontSize: "16px", 
-  borderRadius: "5px", 
-  width: "100%",
-  border: "1px solid silver"
-}
-
 const FormAddress = (props) => {
-  const jwt = localStorage.getItem("jwt");
   const dispatch = useDispatch();
-  const handleAddress = (event, type) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const request = {
-      name: data.get("name"),
-      mobile: data.get("mobile"),
-      province: JSON.parse(data.get("province")).province_name,
-      district: JSON.parse(data.get("district")).district_name,
-      ward: JSON.parse(data.get("ward")).ward_name,
-      description: data.get("desc"),
-      state: data.get("state") == "true" ? "Mặc định" : "",
-    };
-    if (type === "create") {
-      dispatch(addAddress(request));
-    } else if (type === "update") {
-      dispatch(
-        updateAddressByUser({
-          addressId: props.address.id,
-          responseData: request,
-        })
-      );
-    }
-  };
-
   const [address, setAddress] = useState({
-    name: props.address.name,
-    mobile: props.address.mobile,
-    province: {
-      status: true,
-      data: [],
-    },
-    district: {
-      status: true,
-      data: [],
-    },
-    ward: {
-      status: true,
-      data: [],
-    },
-    desc: "",
-    state: false,
+    name: props.address?.name || "",
+    mobile: props.address?.mobile || "",
+    province: "",
+    district: "",
+    ward: "",
+    desc: props.address?.desc || "",
+    state: props.address?.state === "Mặc định" || false,
+    provinces: [],
+    districts: [],
+    wards: []
   });
 
-  const handleGetApiAddress = async (event) => {
-    const type = event.target.name;
-    if (type === "province") {
-      const province = JSON.parse(event.target.value);
+  useEffect(() => {
+    const fetchProvinces = async () => {
       try {
-        const { data } = await axios.get(
-          `https://vapi.vnappmob.com/api/province/district/${province.province_id}`
-        );
-        setAddress({
-          ...address,
-          district: { ...address.district, data: data.results, status: false },
-        });
+        const { data } = await axios.get("https://vapi.vnappmob.com/api/province/");
+        setAddress((prev) => ({ ...prev, provinces: data.results }));
       } catch (error) {
         console.error(error.message);
       }
-    } else if (type === "district") {
-      const district = JSON.parse(event.target.value);
+    };
+
+    fetchProvinces();
+  }, []);
+
+  const handleAddress = (event) => {
+    event.preventDefault();
+    const request = {
+      name: address.name,
+      mobile: address.mobile,
+      province: address.province,
+      district: address.district,
+      ward: address.ward,
+      description: address.desc,
+      state: address.state ? "Mặc định" : "",
+    };
+    if (props.type === "create") {
+      dispatch(addAddress(request));
+    } else if (props.type === "update") {
+      dispatch(updateAddressByUser({
+        addressId: props.address.id,
+        responseData: request,
+      }));
+    }
+    props.setOpenEdit(false);
+  };
+
+  const handleGetApiAddress = async (event) => {
+    const { name, value } = event.target;
+    if (name === "province") {
       try {
-        const { data } = await axios.get(
-          `https://vapi.vnappmob.com/api/province/ward/${district.district_id}`
-        );
-        setAddress({
-          ...address,
-          ward: { ...address.ward, data: data.results, status: false },
-        });
+        const { data } = await axios.get(`https://vapi.vnappmob.com/api/province/district/${value}`);
+        setAddress((prev) => ({ ...prev, districts: data.results, wards: [], district: "", ward: "" }));
       } catch (error) {
-        console.error("Error: ", error.message);
+        console.error(error.message);
+      }
+    } else if (name === "district") {
+      try {
+        const { data } = await axios.get(`https://vapi.vnappmob.com/api/province/ward/${value}`);
+        setAddress((prev) => ({ ...prev, wards: data.results, ward: "" }));
+      } catch (error) {
+        console.error(error.message);
       }
     }
   };
 
-  useEffect(
-    () => async () => {
-      try {
-        const { data } = await axios.get(
-          "https://vapi.vnappmob.com/api/province/"
-        );
-        setAddress({
-          ...address,
-          province: { data: data.results, status: false },
-          district: { data: [], status: true },
-          ward: { data: [], status: true },
-        });
-        console.log(address);
-      } catch (error) {
-        console.error(error.message);
-      }
-    },
-    []
-  );
+  console.log(address);
 
   return (
     <Box sx={style}>
+      <form method="POST" onSubmit={handleAddress}>
+        <h2 style={{ fontSize: "24px", fontWeight: "500", textAlign: "center" }}>{props.title}</h2>
+        <TextField
+          fullWidth
+          margin="normal"
+          name="name"
+          value={address.name}
+          onChange={(e) => setAddress({ ...address, name: e.target.value })}
+          label="Họ tên người nhận"
+          InputProps={{
+            style: { fontSize: '16px' } 
+          }}
+          InputLabelProps={{
+            style: { fontSize: '14px' }
+          }}
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          name="mobile"
+          value={address.mobile}
+          onChange={(e) => setAddress({ ...address, mobile: e.target.value })}
+          label="Số điện thoại"
+          InputProps={{
+            style: { fontSize: '16px' } 
+          }}
+          InputLabelProps={{
+            style: { fontSize: '14px' }
+          }}
+        />
+        <InputLabel id="province-label" style={{fontSize: "14px"}}>Tỉnh/ Thành phố</InputLabel>
+        <Select
+          fullWidth
+          labelId="province-label"
+          name="province"
+          value={address.province_id}
+          onChange={(e) => {
+            const selectedProvince = address.provinces.find(
+              (province) => province.province_id === e.target.value
+            );
+            setAddress({ 
+              ...address, 
+              province_id: selectedProvince.province_id,
+              province: selectedProvince.province_name
+            });
+            handleGetApiAddress(e);
+          }}
+          label="Tỉnh/ Thành phố"
+        >
+          {address.provinces.map((province) => (
+            <MenuItem key={province.province_id} value={province.province_id}>
+              {province.province_name}
+            </MenuItem>
+          ))}
+        </Select>
 
-      <form
-        method="POST"
-        onSubmit={(event) => handleAddress(event, props.type)}
-      >
+        <InputLabel id="district-label" style={{fontSize: "14px"}}>Quận/ Huyện</InputLabel>
+        <Select
+          fullWidth
+          labelId="district-label"
+          name="district"
+          value={address.district_id}
+          onChange={(e) => {
+            const selectedDistrict = address.districts.find(
+              (district) => district.district_id === e.target.value
+            );
+            setAddress({ 
+              ...address, 
+              district_id: selectedDistrict.district_id,
+              district: selectedDistrict.district_name
+            });
+            handleGetApiAddress(e);
+          }}
+          label="Quận/ Huyện"
+          disabled={!address.province}
+        >
+          {address.districts.map((district) => (
+            <MenuItem key={district.district_id} value={district.district_id}>
+              {district.district_name}
+            </MenuItem>
+          ))}
+        </Select>
 
-        <h2 style={{fontSize: "24px", fontWeight: "500", textAlign: "center"}}>{props.title}</h2>
-        <div className="form-group" style={{marginBottom: "10px", marginTop: "30px"}}>
+        <InputLabel id="ward-label" style={{fontSize: "14px"}}>Phường/ Xã</InputLabel>
+        <Select
+          fullWidth
+          labelId="ward-label"
+          name="ward"
+          value={address.ward_id}
+          onChange={(e) => {
+            const selectedWard = address.wards.find(
+              (ward) => ward.ward_id === e.target.value
+            );
+            setAddress({ 
+              ...address, 
+              ward_id: selectedWard.ward_id,
+              ward: selectedWard.ward_name
+            });
+          }}
+          label="Phường/ Xã"
+          disabled={!address.district}
+        >
+          {address.wards.map((ward) => (
+            <MenuItem key={ward.ward_id} value={ward.ward_id}>
+              {ward.ward_name}
+            </MenuItem>
+          ))}
+        </Select>
 
-          <input
-            type="text"
-            name="name"
-            value={address.name}
-            onChange={(event) =>
-              setAddress({ ...address, name: event.target.value })
-            }
+        <TextField
+          fullWidth
+          margin="normal"
+          name="desc"
+          value={address.desc}
+          onChange={(e) => setAddress({ ...address, desc: e.target.value })}
+          multiline
+          rows={4}
+          label="Địa chỉ cụ thể"
+          InputProps={{
+            style: { fontSize: '16px' } 
+          }}
+          InputLabelProps={{
+            style: { fontSize: '14px' }
+          }}
+        />
 
-            placeholder="Họ tên người nhận"
-            style={inputs}
-          />
-        </div>
-        <div className="form-group" style={{marginBottom: "10px"}}>
-
-          <input
-            type="text"
-            name="mobile"
-            value={address.mobile}
-            onChange={(event) =>
-              setAddress({ ...address, mobile: event.target.value })
-            }
-            placeholder="Số điện thoại"
-
-            style={inputs}
-          />
-        </div>
-        <div className="form-group" style={{marginBottom: "10px"}}>
-          <select 
-            name="province" 
-            onChange={handleGetApiAddress}
-            style={inputs} 
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px", gap: "10px" }}>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => props.handleClose()}
+            style={{fontSize: "12px", padding: "7px 15px"}}
           >
-
-            <option>Chọn tỉnh/ Thành phố</option>
-            {!address.province.status &&
-              address.province.data &&
-              address.province.data.map((item, index) => (
-                <option value={JSON.stringify(item)} key={index}>
-                  {item.province_name}
-                </option>
-              ))}
-          </select>
-        </div>
-
-        <div className="form-group" style={{marginBottom: "10px"}}>
-          <select
-            style={inputs}
-
-            name="district"
-            disabled={address.district.status}
-            onChange={handleGetApiAddress}
+            Hủy
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="error"
+            style={{fontSize: "12px", padding: "7px 15px"}}
           >
-            <option>Chọn quận/ huyện</option>
-            {!address.district.status &&
-              address.district.data.map((item, index) => (
-                <option
-                  value={JSON.stringify(item)}
-                  data={item.district_name}
-                  key={index}
-                >
-                  {item.district_name}
-                </option>
-              ))}
-          </select>
+            Xác nhận
+          </Button>
         </div>
-        <div className="form-group" style={{marginBottom: "10px"}}>
-          <select
-            name="ward"
-            disabled={address.ward.status}
-            onChange={handleGetApiAddress}
-            style={inputs}
-          >
-            <option>Chọn phường xã</option>
-            {!address.ward.status &&
-              address.ward.data.map((item, index) => (
-                <option value={JSON.stringify(item)} data={item.ward_name} key={index}>
-                  {item.ward_name}
-                </option>
-              ))}
-          </select>
-        </div>
-        <div className="form-group" style={{marginBottom: "20px"}}>
-          <input
-            type="text"
-            name="desc"
-            value={props.address.desc}
-            onChange={(event) =>
-              setAddress({ ...address, desc: event.target.value })
-            }
-            multiple
-            placeholder="Địa chỉ cụ thể"
-            style={inputs}
-          />
-        </div>
-  
-          {/* <FormControlLabel
-            control={
-              <Checkbox
-                value={address.state}
-                name="state"
-                onChange={() =>
-                  setAddress({ ...address, state: !address.state })
-                }
-                fullWidth
-              ></Checkbox>
-            }
-            label="Đặt làm mặc định"
-          ></FormControlLabel> */}
- 
- 
-        {jwt && (
-          <div className="form-group d-flex justify-content-end" style={{gap: "10px"}}>
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => props.handleClose()}
-              style={{paddingTop: "10px", fontSize: "14px"}}
-            >
-              Hủy
-            </Button>
-            <Button 
-              type="submit" 
-              variant="contained" 
-              color="error"
-              style={{paddingTop: "10px", fontSize: "14px"}}
-            >
-              Xác nhận
-            </Button>
-          </div>
-        )}
       </form>
     </Box>
   );
