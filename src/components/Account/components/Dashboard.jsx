@@ -1,34 +1,21 @@
-import {
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  tableCellClasses,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Box
-} from "@mui/material";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { styled, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Box } from "@mui/material";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import DescriptionIcon from '@mui/icons-material/Description';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { getOrderByUser } from "../../../state/order/Action";
+import moment from 'moment';
 
 const heads = ["Đơn hàng", "Ngày", "Tổng đơn hàng", "Trạng thái", " "];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     width: "25%",
-
     color: theme.palette.common.black,
     fontSize: 15,
   },
   [`&.${tableCellClasses.body}`]: {
-
     width: "25%",
-
     fontSize: 14,
   },
 }));
@@ -41,25 +28,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+
 const Dashboard = () => {
   const { auth, order } = useSelector((store) => store);
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getOrderByUser())
-  }, [dispatch])
+
+  console.log(order);
 
   return (
     <div className="dashboard">
       <div className="container">
-
         <h2 style={{fontSize: "24px", fontWeight: "500"}}>BẢNG ĐIỀU KHIỂN</h2>
         <hr style={{marginBottom: "0px"}}/>
-
         <div className="dashboard--content">
           <div className="dashboard--content--point">
             <p>
               <span>Điểm tích lũy: </span>
-              <strong>{order.orders.length > 0 ? order.orders.reduce((curr, item) => {return curr + (item.totalPrice - item.discountedPrice)}) : 0 / 150}k</strong>
+              <strong>11k</strong>
             </p>
           </div>
           <Box
@@ -70,8 +54,8 @@ const Dashboard = () => {
                 height: "0.5rem",
                 border: "1px solid silver",
                 background: `linear-gradient(to right, orange ${
-                  (order.orders.length > 0 ? order.orders.reduce((curr, item) => {return curr + (item.totalPrice - item.discountedPrice)}) : 0 / 150) * 100
-                }%, white ${(order.orders.length > 0 ? order.orders.reduce((curr, item) => {return curr + (item.totalPrice - item.discountedPrice)}) : 0 / 150) * 100}%)`,
+                  (100 / 150) * 100
+                }%, white ${(100 / 150) * 100}%)`,
               }}
             >
               <Box
@@ -132,33 +116,28 @@ const Dashboard = () => {
                 150K
               </Box>
             </Box>
-
             <div className="dashboard--content--orders" style={{marginTop: "60px"}}>
               <h2 style={{fontSize: "24px", fontWeight: "500"}}>NHỮNG ĐƠN HÀNG GẦN ĐÂY</h2>
-
               <hr></hr>
               <TableContainer>
                 <Table>
                   <TableHead>
                     <TableRow>
                       {heads.map((head) => (
-
                         <StyledTableCell align="left" key={head}>{head}</StyledTableCell>
-
                       ))}
                     </TableRow>
                   </TableHead>
                   <TableBody>
-
                     {order?.orders && order.orders.length > 0 ? (
                       order.orders.map((order, index) => (
                         <StyledTableRow key={index}>
                           <StyledTableCell align="left">{order.id}</StyledTableCell>
-                          <StyledTableCell align="left">{order.createAt}</StyledTableCell>
-                          <StyledTableCell align="left">{order.totalPrice - order.totalDiscountedPrice}</StyledTableCell>
+                          <StyledTableCell align="left">{order.createAt ? moment(order.createAt).format('DD/MM/YYYY HH:mm:ss') : 'N/A'}</StyledTableCell>
+                          <StyledTableCell align="left">{order.totalPrice}</StyledTableCell>
                           <StyledTableCell align="left">{order.orderStatus}</StyledTableCell>
                           <StyledTableCell align="left">
-                            <Link to={`/order/order-details/${order.id}`}>
+                            <Link to={`/account/order/${order.id}`}>
                               <VisibilityIcon style={{ fontSize: "20px", marginBottom: "5px" }} />
                             </Link>
                           </StyledTableCell>
@@ -173,7 +152,6 @@ const Dashboard = () => {
                         </StyledTableCell>
                       </StyledTableRow>
                     )}
- 
                   </TableBody>
                 </Table>
               </TableContainer>

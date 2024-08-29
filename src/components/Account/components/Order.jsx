@@ -2,7 +2,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import OrderCard from "./OrderCard";
 import { Tabs } from "@mui/material";
@@ -20,14 +19,14 @@ const orderStatus = [
   "Bị hủy",
   "Đổi trả",
 ];
+
 export default function Order() {
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = React.useState("Tất cả");
   const dispatch = useDispatch();
   const { order } = useSelector((store) => store);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log(order);
   useEffect(() => {
     dispatch(getOrderByUser());
   }, [dispatch]);
@@ -35,11 +34,8 @@ export default function Order() {
   return (
     order.orders && (
       <div className="order">
-        <h2 style={{ fontSize: "24px", fontWeight: "500" }}>
-          Đơn hàng của tôi
-        </h2>
+        <h2 style={{fontSize: "24px", fontWeight: "500"}}>ĐƠN HÀNG CỦA TÔI</h2>
         <hr></hr>
-
         <Box sx={{ backgroundColor: "#f0f0f0" }}>
           <TabContext value={value}>
             <Box
@@ -56,16 +52,25 @@ export default function Order() {
                 scrollButtons
                 allowScrollButtonsMobile
                 aria-label="scrollable force tabs example"
-                // aria-label="lab API tabs example"
               >
                 {orderStatus.map((item, index) => (
-                  <Tab label={item} value={item} key={index}></Tab>
+                  <Tab label={item} value={item} key={index}
+                    sx={{
+                      textTransform: "none",
+                      fontSize: "1rem",
+                      fontWeight: "bold",
+                      "&:hover": {
+                        backgroundColor: "#f0f0f0",
+                        color: "red",
+                      }
+                    }}
+                  />
                 ))}
               </Tabs>
             </Box>
-            <div>
+              <div>
               {orderStatus.map((item, index) => (
-                <TabPanel sx={{ padding: "0" }} value={item} key={index}>
+                <TabPanel sx={{padding: "0"}} value={item} key={index}>
                   {order &&
                     order.orders &&
                     order.orders
@@ -74,8 +79,7 @@ export default function Order() {
                           a.orderStatus == item ||
                           (item === "Đang xử lý" &&
                             (a.orderStatus === "Đang chờ xác nhận" ||
-                              a.orderStatus === "Đã xác nhận")) ||
-                          item === "Tất cả"
+                              a.orderStatus === "Đã xác nhận")) || (item === "Tất cả")
                       )
                       .map((b) => (
                         <Link
@@ -87,7 +91,7 @@ export default function Order() {
                       ))}
                 </TabPanel>
               ))}
-            </div>
+              </div>
           </TabContext>
         </Box>
       </div>
