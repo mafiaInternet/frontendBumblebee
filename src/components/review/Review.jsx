@@ -8,18 +8,23 @@ import ReviewCard from "./components/ReviewCard";
 
 import ReviewForm from "./components/ReviewForm";
 
-const Review = ({ product }) => {
+const Review = ({ product, setRate }) => {
   const dispatch = useDispatch();
   const { review, auth } = useSelector((store) => store);
   const [star, setStar] = useState("Tất cả");
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const jwt = localStorage.getItem("jwt")
+
+  const reviews = review.reviews.slice(1, 6);
+  const totalStars = reviews.reduce((acc, item) => acc + (item.quantity * parseInt(item.star)), 0);
+  const totalReviews = reviews.reduce((acc, item) => acc + item.quantity, 0);
+  const averageStars = totalReviews === 0 ? 0 : totalStars / totalReviews;
+
   useEffect(() => {
     dispatch(getReviewByProduct(product.id));
-   
+    setRate(averageStars)
   }, [product.id, review.review]);
 
   return (
@@ -29,13 +34,13 @@ const Review = ({ product }) => {
           <Grid container spacing={1}>
             <Grid item xs={4}>
               <div className="review__summary__average">
-                <p>{review.reviews.slice(1,5).reduce((acc, curr) => acc + Number(curr.star) * curr.quantity, 0) / product.numRatings}/5</p>
+                <p>{averageStars} / 5</p>
                 <Rating
-                  value={review.star / product.numRatings}
+                  value={averageStars}
                   color="red"
                   precision={0.1}
                   readOnly
-                ></Rating>
+                />
                 <p>({product.numRatings} đánh giá)</p>
                 {jwt && auth.user && (
                   <Button

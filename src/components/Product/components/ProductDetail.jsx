@@ -15,6 +15,7 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const { products, review, auth } = useSelector((store) => store);
   const param = useParams();
+  const [rate, setRate] = useState();
   const [product, setProduct] = useState(null);
   const [selectedColor, setSelectedColor] = useState();
   const [color, setColor] = useState(
@@ -125,7 +126,7 @@ const ProductDetail = () => {
                   <Rating
                     sx={{ alignItems: "center", justifyContent: "center" }}
                     name="half-rating-read "
-                    value={review.star / products.product.numRatings}
+                    value={rate}
                     precision={0.1}
                     readOnly
                   />
@@ -263,7 +264,7 @@ const ProductDetail = () => {
           </Grid>
         </Box>
         <ProductText></ProductText>
-        <Review product={products.product}></Review>
+        <Review product={products.product} setRate={setRate}></Review>
       </div>
     )
   );
