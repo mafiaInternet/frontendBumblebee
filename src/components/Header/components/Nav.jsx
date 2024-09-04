@@ -24,10 +24,10 @@ const Nav = ({ auth }) => {
       text: "Hệ thống cửa hàng",
       href: "/system-shop",
     },
-    {
-      text: `${auth.user && auth.user.role != null ? "" : "Quản lý"}`,
-      href: `${auth.user && auth.user.role != null ? "/home" : "/admin"}`,
-    },
+    // {
+    //   text: `${auth.user && auth.user.role != null ? "" : "Quản lý"}`,
+    //   href: `${auth.user && auth.user.role != null ? "/home" : "/admin"}`,
+    // },
   ];
 
   return (
@@ -40,7 +40,7 @@ const Nav = ({ auth }) => {
           borderRadius: "none",
         }}
       >
-        <Toolbar>
+        <Toolbar className="d-flex justify-content-center">
           <Box className="navbar">
             {pages.map((page, index) => (
               <Link to={page.href} key={index}>

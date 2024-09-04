@@ -1,4 +1,4 @@
-import { Box, TextField } from "@mui/material";
+import { Box, TextField, ButtonGroup } from "@mui/material";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,8 +35,8 @@ const ProductCard = ({ product }) => {
   const handleClose = () => setOpen(false);
   const [totalQuantity, setTotalQuantity] = useState(
     products.product &&
-      products.product.colors &&
-      products.product.totalQuantity
+    products.product.colors &&
+    products.product.totalQuantity
   );
 
   const handleAddItem = (e) => {
@@ -178,16 +178,20 @@ const ProductCard = ({ product }) => {
               )}
             </div>
             <Box className="product__quantity">
-              <Typography>Số lượng</Typography>
-              <div>
+              <Typography style={{ fontSize: "14px" }}>Số lượng: </Typography>
+              <div className="d-flex" style={{ margin: "10px 0", gap: "5px" }}>
                 <Button
                   className="product__quantity__toggle"
                   onClick={() => setQuantity(quantity - 1)}
                   disabled={quantity <= 1}
+                  style={{ fontSize: "20px" }}
                 >
                   -
                 </Button>
                 <TextField
+                  InputProps={{
+                    style: { fontSize: 14 },
+                  }}
                   variant="outlined"
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
@@ -195,30 +199,36 @@ const ProductCard = ({ product }) => {
                 <Button
                   className="product__quantity__toggle"
                   onClick={() => setQuantity(quantity + 1)}
+                  style={{ fontSize: "20px" }}
                 >
                   +
                 </Button>
               </div>
-              <p>
+              <p style={{ fontSize: "14px" }}>
                 {selectedSize != null
                   ? selected.sizes.find(size => size.name === selectedSize).quantity
                   : totalQuantity}{" "}
                 sản phẩm có sẵn
               </p>
             </Box>
-            <Button
-              className="product--card--model--info--addItemCart"
-              onClick={handleAddItem}
-              variant="contained"
-              color="primary"
-            >
-              Thêm vào giỏ hàng
-            </Button>
-            <Link to="/payment">
-              <Button class="btn btn-dark " onClick={createCheckOut}>
-                Mua ngay
+            <ButtonGroup class="button-group-end d-flex" style={{ gap: "10px" }}>
+              <Button
+                class="btn btn-outline-dark"
+                onClick={() => handleAddItem()}
+                style={{ fontSize: "14px" }}
+              >
+                Thêm vào giỏ hàng
               </Button>
-            </Link>
+              <Link to="/payment">
+                <Button
+                  class="btn btn-dark "
+                  onClick={createCheckOut}
+                  style={{ fontSize: "14px" }}
+                >
+                  Mua ngay
+                </Button>
+              </Link>
+            </ButtonGroup>
           </div>
         </Box>
       </Modal>

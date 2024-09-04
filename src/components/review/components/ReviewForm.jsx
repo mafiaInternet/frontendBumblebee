@@ -22,13 +22,11 @@ const ReviewForm = ({ product, setOpen }) => {
 
   const handleFiles = (event) => {
     const imageUrls = event.target.files;
-
     const newPreviews = Array.from(imageUrls)
       .slice(0, 3)
       .map((file) => URL.createObjectURL(file));
     setFiles(newPreviews);
   };
-
 
   const responseReviewHandler = (event) => {
     event.preventDefault();
@@ -40,19 +38,17 @@ const ReviewForm = ({ product, setOpen }) => {
       imageIrls: files,
       description: data.get("comment"),
     };
-
     dispatch(createReview(review));
     setOpen(false)
   };
 
   return (
     <Box className="review__form" sx={style}>
-      <h5 className="review__form__title">Đánh giá sản phẩm</h5>
-      <p className="review__form__title__product">Product title</p>
+      <p className="review__form__title__product">{product.title}</p>
       <form method="POST" onSubmit={responseReviewHandler}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <p className="rating d-flex">
+            <p className="rating d-flex" style={{fontSize: "22px"}}>
               Đánh giá của bạn về sản phẩm:{" "}
               <Star rating={rating} setRating={setRating}></Star>
             </p>
@@ -63,7 +59,7 @@ const ReviewForm = ({ product, setOpen }) => {
               placeholder="Nhập nội dung đánh giá của bạn về sản phẩm này"
               fullWidth
               multiline
-            ></TextField>
+            />
           </Grid>
           <Grid item xs={12}>
             <label
@@ -93,7 +89,7 @@ const ReviewForm = ({ product, setOpen }) => {
             </Grid>
           </Grid>
           <Grid item xs={12} sx={{ textAlign: "center" }}>
-            <Button type="submit" variant="contained">
+            <Button type="submit" variant="contained" style={{paddingTop: "8px", fontSize: "14px"}}>
               Gửi đánh giá của bạn
             </Button>
           </Grid>

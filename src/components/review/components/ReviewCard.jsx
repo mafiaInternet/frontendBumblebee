@@ -1,7 +1,8 @@
 import { Rating } from "@mui/material";
 import React, { useState } from "react";
-import SendIcon from "@mui/icons-material/Send";
 import { useDispatch } from "react-redux";
+import moment from "moment";
+
 const ReviewCard = ({ review, star }) => {
   const dispatch = useDispatch();
   const [response, setResponse] = useState();
@@ -20,7 +21,7 @@ const ReviewCard = ({ review, star }) => {
         <b>{review.name}</b>
         <Rating value={star} readOnly></Rating>
       </h5>
-      <p className="review--card--createAt">{review.createdAt}</p>
+      <p className="review--card--createAt">{review.createdAt ? moment(review.createdAt).format('DD/MM/YYYY HH:mm:ss') : ''}</p>
       <p className="review--card--description">{review.desciption}</p>
       {review.product ? (
         <div>
@@ -28,7 +29,7 @@ const ReviewCard = ({ review, star }) => {
             {/* <img src={review.product.imageUrls[0]}></img> */}
           </div>
           <div>
-            <p>{review.product.title}</p>
+            {/* <p>{review.product.title}</p> */}
           </div>
         </div>
       ) : (
@@ -41,6 +42,7 @@ const ReviewCard = ({ review, star }) => {
           </div>
         </div>
       )}
+      <hr/>
     </div>
   );
 };

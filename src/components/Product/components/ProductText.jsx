@@ -4,7 +4,7 @@ import React from 'react';
 const ProductText = () => {
 
     return (
-        <div className='productText'>
+        <div className='productText' style={{marginTop: "30px"}}>
             <Typography component='h2'>MÔ TẢ SẢN PHẨM</Typography>
             <p>You will never be younger than you are at this very moment “Enjoy Your Youth!”</p>
             <p>Không chỉ là thời trang, TEELAB còn là “phòng thí nghiệm” của tuổi trẻ - nơi nghiên cứu và cho ra đời năng lượng mang tên “Youth”. Chúng mình luôn muốn tạo nên những trải nghiệm vui vẻ, năng động và trẻ trung.

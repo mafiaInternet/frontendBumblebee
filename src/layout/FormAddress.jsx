@@ -11,7 +11,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 750,
-  height: 650,
+  height: 685,
   bgcolor: "background.paper",
   border: "1px solid silver",
   boxShadow: 24,
@@ -140,9 +140,10 @@ const FormAddress = (props) => {
             handleGetApiAddress(e);
           }}
           label="Tỉnh/ Thành phố"
+          style={{fontSize: '16px'}}
         >
           {address.provinces.map((province) => (
-            <MenuItem key={province.province_id} value={province.province_id}>
+            <MenuItem key={province.province_id} value={province.province_id} style={{fontSize: '16px'}}>
               {province.province_name}
             </MenuItem>
           ))}
@@ -167,9 +168,10 @@ const FormAddress = (props) => {
           }}
           label="Quận/ Huyện"
           disabled={!address.province}
+          style={{fontSize: '16px'}}
         >
           {address.districts.map((district) => (
-            <MenuItem key={district.district_id} value={district.district_id}>
+            <MenuItem key={district.district_id} value={district.district_id} style={{fontSize: '16px'}}>
               {district.district_name}
             </MenuItem>
           ))}
@@ -193,9 +195,10 @@ const FormAddress = (props) => {
           }}
           label="Phường/ Xã"
           disabled={!address.district}
+          style={{fontSize: '16px'}}
         >
           {address.wards.map((ward) => (
-            <MenuItem key={ward.ward_id} value={ward.ward_id}>
+            <MenuItem key={ward.ward_id} value={ward.ward_id} style={{fontSize: '16px'}}>
               {ward.ward_name}
             </MenuItem>
           ))}

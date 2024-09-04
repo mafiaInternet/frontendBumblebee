@@ -35,7 +35,7 @@ const Menu = () => {
               key={navItem}
               style={{
                 fontSize: "16px",
-                marginRight: "20px",
+                marginRight: "30px",
                 cursor: "pointer",
               }}
             >

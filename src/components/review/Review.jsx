@@ -8,7 +8,7 @@ import ReviewCard from "./components/ReviewCard";
 
 import ReviewForm from "./components/ReviewForm";
 
-const Review = ({ product, setRate }) => {
+const Review = ({ product}) => {
   const dispatch = useDispatch();
   const { review, auth } = useSelector((store) => store);
   const [star, setStar] = useState("Tất cả");
@@ -16,7 +16,6 @@ const Review = ({ product, setRate }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const jwt = localStorage.getItem("jwt")
-
   const reviews = review.reviews.slice(1, 6);
   const totalStars = reviews.reduce((acc, item) => acc + (item.quantity * parseInt(item.star)), 0);
   const totalReviews = reviews.reduce((acc, item) => acc + item.quantity, 0);
@@ -24,7 +23,6 @@ const Review = ({ product, setRate }) => {
 
   useEffect(() => {
     dispatch(getReviewByProduct(product.id));
-    setRate(averageStars)
   }, [product.id, review.review]);
 
   return (
@@ -34,14 +32,14 @@ const Review = ({ product, setRate }) => {
           <Grid container spacing={1}>
             <Grid item xs={4}>
               <div className="review__summary__average">
-                <p>{averageStars} / 5</p>
+                <p>{averageStars.toFixed(1)} / 5</p>
                 <Rating
                   value={averageStars}
                   color="red"
                   precision={0.1}
                   readOnly
                 />
-                <p>({product.numRatings} đánh giá)</p>
+                <p>({totalReviews} đánh giá)</p>
                 {jwt && auth.user && (
                   <Button
                     variant="contained"
@@ -75,7 +73,7 @@ const Review = ({ product, setRate }) => {
                 </Grid>
 
                 {review.reviews &&
-                  review.reviews.slice(1, 5).map((item) => (
+                  review.reviews.slice(1, 6).map((item) => (
                     <Grid item xs={6} sm={4} md={3} lg={2.3}>
                       <Button
                         variant="outlined"
@@ -109,7 +107,7 @@ const Review = ({ product, setRate }) => {
                   review={review}
                   star={review.rating}
                   user={auth.user}
-                ></ReviewCard>
+                />
               ))}
         </div>
       </div>

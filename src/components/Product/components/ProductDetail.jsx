@@ -15,7 +15,6 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const { products, review, auth } = useSelector((store) => store);
   const param = useParams();
-  const [rate, setRate] = useState();
   const [product, setProduct] = useState(null);
   const [selectedColor, setSelectedColor] = useState();
   const [color, setColor] = useState(
@@ -93,13 +92,20 @@ const ProductDetail = () => {
     dispatch(getReviewByProduct(param.name));
   }, [review.star]);
 
+  const reviews = review.reviews.slice(1, 6);
+  const totalStars = reviews.reduce((acc, item) => acc + (item.quantity * parseInt(item.star)), 0);
+  const totalReviews = reviews.reduce((acc, item) => acc + item.quantity, 0);
+  const averageStars = totalReviews === 0 ? 0 : totalStars / totalReviews;
+
+  console.log(products)
+
   return (
     products.product &&
     products.product.id != null && (
       <div className="productDetail">
-        <Box class="productDetail__item">
+        <Box class="productDetail__item" style={{marginTop: "16px"}}>
           <Grid container spacing={2}>
-            <Grid item xs={7}>
+            <Grid item xs={7} style={{height: "681.625px"}}>
               <Carousel
                 showArrows={false}
                 showStatus={false}
@@ -111,7 +117,7 @@ const ProductDetail = () => {
                 {products.product.listImageUrl &&
                   products.product.listImageUrl.map((image) => (
                     <div>
-                      <img className="img-fluid" src={image}></img>
+                      <img className="img-fluid" src={image} style={{ maxHeight: "681.625px" }}></img>
                     </div>
                   ))}
               </Carousel>
@@ -126,7 +132,7 @@ const ProductDetail = () => {
                   <Rating
                     sx={{ alignItems: "center", justifyContent: "center" }}
                     name="half-rating-read "
-                    value={rate}
+                    value={averageStars}
                     precision={0.1}
                     readOnly
                   />
@@ -160,16 +166,13 @@ const ProductDetail = () => {
                   </p>
                 </div>
                 <dl className="productDetail__intro__info">
-                  <dt>Thông tin sản phẩm</dt>
-                  <dd>- Chất liệu: Cotton</dd>
-                  <dd>- Form: Oversize</dd>
-                  <dd>- Color: Black</dd>
-                  <dd>- Design: In lua</dd>
+                  <dt style={{fontSize: "20px"}}>Thông tin sản phẩm</dt>
+                  <dd>Chất liệu: Cotton</dd>
+                  <dd>Kích thước: Oversize</dd>
+                  <dd>Thiết kế: In lua</dd>
                 </dl>
                 <Box class="product__option">
-                  <Typography>
-                    Màu sắc: {selectedColor != null ? selectedColor.name : ""}
-                  </Typography>
+                  <dt style={{fontSize: "20px"}}> Màu sắc </dt>
                   <Grid container spacing={1}>
                     {products.product &&
                       products.product.colors.map((color, index) => (
@@ -196,7 +199,7 @@ const ProductDetail = () => {
                   </Grid>
                 </Box>
                 <Box class="product__size">
-                  <h5>Kích thước: {data.size}</h5>
+                  <dt style={{fontSize: "20px"}}> Kích thước </dt>
                   <Grid container spacing={1}>
                     {selectedColor &&
                       selectedColor.sizes.map((size) => (
@@ -216,8 +219,8 @@ const ProductDetail = () => {
                   </Grid>
                 </Box>
                 <Box class="product__quantity">
-                  <Typography>Số lượng</Typography>
-                  <div>
+                  <dt style={{fontSize: "20px"}}>Số lượng</dt>
+                  <div className="d-flex" style={{gap: "10px"}}>
                     <Button
                       className="product__quantity__toggle"
                       onClick={() => setQuantity(quantity - 1)}
@@ -226,6 +229,9 @@ const ProductDetail = () => {
                     </Button>
                     <TextField
                       variant="outlined"
+                      InputProps={{
+                        style: { fontSize: 14 },
+                      }}
                       value={quantity}
                       onChange={(e) => setQuantity(Number(e.target.value))}
                     ></TextField>
@@ -244,7 +250,7 @@ const ProductDetail = () => {
                   </p>
                 </Box>
                 <Box class="link-table-size">
-                  <Link to="/table-size">+Hướng dẫn chọn size</Link>
+                  <Link to="/table-size">+ Hướng dẫn chọn size</Link>
                 </Box>
                 <ButtonGroup class="button-group-end">
                   <Button
@@ -263,8 +269,8 @@ const ProductDetail = () => {
             </Grid>
           </Grid>
         </Box>
-        <ProductText></ProductText>
-        <Review product={products.product} setRate={setRate}></Review>
+        <ProductText/>
+        <Review product={products.product}/>
       </div>
     )
   );

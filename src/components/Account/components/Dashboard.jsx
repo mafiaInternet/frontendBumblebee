@@ -36,24 +36,19 @@ const Dashboard = ({points = 150}) => {
   return (
     <div className="dashboard">
       <div className="container">
-        <h2 style={{fontSize: "24px", fontWeight: "500"}}>BẢNG ĐIỀU KHIỂN</h2>
-        <hr style={{marginBottom: "0px"}}/>
         <div className="dashboard--content">
-        <Card sx={{ maxWidth: 300, margin: 'auto', mt: 4 }}>
-          <CardContent>
-            <Typography variant="h5" component="div" gutterBottom>
-              Điểm tích lũy
+        <Card sx={{ maxWidth: 300, margin: 'auto', mt: 2 }}>
+          <CardContent sx={{backgroundColor: "#EEEEEE"}}>
+            <Typography variant="h4" component="div" gutterBottom>
+              Điểm tích lũy:
             </Typography>
             <Box display="flex" alignItems="center" justifyContent="center">
-              <Star sx={{ color: 'gold', mr: 1, fontSize: 40 }} />
-              <Typography variant="h3">{points}</Typography>
+              <Star sx={{ color: 'gold', mr: 1, fontSize: 30 }} />
+              <Typography variant="h3">{points} Điểm</Typography>
             </Box>
-            <Typography variant="body2" color="text.secondary" align="center" mt={2}>
-              Điểm
-            </Typography>
           </CardContent>
         </Card>
-            <div className="dashboard--content--orders" style={{marginTop: "60px"}}>
+            <div className="dashboard--content--orders" style={{marginTop: "30px"}}>
               <h2 style={{fontSize: "24px", fontWeight: "500"}}>NHỮNG ĐƠN HÀNG GẦN ĐÂY</h2>
               <hr></hr>
               <TableContainer>
