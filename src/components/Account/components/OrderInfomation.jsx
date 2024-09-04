@@ -1,27 +1,10 @@
 import React, { useEffect } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  styled,
-  Grid,
-  tableCellClasses,
-  Box,
-  Paper,
-} from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, Grid, tableCellClasses, Box, Paper } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
-import DoneIcon from "@mui/icons-material/Done";
-import AlarmIcon from "@mui/icons-material/Alarm";
-import FeedIcon from "@mui/icons-material/Feed";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import ReceiptIcon from "@mui/icons-material/Receipt";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderById } from "../../../state/order/Action";
 import { FormatDateTime, Price } from "../../../config/config";
+
 const orderStatus = [
   {
     text: "Đang chờ xác nhận",
@@ -44,15 +27,14 @@ const orderStatus = [
     color: "#c62828",
   },
 ];
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.common.black,
-    fontSize: 15,
-    // textAlign: "center"
+    fontSize: 15
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-    // textAlign: "center"
+    fontSize: 14
   },
 }));
 
@@ -68,16 +50,16 @@ const OrderInfomation = () => {
   const dispatch = useDispatch();
   const param = useParams();
 
+  console.log(order)
+
   useEffect(() => {
     dispatch(getOrderById(param.name));
   }, [param.name]);
+
   return (
     order && (
       <div>
-        <Box
-          sx={{ display: { xs: "none", md: "block" } }}
-          className="order--information"
-        >
+        <Box sx={{display: { xs: "none", md: "block" }}} className="order--information">
           <div className="container">
             <div className="order--information--content">
               <Grid container spacing={1}>
@@ -85,18 +67,13 @@ const OrderInfomation = () => {
                   <Item>
                     <div className="order--information--content--top">
                       <p>
-                        <Typography
-                          sx={{ fontWeight: "bold" }}
-                          component={"span"}
-                        >
+                        <Typography sx={{ fontWeight: "bold" }} component={"span"}>
                           #{order.id}
                         </Typography>
                         <Typography
                           component={"span"}
                           sx={{
-                            backgroundColor: orderStatus.find(
-                              (item) => item.text === order.orderStatus
-                            )?.color,
+                            backgroundColor: orderStatus.find((item) => item.text === order.orderStatus)?.color,
                             marginLeft: "1rem",
                           }}
                           className="orderInformation--content--head--status"
@@ -105,68 +82,44 @@ const OrderInfomation = () => {
                         </Typography>
                       </p>
                       <span>
-                        Ngày mua:{" "}
-                        <FormatDateTime time={order.createAt}></FormatDateTime>
+                        Ngày mua:{" "} <FormatDateTime time={order.createAt}/>
                       </span>
                     </div>
                     <Box
                       sx={{
                         display: { xs: "none", md: "flex" },
-                        backgroundColor:
-                          order.orderStatus === "Hoàn tất"
-                            ? "rgba(227, 250, 218, 0.5)"
-                            : "rgba(201, 240, 255, 0.5)",
+                        backgroundColor: order.orderStatus === "Hoàn tất" ? "rgba(227, 250, 218, 0.5)" : "rgba(201, 240, 255, 0.5)",
                       }}
                       className="order--information--content--status"
                     >
                       <Box className="order--information--content--status--view">
                         <div className="order--information--content--status--view--icon">
-                          <img
-                            className="img-fluid"
-                            src={`https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/order_${
-                              order.orderStatus == "Hoàn tất" ? "green" : "blue"
-                            }.png`}
-                          ></img>
+                          <img className="img-fluid"
+                            src={`https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/order_${order.orderStatus == "Hoàn tất" ? "green" : "blue"}.png`}
+                          />
                         </div>
                         <div className="order--information--content--status--view--text">
                           <strong>Đơn hàng mới</strong>
                           <p>18/06/2024 - 15:02</p>
                         </div>
-                        <Box
-                          sx={{
-                            color: "#2489F4",
-                            textAlign: "center",
-                            fontSize: "2.2rem",
-                          }}
-                        >
+                        <Box sx={{ color: "#2489F4", textAlign: "center", fontSize: "2.2rem" }}>
                           ......
                         </Box>
                       </Box>
                       <Box className="order--information--content--status--view">
                         <div className="order--information--content--status--view--icon">
-                          <img
-                            className="img-fluid"
+                          <img className="img-fluid"
                             src={`https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/process_${
-                              order.orderStatus == "Hoàn tất"
-                                ? "green"
-                                : `${
-                                    order.orderStatus == "Đang chờ xác nhận"
-                                      ? "silver"
-                                      : "blue"
-                                  }`
-                            }.png`}
-                          ></img>
+                              order.orderStatus == "Hoàn tất" ? "green" : `${ order.orderStatus == "Đang chờ xác nhận" ? "silver" : "blue"}` }.png`}
+                          />
                         </div>
                         <div className="order--information--content--status--view--text">
                           <strong>Đang xử lý</strong>
                           <p>18/06/2024 - 15:02</p>
                         </div>
                         <Box
-                          sx={{
-                            color:
-                              order.orderStatus == "Hoàn tất"
-                                ? "#29a72a"
-                                : "#CDCFD0",
+                          sx={{ 
+                            color: order.orderStatus == "Hoàn tất" ? "#29a72a" : "#CDCFD0",
                             textAlign: "center",
                             fontSize: "2.2rem",
                             padding: " 0 2.5rem 1rem",
@@ -177,14 +130,9 @@ const OrderInfomation = () => {
                       </Box>
                       <Box className="order--information--content--status--view">
                         <div className="order--information--content--status--view--icon">
-                          <img
-                            className="img-fluid"
-                            src={`https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/success_${
-                              order.orderStatus == "Hoàn tất"
-                                ? "green"
-                                : "silver"
-                            }.png`}
-                          ></img>
+                          <img className="img-fluid"
+                            src={`https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/success_${ order.orderStatus == "Hoàn tất" ? "green" : "silver" }.png`}
+                          />
                         </div>
                         <div className="order--information--content--status--view--text">
                           <strong>Hoàn tất</strong>
@@ -192,10 +140,7 @@ const OrderInfomation = () => {
                         </div>
                         <Box
                           sx={{
-                            color:
-                              order.orderStatus == "Hoàn tất"
-                                ? "#29a72a"
-                                : "#CDCFD0",
+                            color: order.orderStatus == "Hoàn tất" ? "#29a72a" : "#CDCFD0",
                             textAlign: "center",
                             fontSize: "2.2rem",
                             padding: " 0 2.5rem 1rem",
@@ -205,7 +150,6 @@ const OrderInfomation = () => {
                         </Box>
                       </Box>
                     </Box>
-
                     <div className="order--information--content--box">
                       <div className="order--information--content--box--card">
                         <h4>Thông tin người nhận</h4>
@@ -223,7 +167,7 @@ const OrderInfomation = () => {
                         <p>
                           <span>Tạm tính:</span>
                           <strong>
-                            <Price price={order.totalPrice}></Price>
+                            <Price price={order.totalPrice - 20000}></Price>
                           </strong>
                         </p>
                         <p>
@@ -238,7 +182,6 @@ const OrderInfomation = () => {
                             </strong>
                           </p>
                         )}
-
                         <p>
                           <strong>Tổng số tiền (gồm VAT):</strong>
                           <b>
@@ -442,24 +385,21 @@ const OrderInfomation = () => {
                             <TableRow className="order--information--content--card">
                               <StyledTableCell align="left">
                                 <div className="order--information--content--card--img">
-                                  <img
-                                    className="img--fluid"
-                                    src={orderItem.imageUrl}
-                                  ></img>
+                                  <img className="img--fluid" src={orderItem.imageUrl}/>
                                   <p>{orderItem.product.title}</p>
                                 </div>
                               </StyledTableCell>
                               <StyledTableCell align="center">
                                 <div className="order--information--content--card--price">
-                                  <p>{orderItem.discountedPrice}</p>
-                                  <p>{orderItem.price}</p>
+                                  <p>{orderItem.discountedPrice / orderItem.quantity}</p>
+                                  <p>{orderItem.price / orderItem.quantity}</p>
                                 </div>
                               </StyledTableCell>
                               <StyledTableCell align="center">
                                 x{orderItem.quantity}
                               </StyledTableCell>
                               <StyledTableCell align="center">
-                                {orderItem.discountedPrice * orderItem.quantity}
+                                {orderItem.discountedPrice}
                               </StyledTableCell>
                             </TableRow>
                           ))}
@@ -471,7 +411,7 @@ const OrderInfomation = () => {
                         <p>
                           <span>Tạm tính:</span>
                           <strong>
-                            <Price price={order.totalPrice}></Price>
+                            <Price price={order.totalPrice - 20000}/>
                           </strong>
                         </p>
                         <p>
@@ -772,7 +712,7 @@ const OrderInfomation = () => {
                 <p>
                   <span>Tạm tính:</span>
                   <strong>
-                    <Price price={order.totalPrice}></Price>
+                    <Price price={order.totalPrice - 20000}/>
                   </strong>
                 </p>
                 <p>

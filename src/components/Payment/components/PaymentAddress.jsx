@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Modal, Radio, Typography } from "@mui/material";
+import { Box, Button, Modal, Radio } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { GiPositionMarker } from "react-icons/gi";
 import FormAddress from "../../../layout/FormAddress";
@@ -51,28 +51,25 @@ const style = {
 
 const PaymentAddress = (props) => {
   const {auth} = useSelector(store=> store)
-
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-
   const handleClose = () => {
     setOpen(false);
     setState(false);
   };
-
   const [state, setState] = useState(false);
   const [method, setMethod] = useState({
     title: "",
     address: null,
     type: null,
   });
-
   const [address, setAddress] = useState(null);
   const handleOpenSubmit = (item, title, type) => {
     setState(true);
     setAddress(item);
     setMethod({address: item, title: title, type: type });
   };
+  
   const changeAddress = () => {
     return props.auth.user.address
       .filter((item) => item.state != "Default")
@@ -94,21 +91,16 @@ const PaymentAddress = (props) => {
       </h3>
       {props.address && 
         <div className="payment--address--info">
-        <p>
-          <b>
-            {props.address.name} (+84){" "}
-            {props.address.mobile && props.address.mobile.slice(1)}
-          </b>
-
-          <span>{props.address.city}</span>
-        </p>
-
-        <Button variant="none" onClick={handleOpen}>
-          Thay đổi
-        </Button>
-      </div>
+          <p>
+            <b>Tên: {props.address.name}</b> <br/>
+            <b>Số điện thoại: (+84){props.address.mobile && props.address.mobile.slice(1)}</b> <br/>
+            <b>Địa chỉ: {props.address.city}</b> <br/>
+          </p>
+          <Button variant="none" onClick={handleOpen}>
+            Thay đổi
+          </Button>
+        </div>
       }
-    
       <Modal
         className="modal--address--edit"
         open={open}

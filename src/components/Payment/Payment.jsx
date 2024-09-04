@@ -1,29 +1,14 @@
 import React, { useEffect, useState } from "react";
-
-import {
-  Box,
-  Button,
-  Step,
-  Stepper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-
+import { Box, Button, Step, Stepper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { User } from "../../state/auth/Action";
-import { checkout, createOrder } from "../../state/order/Action";
+import { createOrder } from "../../state/order/Action";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Voucher from "../../layout/Voucher";
 import PaymentQr from "./components/PaymentQr";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import PaymentIcon from "@mui/icons-material/Payment";
-
 import PaymentAddress from "./components/PaymentAddress";
 import FormAddress from "../../layout/FormAddress";
 import { handleGetVouchers } from "../../state/voucher/Action";
@@ -35,9 +20,29 @@ const Payment = () => {
   const navigate = useNavigate()
   const [paymentType, setPaymentType] = useState(false);
   const dispatch = useDispatch();
-
-  const { auth, voucher,order } = useSelector((store) => store);
+  const { auth, voucher, order } = useSelector((store) => store);
   const [selected, setSelected] = useState(-1);
+  const payment = JSON.parse(localStorage.getItem("demo"));
+  const [totolPrice, setTotolPrice] = useState(0)
+  const jwt = localStorage.getItem("jwt");
+
+  useEffect (() => {
+    const totalPrice = payment?.cartItems.reduce((total, cartItem) => {
+      return total + cartItem.discountedPrice;
+    }, 0);
+    setTotolPrice(totalPrice)
+  }, [payment])
+
+  const [address, setAddress] = useState({
+    name: "",
+    mobile: "",
+    province: "",
+    district: "",
+    ward: "",
+    description: "",
+    state: "",
+  });
+
   const isSelectedVoucher = (voucher) => {
     if (voucher.id !== selected.id) {
       setSelected(voucher);
@@ -55,21 +60,13 @@ const Payment = () => {
           100))
     }
   };
-  const payment = JSON.parse(localStorage.getItem("demo"));
-  const [totolPrice, setTotolPrice] = useState(payment && payment.totalDiscountedPrice)
-  const jwt = localStorage.getItem("jwt");
-  const [address, setAddress] = useState({
-    name: "",
-    mobile: "",
-    province: "",
-    district: "",
-    ward: "",
-    description: "",
-    state: "",
-  });
+
   const checkedOutOffline = () => {
     const data = {
-      cart: payment,
+      cart: {...payment,
+        totalDiscountedPrice: totolPrice,
+        totalPrice: totolPrice + 20000
+      },
       address: address,
       paymentMethod: paymentType
         ? "Thanh toán online"
@@ -77,7 +74,6 @@ const Payment = () => {
       discountedPrice: selected != -1 ? selected.discountedPrice : 0,
     };
     dispatch(createOrder(data));
-
   };
 
   useEffect(() => {
@@ -90,7 +86,6 @@ const Payment = () => {
   useEffect(() => {
     if (auth.user && auth.user.address) {
       setAddress(auth.user.address.find((item) => item.state === "Mặc định"));
-
     }
   }, [auth.user]);
 
@@ -117,18 +112,12 @@ const Payment = () => {
               <Typography
                 component="span"
                 sx={{
-                  color:
-                    location.pathname == "/cart" ||
-                    location.pathname == "/payment"
-                      ? "#c62828"
-                      : undefined,
+                  color: location.pathname == "/cart" || location.pathname == "/payment" ? "#c62828" : undefined,
                   fontSize: { lg: "2rem", xs: "1.5rem" },
                 }}
                 className="step__item__lable"
               >
-                <ShoppingCartOutlinedIcon
-                  sx={{ fontSize: "3rem", marginRight: "1rem" }}
-                ></ShoppingCartOutlinedIcon>
+                <ShoppingCartOutlinedIcon sx={{ fontSize: "3rem", marginRight: "1rem" }}/>
                 Giỏ hàng
               </Typography>
             </Step>
@@ -137,14 +126,11 @@ const Payment = () => {
                 component="span"
                 className="step__item__lable"
                 sx={{
-                  color:
-                    location.pathname == "/payment" ? "#c62828" : undefined,
+                  color: location.pathname == "/payment" ? "#c62828" : undefined,
                   fontSize: "2rem",
                 }}
               >
-                <PaymentIcon
-                  sx={{ fontSize: "3rem", marginRight: "1rem" }}
-                ></PaymentIcon>
+                <PaymentIcon sx={{ fontSize: "3rem", marginRight: "1rem" }}/>
                 Đặt Hàng
               </Typography>
             </Step>
@@ -157,31 +143,23 @@ const Payment = () => {
                 }}
                 className="step__item__lable"
               >
-                <CreditScoreIcon
-                  sx={{ fontSize: "3rem", marginRight: "1rem" }}
-                ></CreditScoreIcon>
+                <CreditScoreIcon sx={{ fontSize: "3rem", marginRight: "1rem" }}/>
                 Hoàn Thành Đơn Hàng
               </Typography>
             </Step>
           </Stepper>
           {jwt ? (
-            <PaymentAddress
-              address={address}
-              setAddress={setAddress}
-            ></PaymentAddress>
+            <PaymentAddress address={address} setAddress={setAddress}/>
           ) : (
-            <FormAddress
-              address={address}
-              title={"Thông tin nhận hàng"}
-            ></FormAddress>
+            <FormAddress address={address} title={"Thông tin nhận hàng"}/>
           )}
-
           <div className="payment__method">
-            Phương thức thanh toán
+            <p style={{fontSize: "16px", marginLeft: "6px"}}>Phương thức thanh toán</p>
             <Button
               variant={paymentType ? "contained" : "outlined"}
               color="error"
               onClick={() => setPaymentType(true)}
+              style={{fontSize: "12px"}}
             >
               Thanh toán online
             </Button>
@@ -189,6 +167,7 @@ const Payment = () => {
               variant={!paymentType ? "contained" : "outlined"}
               color="error"
               onClick={() => setPaymentType(false)}
+              style={{fontSize: "12px"}}
             >
               Thanh toán khi nhận hàng
             </Button>
@@ -200,7 +179,6 @@ const Payment = () => {
                   <TableRow>
                     <TableCell align="left">Sản phẩm</TableCell>
                     <TableCell align="center">Đơn giá</TableCell>
-
                     <TableCell align="center">Số lượng</TableCell>
                     <TableCell align="center">Thành tiền</TableCell>
                   </TableRow>
@@ -209,27 +187,21 @@ const Payment = () => {
                   {payment.cartItems.map((orderItem, index) => (
                     <TableRow key={index}>
                       <TableCell className="d-flex" align="left">
-                        <img
-                          className="img-fluid"
-                          src={orderItem.imageUrl}
-                        ></img>
-                        <div className="options">
-                          <p>{orderItem.product.title}</p>
-                          <p>
-                            {orderItem.color} /{orderItem.size}
-                          </p>
+                        <img className="img-fluid" src={orderItem.imageUrl}/>
+                        <div className="d-flex align-items-center" style={{marginLeft: "10px"}}>
+                          <div>
+                            <p style={{marginBottom: 0}}>{orderItem.product.title}</p>
+                            <p style={{marginBottom: 0}}> Màu: {orderItem.color}</p>
+                            <p style={{marginBottom: 0}}> Kích thước: {orderItem.size}</p>
+                          </div>
                         </div>
                       </TableCell>
                       <TableCell align="center">
                         <p><Price price={orderItem.product.price}></Price></p>
                         <p><Price price={orderItem.product.discountedPrice}></Price></p>
                       </TableCell>
-
                       <TableCell align="center">{orderItem.quantity}</TableCell>
-                      <TableCell align="center">
-                      <Price price={orderItem.discountedPrice}></Price>
-       
-                      </TableCell>
+                      <TableCell align="center"><Price price={orderItem.discountedPrice}/></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -243,7 +215,7 @@ const Payment = () => {
                 key={index}
                 selected={selected}
                 isSelectedVoucher={isSelectedVoucher}
-              ></Voucher>
+              />
             ))}
           </div>
         </Box>
@@ -260,18 +232,16 @@ const Payment = () => {
                 <span>Tổng thanh toán</span>
               </p>
               <p>
-                <span><Price price={payment.totalDiscountedPrice}></Price></span>
-                <span><Price price={20000}></Price></span>
+                <span><Price price={totolPrice}/></span>
+                <span><Price price={20000}/></span>
                 {selected != -1 && (
-                  <span>- <Price price={selected.discountedPrice}></Price></span>
+                  <span>- <Price price={selected.discountedPrice}/></span>
                 )}
-                <span>
-                <Price price={totolPrice}></Price>
-                </span>
+                <span><Price price={totolPrice + 20000}/></span>
               </p>
             </div>
           </Box>
-          <hr></hr>
+          <hr/>
           <div className="payment__price__order">
             <p>
               Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuần theo{" "}

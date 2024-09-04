@@ -1,35 +1,16 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  Step,
-  Stepper,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel, Grid, Step, Stepper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createCartItem,
-  getCarts,
-  removeItemToCart,
-  updateItemTOCart,
-} from "../../state/cart/Action";
+import { createCartItem, getCarts, removeItemToCart, updateItemTOCart } from "../../state/cart/Action";
 import { Link, useLocation } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import PaymentIcon from "@mui/icons-material/Payment";
 import { Price } from "../../config/config";
+
 const Cart = () => {
   const [selectedCartItems, setSelectedCartItems] = useState(false);
   const [selected, setSelected] = useState([]);
-
   const location = useLocation();
   const [totalItem, setTotalItem] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -37,7 +18,9 @@ const Cart = () => {
   const jwt = localStorage.getItem("jwt");
   const dispatch = useDispatch();
   const { cart, auth } = useSelector((store) => store);
-  // Select Cart Item
+
+  console.log(cart)
+
   const isSelected = (event, cartItem) => {
     const index = selected.findIndex(
       (item) => item.id === parseInt(event.target.value)
@@ -45,13 +28,17 @@ const Cart = () => {
     if (index === -1) {
       setSelected([...selected, cartItem]);
       setTotalItem(totalItem + 1);
-      setTotalPrice(totalPrice + cartItem.discountedPrice * cartItem.quantity);
+      let total = totalPrice + cartItem.discountedPrice
+      console.log(cartItem.discountedPrice)
+      console.log(cartItem.quantity)
+      setTotalPrice(total);
     } else {
       setSelected((selected) =>
         selected.filter((item) => item.id !== parseInt(event.target.value))
       );
       setTotalItem(totalItem - 1);
-      setTotalPrice(totalPrice - cartItem.discountedPrice * cartItem.quantity);
+      let total = totalPrice - cartItem.discountedPrice
+      setTotalPrice(total);
     }
   };
 
@@ -64,7 +51,7 @@ const Cart = () => {
       setSelected(cart.cart.cartItems);
       let price = 0;
       cart.cart.cartItems.forEach((item) => {
-        price += item.discountedPrice * item.quantity;
+        price += item.discountedPrice;
       });
       setTotalPrice(price);
       setTotalItem(cart.cart.cartItems.length);
@@ -72,7 +59,6 @@ const Cart = () => {
     setSelectedCartItems(!selectedCartItems);
   };
 
-  // Delete Cart Item
   const deleteHandleCartItem = () => {
     let cartItemIds = [];
     selected.forEach((item) => {
@@ -81,12 +67,11 @@ const Cart = () => {
     dispatch(removeItemToCart(cartItemIds));
     setTotalItem(cart.cart.totalItem - selected.length);
     selected.forEach((item) => {
-      totalPrice -= item.discountedPrice * item.quantity;
+      totalPrice -= item.discountedPrice;
     });
     setTotalPrice(totalPrice);
   };
 
-  // Increase or Decrease quantity
   const updateCartItem = (active, cartItem) => {
     if (active === "-") {
       dispatch(
@@ -105,7 +90,6 @@ const Cart = () => {
     }
   };
 
-  // Add item to payment
   const createCheckOut = () => {
     dispatch(createCartItem({ cartItems: selected }));
   };
@@ -127,17 +111,12 @@ const Cart = () => {
           <Typography
             component="span"
             sx={{
-              color:
-                location.pathname == "/cart" || location.pathname == "/payment"
-                  ? "#c62828"
-                  : undefined,
+              color: location.pathname == "/cart" || location.pathname == "/payment" ? "#c62828" : undefined,
               fontSize: "2rem",
             }}
             className="step__item__lable"
           >
-            <ShoppingCartOutlinedIcon
-              sx={{ fontSize: "3rem", marginRight: "1rem" }}
-            ></ShoppingCartOutlinedIcon>
+            <ShoppingCartOutlinedIcon sx={{ fontSize: "3rem", marginRight: "1rem" }} />
             Giỏ hàng
           </Typography>
         </Step>
@@ -150,9 +129,7 @@ const Cart = () => {
               fontSize: "2rem",
             }}
           >
-            <PaymentIcon
-              sx={{ fontSize: "3rem", marginRight: "1rem" }}
-            ></PaymentIcon>
+            <PaymentIcon sx={{ fontSize: "3rem", marginRight: "1rem" }} />
             Đặt Hàng
           </Typography>
         </Step>
@@ -165,14 +142,11 @@ const Cart = () => {
             }}
             className="step__item__lable"
           >
-            <CreditScoreIcon
-              sx={{ fontSize: "3rem", marginRight: "1rem" }}
-            ></CreditScoreIcon>
+            <CreditScoreIcon sx={{ fontSize: "3rem", marginRight: "1rem" }} />
             Hoàn Thành Đơn Hàng
           </Typography>
         </Step>
       </Stepper>
-
       {cart.cart && cart.cart.cartItems && cart.cart.cartItems.length > 0 ? (
         <div>
           <Table
@@ -181,7 +155,7 @@ const Cart = () => {
           >
             <TableHead className="cart-table-head">
               <TableRow>
-                <TableCell align="center"></TableCell>
+                <TableCell align="center" />
                 <TableCell
                   align="left"
                   sx={{ width: { xl: "65%", lg: "60%", md: "55%" } }}
@@ -191,14 +165,13 @@ const Cart = () => {
                 <TableCell align="center" width={"30%"}>
                   Số lượng
                 </TableCell>
-
                 <TableCell align="center">Thành tiền</TableCell>
               </TableRow>
             </TableHead>
             <TableBody className="cart-table-body">
               {cart.cart &&
                 cart.cart.cartItems != null &&
-                cart.cart.cartItems.map((cartItem, index) => (
+                cart.cart.cartItems.sort((a, b) => a.id - b.id).map((cartItem, index) => (
                   <TableRow key={index}>
                     <TableCell>
                       <Checkbox
@@ -207,28 +180,19 @@ const Cart = () => {
                           .map((item) => item.id)
                           .includes(cartItem.id)}
                         onChange={(e) => isSelected(e, cartItem)}
-                      ></Checkbox>
+                      />
                     </TableCell>
                     <TableCell align="left" className="d-flex">
-                      <div className="cart-table-body-img">
-                        <img
-                          className="img-fluid"
-                          src={cartItem.imageUrl}
-                        ></img>
+                      <div className="cart-table-body-img d-flex align-items-center">
+                        <img className="img-fluid" src={cartItem.imageUrl} />
                       </div>
                       <div className="cart-text ms-3">
                         <p>{cartItem.product.title}</p>
-                        <p>
-                          Color:<strong> {cartItem.color} </strong>
-                        </p>
-                        <p>
-                          Size: <strong> {cartItem.size}</strong>
-                        </p>
+                        <p>Color:<strong> {cartItem.color} </strong></p>
+                        <p>Size: <strong> {cartItem.size}</strong></p>
                         <p>
                           <span className="cart--item--discountedPrice">
-                            <Price
-                              price={cartItem.product.discountedPrice}
-                            ></Price>
+                            <Price price={cartItem.product.discountedPrice} />
                           </span>
                           <span className="cart--item--price">
                             <Price price={cartItem.product.price}></Price>
@@ -237,21 +201,11 @@ const Cart = () => {
                       </div>
                     </TableCell>
                     <TableCell align="center">
-                      <Box
-                        className="cart-table-body-quantity"
-                        sx={{
-                          width: "50%",
-                          margin: "0 auto",
-                        }}
-                      >
+                      <Box className="cart-table-body-quantity" sx={{ width: "50%", margin: "0 auto" }}>
                         <button onClick={() => updateCartItem("-", cartItem)}>
                           -
                         </button>
-                        <input
-                          type="text"
-                          className="cart-table-body-input"
-                          value={cartItem.quantity}
-                        ></input>
+                        <input type="text" className="cart-table-body-input" value={cartItem.quantity} />
                         <button onClick={() => updateCartItem("+", cartItem)}>
                           +
                         </button>
@@ -259,121 +213,37 @@ const Cart = () => {
                     </TableCell>
                     <TableCell align="center">
                       <span className="cart--item--totalPrice">
-                        <Price
-                          price={
-                            cartItem.quantity * cartItem.product.discountedPrice
-                          }
-                        ></Price>
+                        <Price price={cartItem.quantity * cartItem.product.discountedPrice} />
                       </span>
                     </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
           </Table>
-          <Box sx={{ display: { md: "none" } }}>
-            <Grid container spacing={1} sx={{ fontSize: "2rem" }}>
-              <Grid item xs={1}></Grid>
-              <Grid item sm={3} xs={4}>
-                <p>Thông tin sản phẩm</p>
-              </Grid>
-              <Grid item sm={2.8} xs={4}></Grid>
-              <Grid item sm={3.2}>
-                <Typography
-                  sx={{ display: { xs: "none", md: "block" } }}
-                  component={"p"}
-                >
-                  Số lượng
-                </Typography>
-              </Grid>
-            </Grid>
-            {cart.cart.cartItems &&
-              cart.cart.cartItems.map((cartItem) => (
-                <div className="mobile--cart--item">
-                  <input
-                    type="checkbox"
-                    value={cartItem.id}
-                    checked={selected
-                      .map((item) => item.id)
-                      .includes(cartItem.id)}
-                    onChange={(e) => isSelected(e, cartItem)}
-                  ></input>
-
-                  <div className="cart-table-body-img">
-                    <img className="img-fluid" src={cartItem.imageUrl}></img>
-                  </div>
-
-                  <div>
-                    <div className="cart-text ms-2">
-                      <p>{cartItem.product.title}</p>
-                      <p>
-                        Color:<strong> {cartItem.color} </strong>
-                        Size: <strong> {cartItem.size}</strong>
-                      </p>
-                      <p>
-                        <span className="cart--item--discountedPrice">
-                          <Price price={cartItem.discountedPrice}></Price>
-                        </span>
-                        <span className="cart--item--price">
-                          <Price price={cartItem.price}></Price>
-                        </span>
-                      </p>
-                    </div>
-                    <Box
-                      sx={{
-                        display: { xs: "block", md: "none" },
-                        justifyContent: "start",
-                        alignItems: "center",
-                      }}
-                      className="cart-table-body-quantity"
-                    >
-                      <button onClick={() => updateCartItem("-", cartItem)}>
-                        -
-                      </button>
-                      <input
-                        type="text"
-                        className="cart-table-body-input"
-                        value={cartItem.quantity}
-                      ></input>
-                      <button onClick={() => updateCartItem("+", cartItem)}>
-                        +
-                      </button>
-                    </Box>
-                  </div>
-                </div>
-              ))}
-          </Box>
           <div className="cart-payment">
             <div className="d-flex justify-content-between">
               <FormControlLabel
                 label="Chọn tất cả"
                 control={
-                  <Checkbox
-                    checked={selectedCartItems}
-                    onClick={isSelectedAll}
-                  ></Checkbox>
+                  <Checkbox checked={selectedCartItems} onClick={isSelectedAll} hidden/>
                 }
-              ></FormControlLabel>
-              <Button onClick={() => deleteHandleCartItem()}>Xóa</Button>
+              />
+              <Button onClick={() => deleteHandleCartItem()} color="error" style={{ fontSize: "14px", marginRight: "5px" }}>Xóa</Button>
               <Typography sx={{ marginTop: "1rem!important" }}>
                 Tổng thanh toán ({totalItem} sản phẩm)
               </Typography>
               <Typography>
+                Tổng:
                 <strong>
-                  <Price price={totalPrice}></Price>
+                  <Price price={totalPrice} />
                 </strong>
-
                 <p>
                   Tiết kiệm:
                   <strong>
                     <sup>&#273;</sup>
-                    {selected.length > 0
-                      ? selected.reduce(
-                          (acc, curr) =>
-                            acc + (curr.price - curr.discountedPrice),
-                          0
-                        )
-                      : 0}
-                    k
+                    {selected.length > 0 ?
+                      selected.reduce((acc, curr) => acc + (curr.price - curr.discountedPrice), 0) : 0
+                    }
                   </strong>
                 </p>
               </Typography>
@@ -469,7 +339,6 @@ const Cart = () => {
               </svg>
             </Box>
           </Box>
-
           <h5>Không có sản phẩm nào trong giỏ hàng của bạn</h5>
         </div>
       )}
