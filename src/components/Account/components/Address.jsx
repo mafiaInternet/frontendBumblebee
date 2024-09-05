@@ -145,6 +145,7 @@ const Address = () => {
             <FormAddress
               type="create"
               handleClose={() => setOpenCreate(false)}
+              setOpenEdit={setOpenEdit}
               title='Thêm mới địa chỉ'
               address={{}} // Passing empty address for creation
             />

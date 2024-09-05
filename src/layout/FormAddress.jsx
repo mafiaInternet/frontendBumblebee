@@ -58,15 +58,21 @@ const FormAddress = (props) => {
       description: address.desc,
       state: address.state ? "Mặc định" : "",
     };
-    if (props.type === "create") {
-      dispatch(addAddress(request));
-    } else if (props.type === "update") {
-      dispatch(updateAddressByUser({
-        addressId: props.address.id,
-        responseData: request,
-      }));
+    // if (props.type === "create") {
+    //   dispatch(addAddress(request));
+    // } else if (props.type === "update") {
+    //   dispatch(updateAddressByUser({
+    //     addressId: props.address.id,
+    //     responseData: request,
+    //   }));
+    // }
+    const checked = Object.values(request).every(value => value !== "")
+    if(checked == true){
+      props.handleClose()
+
+    }else{
+      alert("Thành phần bắt buộc")
     }
-    props.setOpenEdit(false);
   };
 
   const handleGetApiAddress = async (event) => {

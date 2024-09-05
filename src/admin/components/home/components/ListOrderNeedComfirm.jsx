@@ -14,8 +14,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import CheckIcon from "@mui/icons-material/Check";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { getOrderById } from "../../../../state/order/Action";
-import { statusOrderHandler } from "../../../state/action/OrderAction";
+import { getOrderById, putStatusOrderByAdmin } from "../../../../state/order/Action";
+
 const head = [
   "Khách hàng",
   "Ngày đặt hàng",
@@ -31,7 +31,7 @@ const ListOrderNeedComfirm = (props) => {
 
   const handleStatusOrder = (orderId) => {
     dispatch(
-      statusOrderHandler({
+      putStatusOrderByAdmin({
         orderId: orderId,
         status: "Đã xác nhận",
       })

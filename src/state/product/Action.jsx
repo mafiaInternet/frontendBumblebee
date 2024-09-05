@@ -1,4 +1,3 @@
-import axios from "axios";
 import { api, apiBase } from "../../config/apiConfig";
 import {
   CREATE_PRODUCT_FAILURE,
@@ -37,6 +36,18 @@ import {
 } from "./ActionType";
 import { toast } from "react-toastify";
 
+// USER && ADMIN
+
+export const getProducts = () => async (dispatch) => {
+  dispatch({ type: GET_PRODUCT_REQUEST });
+  try {
+    const { data } = await apiBase.get(`/products/all`);
+
+    dispatch({ type: GET_PRODUCT_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: GET_PRODUCT_FAILURE, payload: error.message });
+  }
+};
 
 export const findProductsById = (req) => async (dispatch) => {
   dispatch({ type: FIND_PRODUCT_BY_ID_REQUEST });
@@ -64,38 +75,6 @@ export const findProductsByCategory = (req) => async (dispatch) => {
   }
 };
 
-export const getProducts = () => async (dispatch) => {
-  dispatch({ type: GET_PRODUCT_REQUEST });
-  try {
-    const { data } = await apiBase.get(`/products/all`);
-
-    dispatch({ type: GET_PRODUCT_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: GET_PRODUCT_FAILURE, payload: error.message });
-  }
-};
-
-export const deleteProductById = (req) => async (dispatch) => {
-  dispatch({ type: DELETE_PRODUCT_BY_ID_REQUEST });
-  try {
-    const { data } = await api.delete(`/api/admin/products/${req}/delete`);
-    dispatch({ type: DELETE_PRODUCT_BY_ID_SUCCESS, payload: req });
-  } catch (error) {
-    dispatch({ type: DELETE_PRODUCT_BY_ID_FAILURE, payload: error.message });
-  }
-};
-
-export const createProduct = (req) => async (dispatch) => {
-  dispatch({ type: CREATE_PRODUCT_REQUEST });
-  try {
-    const { data } = await api.post("/api/admin/products/create", req);
-    toast.success("Thêm sản phẩm mới thành công !!!")
-    dispatch({ type: CREATE_PRODUCT_SUCCESS, payload: data });
-  } catch (error) {
-    toast.error("Thêm sản phẩm mới thất bại !!!")
-    dispatch({ type: CREATE_PRODUCT_FAILURE, payload: error.message });
-  }
-};
 
 export const getProductsByCategoryNew = () => async (dispatch) => {
   dispatch({ type: GET_PRODUCTS_NEW_BY_CATEGORY_REQUEST });
@@ -167,5 +146,29 @@ export const findProductFilter = (req) => async (dispatch) => {
     dispatch({ type: FIND_PRODUCT_FILTER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: FIND_PRODUCT_FILTER_FAILURE, payload: error.message });
+  }
+};
+
+// ADMIN
+
+export const deleteProductById = (req) => async (dispatch) => {
+  dispatch({ type: DELETE_PRODUCT_BY_ID_REQUEST });
+  try {
+    const { data } = await api.delete(`/api/admin/products/${req}/delete`);
+    dispatch({ type: DELETE_PRODUCT_BY_ID_SUCCESS, payload: req });
+  } catch (error) {
+    dispatch({ type: DELETE_PRODUCT_BY_ID_FAILURE, payload: error.message });
+  }
+};
+
+export const createProduct = (req) => async (dispatch) => {
+  dispatch({ type: CREATE_PRODUCT_REQUEST });
+  try {
+    const { data } = await api.post("/api/admin/products/create", req);
+    toast.success("Thêm sản phẩm mới thành công !!!")
+    dispatch({ type: CREATE_PRODUCT_SUCCESS, payload: data });
+  } catch (error) {
+    toast.error("Thêm sản phẩm mới thất bại !!!")
+    dispatch({ type: CREATE_PRODUCT_FAILURE, payload: error.message });
   }
 };

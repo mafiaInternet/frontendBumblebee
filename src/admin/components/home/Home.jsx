@@ -2,15 +2,11 @@ import { Box, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../../state/product/Action";
-import { getOrdersAll } from "../../../state/order/Action";
+import {getOrdersByAdmin, getOrderTopMonth, getOrderTopWeek, getOrderTopYear } from "../../../state/order/Action";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
-import {
-  getOrderTopMonth,
-  getOrderTopWeek,
-  getOrderTopYear,
-} from "../../state/action/OrderAction";
+
 import ChartHome from "./components/ChartHome";
 import ListOrderNeedComfirm from "./components/ListOrderNeedComfirm";
 import { Price } from "../../../config/config";
@@ -21,14 +17,8 @@ const Home = () => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    console.log("products", products);
-    console.log("order", order);
-    console.log("customer", customer);
-  }, [products, order, customer]);
-
-  useEffect(() => {
     dispatch(getProducts());
-    dispatch(getOrdersAll());
+    dispatch(getOrdersByAdmin());
     dispatch(getOrderTopWeek());
     dispatch(getOrderTopMonth());
     dispatch(getOrderTopYear());

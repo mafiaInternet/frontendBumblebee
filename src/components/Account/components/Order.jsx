@@ -7,7 +7,7 @@ import OrderCard from "./OrderCard";
 import { Tabs } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getOrderByUser } from "../../../state/order/Action";
+import { getOrdersByUser } from "../../../state/order/Action";
 import { Link } from "react-router-dom";
 
 const orderStatus = [
@@ -28,7 +28,7 @@ export default function Order() {
     setValue(newValue);
   };
   useEffect(() => {
-    dispatch(getOrderByUser());
+    dispatch(getOrdersByUser());
   }, [dispatch]);
 
   return (

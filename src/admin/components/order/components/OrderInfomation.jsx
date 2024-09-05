@@ -12,8 +12,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { statusOrderHandler } from "../../../state/action/OrderAction";
-import { getOrderById } from "../../../../state/order/Action";
+import { getOrderById, putStatusOrderByAdmin } from "../../../../state/order/Action";
 import { useParams } from "react-router-dom";
 import { Price } from "../../../../config/config";
 
@@ -72,7 +71,7 @@ const OrderInfomation = () => {
   const handleOrderStatus = (event) => {
     setStatus(event.target.value);
     dispatch(
-      statusOrderHandler({
+      putStatusOrderByAdmin({
         orderId: order.order.id,
         status: event.target.value,
       })

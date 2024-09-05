@@ -4,20 +4,16 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import {
-  deleteOrder,
-  getOrdersAll,
-  statusOrderHandler,
-} from "../../../state/action/OrderAction";
+
 import { Box, Grid, Modal } from "@mui/material";
+import { getOrdersByAdmin } from "../../../../state/order/Action";
 
 const StatusOrders = [
   "PENDING",
@@ -66,7 +62,7 @@ const Order = () => {
   const handleClose = () => setOpen({ id: null, status: false });
   console.log(open);
   useEffect(() => {
-    dispatch(getOrdersAll());
+    dispatch(getOrdersByAdmin());
   }, [dispatch]);
 
   const handleDeleteOrderById = (orderId) => {
@@ -84,14 +80,13 @@ const Order = () => {
     console.log("abc");
 
     setAnchorEl(null);
-    console.log(event);
     setStatus(event.target.innerText);
 
     // dispatch(
     //   statusOrderHandler({ status: event.target.innerText, orderId: orderId })
     // );
   };
-  console.log(order);
+
 
   return (
     <div className="order">

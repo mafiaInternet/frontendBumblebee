@@ -1,11 +1,12 @@
-import { DELETE_CUSTOMER_FAILURE, DELETE_CUSTOMER_REQUEST, DELETE_CUSTOMER_SUCCESS, EDIT_USER_BY_ADMIN_FAILURE, EDIT_USER_BY_ADMIN_REQUEST, EDIT_USER_BY_ADMIN_SUCCESS, FIND_USER_BY_EMAIL_FAILURE, FIND_USER_BY_EMAIL_REQUEST, FIND_USER_BY_EMAIL_SUCCESS, GET_CUSTOMERS_FAILURE, GET_CUSTOMERS_REQUEST, GET_CUSTOMERS_SUCCESS, GET_USER_BY_ID_FAILURE, GET_USER_BY_ID_REQUEST, GET_USER_BY_ID_SUCCESS } from "../type/CustomerType"
-import { api } from "../../../config/apiConfig"
+
+import { api } from "../../config/apiConfig"
+import { DELETE_CUSTOMER_FAILURE, DELETE_CUSTOMER_REQUEST, DELETE_CUSTOMER_SUCCESS, EDIT_USER_BY_ADMIN_FAILURE, EDIT_USER_BY_ADMIN_REQUEST, EDIT_USER_BY_ADMIN_SUCCESS, FIND_USER_BY_EMAIL_FAILURE, FIND_USER_BY_EMAIL_REQUEST, FIND_USER_BY_EMAIL_SUCCESS, GET_CUSTOMERS_FAILURE, GET_CUSTOMERS_REQUEST, GET_CUSTOMERS_SUCCESS, GET_USER_BY_ID_FAILURE, GET_USER_BY_ID_REQUEST, GET_USER_BY_ID_SUCCESS } from "./ActionType"
 
 
-export const getCustomerAll  = () => async (dispatch)=> {
+export const getCustomers  = () => async (dispatch)=> {
     dispatch({type: GET_CUSTOMERS_REQUEST})
     try{
-        const {data} = await api.get('/api/admin/customers/all')
+        const {data} = await api.get('/api/admin/customers/')
         console.log(data)
         dispatch({type: GET_CUSTOMERS_SUCCESS, payload: data})
     }catch(error){

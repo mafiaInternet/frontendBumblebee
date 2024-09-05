@@ -7,12 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteCustomerById,
-  findUserByEmail,
-  getCustomerAll,
-  getUserById,
-} from "../../../state/action/CustomerAction";
+
 import moment from "moment";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,6 +15,12 @@ import EditNoteSharpIcon from "@mui/icons-material/EditNoteSharp";
 import Switch from "@mui/material/Switch";
 import AddCustomer from "./AddCustomer";
 import { Link } from "react-router-dom";
+import {
+  deleteCustomerById,
+  findUserByEmail,
+  getCustomers,
+  getUserById,
+} from "../../../../state/customer/Actions";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -85,15 +86,18 @@ const ListCustomers = () => {
   const { customer } = useSelector((store) => store);
   const [select, setSelect] = useState();
   const [openDeleteHandle, setOpenDeleteHandle] = React.useState(false);
+
   const handleOpenDelete = (userId) => {
     setOpenDeleteHandle(true);
     setSelect(userId);
   };
+
   const handleCloseDelete = () => setOpenDeleteHandle(false);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [users, setUsers] = useState([]);
+
   const handleFilterUser = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -108,7 +112,7 @@ const ListCustomers = () => {
 
   useEffect(() => {
     if (!customer.customers || customer.customers.length === 0) {
-      dispatch(getCustomerAll());
+      dispatch(getCustomers());
     } else {
       setUsers(customer.customers);
     }

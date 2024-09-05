@@ -4,11 +4,11 @@ import { authReducer } from "./auth/Reducer";
 import { customerProductReducer } from "./product/Reducer";
 import { cartReducer } from "./cart/Reducer";
 import { orderReducer } from "./order/Reducer";
-import { customerReducer } from "../admin/state/reducer/CustomerReducer";
 import { reviewReducer } from "./review/Reducer";
 import { addressReducer } from "./address/Reducer";
 import {categoryReducer} from "./category/Reducer"
 import { voucherReducer } from "./voucher/Reducer";
+import { customerReducer } from "./customer/Reducer";
 
 const rootReducers = combineReducers({
 
@@ -22,7 +22,6 @@ const rootReducers = combineReducers({
     category: categoryReducer,
     voucher: voucherReducer
 })
-// export type RootState = ReturnType<typeof store.getState>
-// export type AppDispatch = typeof store.dispatch
+
 export const store = legacy_createStore(rootReducers, applyMiddleware(thunk));
 

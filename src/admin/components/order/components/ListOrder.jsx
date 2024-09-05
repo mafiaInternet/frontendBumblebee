@@ -15,8 +15,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrdersAll } from "../../../state/action/OrderAction";
-import { getOrderById } from "../../../../state/order/Action";
+import { getOrderById, getOrdersByAdmin } from "../../../../state/order/Action";
 import { Link } from "react-router-dom";
 
 const head = [
@@ -109,7 +108,7 @@ const ListOrder = () => {
   };
 
   useEffect(() => {
-    dispatch(getOrdersAll());
+    dispatch(getOrdersByAdmin());
   }, [dispatch]);
   useEffect(() => {
     setOrders(order.orders);

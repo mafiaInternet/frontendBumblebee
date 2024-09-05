@@ -13,7 +13,7 @@ import ListProduct from "./components/product/ListProduct";
 import { useDispatch, useSelector } from "react-redux";
 import Customers from "./components/user/Customers";
 import Orders from "./components/order/Orders";
-import Demo from "./components/product/Demo";
+import AddProduct from "./components/product/AddProduct";
 import HomeIcon from "@mui/icons-material/Home";
 import { GetAdmin, Logout } from "../state/auth/Action";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
@@ -170,10 +170,10 @@ const Admin = () => {
               path="/product"
               element={<ListProduct></ListProduct>}
             ></Route>
-            <Route path="/product/create" element={<Demo></Demo>}></Route>
+            <Route path="/product/create" element={<AddProduct></AddProduct>}></Route>
             <Route
               path="/product/:productId/edit"
-              element={<Demo></Demo>}
+              element={<AddProduct></AddProduct>}
             ></Route>
             <Route
               path="/voucher"

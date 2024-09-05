@@ -12,7 +12,8 @@ import {
 } from "chart.js";
 import { Box, Button, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrderTotalQuantityOfYear, getOrderTotalPriceOfYear } from "../../../state/action/OrderAction";
+import { getOrderTotalPriceOfYear, getOrderTotalQuantityOfYear } from "../../../../state/order/Action";
+
 
 ChartJS.register(
   CategoryScale,
