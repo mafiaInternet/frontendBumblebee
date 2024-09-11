@@ -91,7 +91,8 @@ const Address = () => {
                     <Typography variant="body1">
                       <span style={{ fontSize: "16px" }}>{item.name}</span> | {item.mobile}
                     </Typography>
-                    <Typography variant="body2">{item.city}</Typography>
+                    <Typography variant="body2">{item.province} - {item.district} - {item.ward}</Typography>
+                    <Typography variant="body2">Địa chỉ cụ thể: {item.description}</Typography>
                     {item.state && (
                       <Typography
                         component="span"
