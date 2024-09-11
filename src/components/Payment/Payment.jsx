@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Step, Stepper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Step, Stepper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Checkbox } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { User } from "../../state/auth/Action";
 import { createOrder } from "../../state/order/Action";
@@ -25,10 +25,12 @@ const Payment = () => {
   const payment = JSON.parse(localStorage.getItem("demo"));
   const [totolPrice, setTotolPrice] = useState(0)
   const jwt = localStorage.getItem("jwt");
+  const [totalPoint, setTotalPoint] = useState(1000);
+  const [statusPoint, setStatusPoint] = useState(false);
 
   useEffect (() => {
     const totalPrice = payment?.cartItems.reduce((total, cartItem) => {
-      return total + cartItem.discountedPrice;
+      return total + cartItem.discountedPrice - totalPoint;
     }, 0);
     setTotolPrice(totalPrice)
   }, [payment])
@@ -153,24 +155,44 @@ const Payment = () => {
           ) : (
             <FormAddress address={address} title={"Thông tin nhận hàng"}/>
           )}
-          <div className="payment__method">
-            <p style={{fontSize: "16px", marginLeft: "6px"}}>Phương thức thanh toán</p>
-            <Button
-              variant={paymentType ? "contained" : "outlined"}
-              color="error"
-              onClick={() => setPaymentType(true)}
-              style={{fontSize: "12px"}}
-            >
-              Thanh toán online
-            </Button>
-            <Button
-              variant={!paymentType ? "contained" : "outlined"}
-              color="error"
-              onClick={() => setPaymentType(false)}
-              style={{fontSize: "12px"}}
-            >
-              Thanh toán khi nhận hàng
-            </Button>
+          <div className="payment__method" style={{padding: "15px 0px"}}>
+            <div style={{paddingLeft: "15px"}}>
+              <p style={{fontSize: "18px", marginLeft: "2px", fontWeight: "600"}}>Phương thức thanh toán</p>
+            </div>
+            <hr/>
+            <div style={{paddingLeft: "15px", paddingTop: "5px"}}>
+              <Button
+                variant={paymentType ? "contained" : "outlined"}
+                color="error"
+                onClick={() => setPaymentType(true)}
+                style={{fontSize: "12px"}}
+              >
+                Thanh toán online
+              </Button>
+              <Button
+                variant={!paymentType ? "contained" : "outlined"}
+                color="error"
+                onClick={() => setPaymentType(false)}
+                style={{fontSize: "12px"}}
+              >
+                Thanh toán khi nhận hàng
+              </Button>
+            </div>
+          </div>
+          <div className="payment__method" style={{padding: "15px 0px"}}>
+            <div style={{paddingLeft: "15px"}}>
+              <p style={{fontSize: "18px", marginLeft: "2px", fontWeight: "600"}}>Thành viên Bumblebee</p>
+            </div>
+            <hr/>
+            <Box sx={{ pl: 2, pt: 1 }}>
+              <Typography variant="body1" style={{paddingLeft: "9px", fontSize: "16px"}}>
+                Số F-Point hiện có: <span style={{color: "blue", fontSize: "16px"}}>{totalPoint}</span>
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+                <Checkbox onChange={() => setStatusPoint(!statusPoint)} />
+                <Typography variant="body2" style={{fontSize: "16px"}}>Sử dụng F-Point để thanh toán</Typography>
+              </Box>
+            </Box>
           </div>
           <div className="payment__orders">
             <TableContainer>
@@ -228,16 +250,16 @@ const Payment = () => {
               <p>
                 <span>Tổng tiền hàng</span>
                 <span>Phí vận chuyển</span>
-                {selected != -1 && <span>Giảm giá từ voucher</span>}
+                {statusPoint && <span>Giảm giá F-Point</span>}
                 <span>Tổng thanh toán</span>
               </p>
               <p>
                 <span><Price price={totolPrice}/></span>
                 <span><Price price={20000}/></span>
-                {selected != -1 && (
-                  <span>- <Price price={selected.discountedPrice}/></span>
+                {statusPoint && (
+                  <span>- <Price price={totalPoint}/></span>
                 )}
-                <span><Price price={totolPrice + 20000}/></span>
+                <span><Price price={statusPoint ? totolPrice + 20000 - totalPoint : totolPrice + 20000}/></span>
               </p>
             </div>
           </Box>
