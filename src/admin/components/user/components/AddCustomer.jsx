@@ -44,17 +44,6 @@ export default function AddCustomer() {
               }}
             />
           </Grid>
-         <Grid item xs={12}>
-          <TextField id="birthday" name="birthday" label="Ngày sinh" fullWidth
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <PermContactCalendarIcon fontSize="large"/>
-                </InputAdornment>
-              ),
-            }}
-          />
-         </Grid>
           <Grid item xs={12}>
             <TextField required id="phone" name="phone" label="Số điện thoại" fullWidth
               InputProps={{

@@ -175,15 +175,6 @@ const ListCustomers = () => {
                   </StyledTableCell>
                   <StyledTableCell align="left">{item.role}</StyledTableCell>
                   <StyledTableCell align="left">
-                    <Link
-                      to="/admin/user/edit"
-                      onClick={() => dispatch(getUserById(item.id))}
-                    >
-                      <EditNoteSharpIcon
-                        color="primary"
-                        sx={{ fontSize: "32px" }}
-                      ></EditNoteSharpIcon>
-                    </Link>
                     <DeleteIcon
                       color="error"
                       onClick={handleOpenDelete}

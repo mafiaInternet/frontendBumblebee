@@ -50,37 +50,6 @@ export default function AuthRegister() {
           <Grid item xs={12}>
             <TextField
               required
-              id="name"
-              name="name"
-              label="Tên"
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <PersonIcon fontSize="large" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="birthday"
-              name="birthday"
-              label="Ngày sinh"
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <PermContactCalendarIcon fontSize="large" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
               id="phone"
               name="phone"
               label="Số điện thoại"
