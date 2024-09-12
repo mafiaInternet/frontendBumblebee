@@ -29,8 +29,6 @@ const Cart = () => {
       setSelected([...selected, cartItem]);
       setTotalItem(totalItem + 1);
       let total = totalPrice + cartItem.discountedPrice
-      console.log(cartItem.discountedPrice)
-      console.log(cartItem.quantity)
       setTotalPrice(total);
     } else {
       setSelected((selected) =>
@@ -184,7 +182,7 @@ const Cart = () => {
                     </TableCell>
                     <TableCell align="left" className="d-flex">
                       <div className="cart-table-body-img d-flex align-items-center">
-                        <img className="img-fluid" src={cartItem.imageUrl} />
+                        <img loading="lazy" className="img-fluid" src={cartItem.imageUrl} />
                       </div>
                       <div className="cart-text ms-3">
                         <p>{cartItem.product.title}</p>

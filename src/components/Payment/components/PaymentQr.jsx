@@ -57,7 +57,7 @@ const PaymentQr = (props) => {
       timeout = setInterval(() => {
         console.log(seconds);
         setSeconds((seconds) => seconds - 1);
-        checkpaid()
+        // checkpaid()
       }, 1000);
     }
 
@@ -122,7 +122,7 @@ const PaymentQr = (props) => {
      
         {openQr.qr ? (
           <Box sx={style}>
-            <img
+            <img loading="lazy"
               className="img-fluid"
               src={`https://img.vietqr.io/image/MB-6311166668888-qr_only.png?amount=10000&addInfo=Phạm Đức Nhân`}
             ></img>

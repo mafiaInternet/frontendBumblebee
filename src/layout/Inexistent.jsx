@@ -4,7 +4,7 @@ const Inexistent = (props) => {
     return (
         <div className='inexistent'>
             <div className='inexistent--img'>
-                <img src={props.img}></img>
+                <img loading="lazy" src={props.img}></img>
             </div>
             <p>Chưa có {props.text} nào</p>
         </div>

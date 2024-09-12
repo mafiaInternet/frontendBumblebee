@@ -83,13 +83,13 @@ const PaymentAddress = (props) => {
         </div>
       ));
   };
-
+  console.log(props)
   return (
     <div className="payment--address">
       <h3 className="payment--address--title">
         <GiPositionMarker size={15} /> Địa Chỉ Nhận Hàng
       </h3>
-      {props.address && 
+      {props && props.address && 
         <div className="payment--address--info">
           <p>
             <b>Tên: {props.address.name}</b> <br/>

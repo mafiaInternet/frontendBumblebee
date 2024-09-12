@@ -94,7 +94,7 @@ const OrderInfomation = () => {
                     >
                       <Box className="order--information--content--status--view">
                         <div className="order--information--content--status--view--icon">
-                          <img className="img-fluid"
+                          <img loading="lazy" className="img-fluid"
                             src={`https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/order_${order.orderStatus == "Hoàn tất" ? "green" : "blue"}.png`}
                           />
                         </div>
@@ -108,7 +108,7 @@ const OrderInfomation = () => {
                       </Box>
                       <Box className="order--information--content--status--view">
                         <div className="order--information--content--status--view--icon">
-                          <img className="img-fluid"
+                          <img loading="lazy" className="img-fluid"
                             src={`https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/process_${
                               order.orderStatus == "Hoàn tất" ? "green" : `${ order.orderStatus == "Đang chờ xác nhận" ? "silver" : "blue"}` }.png`}
                           />
@@ -130,7 +130,7 @@ const OrderInfomation = () => {
                       </Box>
                       <Box className="order--information--content--status--view">
                         <div className="order--information--content--status--view--icon">
-                          <img className="img-fluid"
+                          <img loading="lazy" className="img-fluid"
                             src={`https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/success_${ order.orderStatus == "Hoàn tất" ? "green" : "silver" }.png`}
                           />
                         </div>
@@ -242,7 +242,7 @@ const OrderInfomation = () => {
                     >
                       <Box className="order--information--content--status--view">
                         <div className="order--information--content--status--view--icon icon">
-                          <img
+                          <img loading="lazy"
                             className="img-fluid"
                             src={`https://www.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/icon_processing_status_${
                               order.orderStatus == "Hoàn tất" ? "green" : "blue"
@@ -268,7 +268,7 @@ const OrderInfomation = () => {
                       </Box>
                       <Box className="order--information--content--status--view">
                         <div className="order--information--content--status--view--icon icon">
-                          <img
+                          <img loading="lazy"
                             className="img-fluid"
                             src={`https://www.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/icon_pack_status_${
                               order.orderStatus == "Hoàn tất"
@@ -302,7 +302,7 @@ const OrderInfomation = () => {
                       </Box>
                       <Box className="order--information--content--status--view">
                         <div className="order--information--content--status--view--icon icon">
-                          <img
+                          <img loading="lazy"
                             className="img-fluid"
                             src={`https://www.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/icon_delivery_status_${
                               order.orderStatus == "Hoàn tất"
@@ -335,7 +335,7 @@ const OrderInfomation = () => {
                       </Box>
                       <Box className="order--information--content--status--view">
                         <div className="order--information--content--status--view--icon icon">
-                          <img
+                          <img loading="lazy"
                             className="img-fluid"
                             src={`https://www.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/icon_check_status_${
                               order.orderStatus == "Hoàn tất"
@@ -385,7 +385,7 @@ const OrderInfomation = () => {
                             <TableRow className="order--information--content--card">
                               <StyledTableCell align="left">
                                 <div className="order--information--content--card--img">
-                                  <img className="img--fluid" src={orderItem.imageUrl}/>
+                                  <img loading="lazy" className="img--fluid" src={orderItem.imageUrl}/>
                                   <p>{orderItem.product.title}</p>
                                 </div>
                               </StyledTableCell>
@@ -457,7 +457,7 @@ const OrderInfomation = () => {
               </Box>
               <Box className="order--information--content--status--mobile--view">
                 <div className="order--information--content--status--mobile--view--icon">
-                  <img
+                  <img loading="lazy"
                     className="img-fluid"
                     src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/order_blue.png"
                   ></img>
@@ -467,7 +467,7 @@ const OrderInfomation = () => {
                     <span>18/06/2024 - 15:02</span>
                   </div>
                 </div>
-                <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/circle_check.svg"></img>
+                <img loading="lazy" src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/circle_check.svg"></img>
               </Box>
               <Box
                 sx={{
@@ -482,13 +482,13 @@ const OrderInfomation = () => {
               </Box>
               <Box className="order--information--content--status--mobile--view">
                 <div className="order--information--content--status--mobile--view--icon">
-                  <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/process_blue.png"></img>
+                  <img loading="lazy" src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/process_blue.png"></img>
                   <div>
                     <p>Đang xử lý</p>
                     <span>18/06/2024 - 15:02</span>
                   </div>
                 </div>
-                <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/circle_check.svg"></img>
+                <img loading="lazy" src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/circle_check.svg"></img>
               </Box>
               <Box
                 sx={{
@@ -503,13 +503,13 @@ const OrderInfomation = () => {
               </Box>
               <Box className="order--information--content--status--mobile--view">
                 <Box className="order--information--content--status--mobile--view--icon">
-                  <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/success_silver.png"></img>
+                  <img loading="lazy" src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/success_silver.png"></img>
                   <div>
                     <p>Hoàn tất</p>
                     <span>18/06/2024 - 15:02</span>
                   </div>
                 </Box>
-                <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/circle_alarm.svg"></img>
+                <img loading="lazy" src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/circle_alarm.svg"></img>
               </Box>
             </Box>
             <h3>Thông tin đơn hàng</h3>
@@ -593,7 +593,7 @@ const OrderInfomation = () => {
                 </Typography>
               </Box>
               <div className="order--information--mobile--content--icon">
-                <img
+                <img loading="lazy"
                   className="img-fluid"
                   src={`https://www.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/icon_processing_status_${
                     order.orderStatus == "Hoàn tất" ? "green" : "blue"
@@ -608,7 +608,7 @@ const OrderInfomation = () => {
                 >
                   ......
                 </Typography>
-                <img
+                <img loading="lazy"
                   className="img-fluid"
                   src={`https://www.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/icon_pack_status_${
                     order.orderStatus == "Hoàn tất"
@@ -629,7 +629,7 @@ const OrderInfomation = () => {
                 >
                   ......
                 </Typography>
-                <img
+                <img loading="lazy"
                   className="img-fluid"
                   src={`https://www.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/icon_delivery_status_${
                     order.orderStatus == "Hoàn tất"
@@ -648,7 +648,7 @@ const OrderInfomation = () => {
                 >
                   ......
                 </Typography>
-                <img
+                <img loading="lazy"
                   className="img-fluid"
                   src={`https://www.fahasa.com/skin/frontend/ma_vanese/fahasa/images/order/icon_check_status_${
                     order.orderStatus == "Hoàn tất"
@@ -673,7 +673,7 @@ const OrderInfomation = () => {
                 {order.orderItems.map((orderItem) => (
                   <div className="order--information--mobile--content--bottom--list--card">
                     <div className="order--information--mobile--content--bottom--list--card--img">
-                      <img className="img-fluid" src={orderItem.imageUrl}></img>
+                      <img loading="lazy" className="img-fluid" src={orderItem.imageUrl}></img>
                     </div>
                     <div className="order--information--mobile--content--bottom--list--card--text">
                       <p className="order--information--mobile--content--bottom--list--card--text--title">

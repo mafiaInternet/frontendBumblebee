@@ -162,7 +162,7 @@ const OrderInfomation = () => {
                     <StyledTableRow>
                       <StyledTableCell>
                         <Box sx={{ display: "flex" }}>
-                          <img className="img-fluid" src={item.imageUrl}></img>
+                          <img loading="lazy" className="img-fluid" src={item.imageUrl}></img>
                           <Box sx={{ marginLeft: "1rem" }}>
                             <p>abc</p>
                             <p>{item.size}</p>

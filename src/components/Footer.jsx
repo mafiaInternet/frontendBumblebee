@@ -89,7 +89,7 @@ const Footer = () => {
             <div className="footer--icons">
               {contacts.map((contact, index) => (
                 <a href={contact.href} key={index}>
-                  <img className="img-fluid" src={contact.image}></img>
+                  <img loading="lazy" className="img-fluid" src={contact.image}></img>
                 </a>
               ))}
             </div>
@@ -108,7 +108,7 @@ const Footer = () => {
               Email: teelabvn@gmail.com Điện thoại: 0865539083
             </Typography>
             <Box width={"50%"}>
-              <img className="img-fluid" src="/img/logo_bct.png"></img>
+              <img loading="lazy" className="img-fluid" src="/img/logo_bct.png"></img>
             </Box>
           </Grid>
 

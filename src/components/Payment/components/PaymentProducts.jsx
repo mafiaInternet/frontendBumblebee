@@ -20,7 +20,7 @@ const PaymentProducts = () => {
             {cart.carts.cartItems && cart.carts.cartItems.map((cart) => (
                 <div className='paymentProducts__list__item'>
                     <div className='paymentProducts__list__item__img'>
-                        <img className='img-fluid' src={cart.imageUrl}></img>
+                        <img loading="lazy" className='img-fluid' src={cart.imageUrl}></img>
                         <span>{cart.quantity}</span>
                     </div>
                     <div className='paymentProducts__list__item__info'>

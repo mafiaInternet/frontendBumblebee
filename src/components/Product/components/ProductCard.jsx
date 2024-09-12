@@ -82,7 +82,7 @@ const ProductCard = ({ product }) => {
       <div className="product--card--image">
         <div className="product--card--image--wrapper">
           <Link to={`/product-detail/${product.id}`}>
-            <img src={selected.imageUrl} alt={product.title} />
+            <img loading="lazy" src={selected.imageUrl} alt={product.title} />
           </Link>
           <span className="product--card--image--wrapper--persent">
             -{product.discountPersent}%
@@ -102,7 +102,7 @@ const ProductCard = ({ product }) => {
                   onClick={() => setSelected(item)}
                   key={index}
                 >
-                  <img
+                  <img loading="lazy"
                     className={`${selected.id === item.id ? "active" : ""}`}
                     src={item.imageUrl}
                     alt={item.name}
@@ -136,7 +136,7 @@ const ProductCard = ({ product }) => {
           <Carousel emulateTouch={true}>
             {product.colors.map((color) => (
               <div key={color.id}>
-                <img src={color.imageUrl} alt={color.name} />
+                <img loading="lazy" src={color.imageUrl} alt={color.name} />
               </div>
             ))}
           </Carousel>
@@ -155,7 +155,7 @@ const ProductCard = ({ product }) => {
             <div className="product--card--model--info--colors">
               {product.colors.map((color) => (
                 <Button key={color.id} onClick={() => setSelected(color)}>
-                  <img className="img-fluid" src={color.imageUrl} alt={color.name} />
+                  <img loading="lazy" className="img-fluid" src={color.imageUrl} alt={color.name} />
                 </Button>
               ))}
             </div>

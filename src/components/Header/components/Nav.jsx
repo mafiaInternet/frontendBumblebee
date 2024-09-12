@@ -23,11 +23,7 @@ const Nav = ({ auth }) => {
     {
       text: "Hệ thống cửa hàng",
       href: "/system-shop",
-    },
-    // {
-    //   text: `${auth.user && auth.user.role != null ? "" : "Quản lý"}`,
-    //   href: `${auth.user && auth.user.role != null ? "/home" : "/admin"}`,
-    // },
+    }
   ];
 
   return (

@@ -20,7 +20,7 @@ const Review = () => {
                     <ReviewCard review={item} star={item.star}></ReviewCard>
                     {item.imageUrl &&  <div>
                         <div className='review--user--content--img'>
-                            <img className='img-fluid'></img>
+                            <img loading="lazy" className='img-fluid'></img>
                         </div>
                         {/* <p>{item.product ? item.product.title : item.order.orderItems[0].title}</p> */}
                     </div>}

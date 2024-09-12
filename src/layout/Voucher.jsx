@@ -28,7 +28,7 @@ const Voucher = ({ voucher, key, selected, isSelectedVoucher }) => {
         }}
       >
         <div className="voucher--card--img">
-          <img className="img-fluid" src="/img/voucher/ico_gift.svg"></img>
+          <img loading="lazy" className="img-fluid" src="/img/voucher/ico_gift.svg"></img>
         </div>
         <div className="voucher--card--info">
           <div>

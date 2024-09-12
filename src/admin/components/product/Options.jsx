@@ -28,20 +28,20 @@ const Options = () => {
      <div className="demo">
      <div className="demo__img">
         <div className="demo__img__main">
-        <img className="img-fluid" src="https://cdn.boo.vn/media/catalog/product/1/_/1.2.06.3.06.001.223.23.10500011_2__4.jpg"></img>
+        <img loading="lazy" className="img-fluid" src="https://cdn.boo.vn/media/catalog/product/1/_/1.2.06.3.06.001.223.23.10500011_2__4.jpg"></img>
         </div>
         <div className="demo__img__list">
-          <img src="/img/cup.jpg"></img>
-          <img src="/img/cup.jpg"></img>
-          <img src="/img/cup.jpg"></img>
-          <img src="/img/cup.jpg"></img>
+          <img loading="lazy" src="/img/cup.jpg"></img>
+          <img loading="lazy" src="/img/cup.jpg"></img>
+          <img loading="lazy" src="/img/cup.jpg"></img>
+          <img loading="lazy" src="/img/cup.jpg"></img>
 
         </div>
       </div>
       <div className="demo__option">
         <TextField label="name"></TextField>
         <div className="demo__option__color">
-        <img src="/img/cup.jpg"></img>
+        <img loading="lazy" src="/img/cup.jpg"></img>
           <div>color</div>
           <div>color icon</div>
           <div className="demo__option__color__size">

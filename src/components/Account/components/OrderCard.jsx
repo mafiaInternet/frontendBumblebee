@@ -51,7 +51,7 @@ const OrderCard = ({ order }) => {
         </div>
         <hr></hr>
         <div className="order--card--content">
-          <img className="img-fluid" src={order.orderItems[0].imageUrl}></img>
+          <img loading="lazy" className="img-fluid" src={order.orderItems[0].imageUrl}></img>
           <p>Khám phá thế giới động vật</p>
         </div>
         <hr></hr>

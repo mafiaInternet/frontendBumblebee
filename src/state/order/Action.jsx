@@ -79,9 +79,7 @@ export const getOrdersByAdmin = () => async (dispatch) => {
   dispatch({ type: GET_ORDER_BY_ADMIN_REQUEST });
   try {
     const { data } = await api.get("/api/admin/orders/");
-    if (data.status === null || data.status === undefined) {
-      dispatch({ type: GET_ORDER_BY_ADMIN_SUCCESS, payload: data });
-    }
+    dispatch({ type: GET_ORDER_BY_ADMIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_ORDER_BY_ADMIN_FAILURE, payload: error.message });
   }
@@ -100,7 +98,7 @@ export const deleteOrderById = (req) => async (dispatch) => {
 export const putStatusOrderByAdmin = (req) => async (dispatch) => {
   dispatch({type: PUT_ORDER_STATUS_BY_ID_REQUEST})
   try {
-      const {data} = await api.put(`api/admin/orders/${req.orderId}/update?status=${req.status}`)
+      const {data} = await api.put(`api/admin/orders/order/${req.orderId}/update?status=${req.status}`)
       dispatch({type: PUT_ORDER_STATUS_BY_ID_SUCCESS, payload: req.orderId})
   } catch (error) {
       dispatch({type: PUT_ORDER_STATUS_BY_ID_FAILURE, payload: error.message})

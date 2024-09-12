@@ -21,19 +21,19 @@ const ACarousel = () =>{
     >
 
       <div >
-        <img src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/slider_1.jpg?1692958575148" />
+        <img loading="lazy" src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/slider_1.jpg?1692958575148" />
       </div>
       <div>
-        <img src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/slider_2.jpg?1692958575148" />
+        <img loading="lazy" src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/slider_2.jpg?1692958575148" />
       </div>
       <div>
-        <img src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/slider_3.jpg?1692958575148" />
+        <img loading="lazy" src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/slider_3.jpg?1692958575148" />
       </div>
       <div>
-        <img src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/slider_4.jpg?1692958575148" />
+        <img loading="lazy" src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/slider_4.jpg?1692958575148" />
       </div>
       <div>
-        <img src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/slider_5.jpg?1692958575148" />
+        <img loading="lazy" src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/slider_5.jpg?1692958575148" />
       </div>
     </Carousel>
   );

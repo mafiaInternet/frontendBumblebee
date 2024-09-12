@@ -264,7 +264,7 @@ const AddProduct = () => {
               <Grid container spacing={1}>
                 {files.map((file, index) => (
                   <Grid item xs={1} key={index}>
-                    <img
+                    <img loading="lazy"
                       className="img-fluid"
                       src={URL.createObjectURL(file)}
                       alt="imageUrl"
@@ -286,7 +286,7 @@ const AddProduct = () => {
               >
                 <Grid item xs={0.8}>
                   <label htmlFor={`file-color-upload ${index}`} class="custom-file-upload">
-                    <img
+                    <img loading="lazy"
                       className="img-fluid"
                       name="file-color-upload"
 

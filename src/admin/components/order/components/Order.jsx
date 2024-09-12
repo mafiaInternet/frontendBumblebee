@@ -182,7 +182,7 @@ const Order = () => {
               {/* {order.orderItems.map((orderItem) => (
                         <Grid container spacing={1}>
                           <Grid item xs={3}>
-                            <img
+                            <img loading="lazy"
                               className="img-fluid"
                               src={orderItem.imageUrl}
                             ></img>
@@ -208,7 +208,7 @@ const Order = () => {
                         <TableCell>
                           <Grid container spacing={1} sx={{ display: "flex" }}>
                             <Grid item xs={3}>
-                              <img
+                              <img loading="lazy"
                                 className="img-fluid"
                                 src={orderItem.imageUrl}
                                 alt="hình ảnh"

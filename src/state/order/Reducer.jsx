@@ -26,6 +26,9 @@ import {
   GET_TOTAL_QUANTITY_YEAR_FAILURE,
   GET_TOTAL_QUANTITY_YEAR_SUCCESS,
   GET_TOTAL_QUANTITY_YEAR_REQUEST,
+  GET_ORDER_BY_ADMIN_SUCCESS,
+  GET_ORDER_BY_ADMIN_REQUEST,
+  GET_ORDER_BY_ADMIN_FAILURE,
 } from "./ActionType";
 
 const initialState = {
@@ -66,6 +69,12 @@ export const orderReducer = (state = initialState, action) => {
       return { ...state, loading: false, error: action.payload };
 
     // ADMIN
+    case GET_ORDER_BY_ADMIN_REQUEST:
+      return {...state, loadding: true, error: null};
+    case GET_ORDER_BY_ADMIN_SUCCESS:
+      return {...state, loadding: false, orders: action.payload}
+    case GET_ORDER_BY_ADMIN_FAILURE:
+      return {...state, loadding: false, error: action.payload}
     case GET_ORDER_TOP_WEEK_REQUEST:
       return { ...state, loadding: true };
     case GET_ORDER_TOP_WEEK_SUCCESS:

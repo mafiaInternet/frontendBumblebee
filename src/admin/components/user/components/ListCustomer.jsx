@@ -146,8 +146,9 @@ const ListCustomers = () => {
           >
             <TableHead className="customers--table--head">
               <TableRow>
-                {tableHeads.map((tableHead) => (
+                {tableHeads.map((tableHead, index) => (
                   <StyledTableCell
+                    key={index}
                     align={tableHead === "Khóa" ? "center" : "left"}
                   >
                     {tableHead}

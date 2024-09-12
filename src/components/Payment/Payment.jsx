@@ -187,7 +187,7 @@ const Payment = () => {
                   {payment.cartItems.map((orderItem, index) => (
                     <TableRow key={index}>
                       <TableCell className="d-flex" align="left">
-                        <img className="img-fluid" src={orderItem.imageUrl}/>
+                        <img loading="lazy" className="img-fluid" src={orderItem.imageUrl}/>
                         <div className="d-flex align-items-center" style={{marginLeft: "10px"}}>
                           <div>
                             <p style={{marginBottom: 0}}>{orderItem.product.title}</p>

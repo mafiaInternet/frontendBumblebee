@@ -36,6 +36,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
   backgroundColor: "#545457",
   borderRadius: "3px",
+
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -72,16 +73,16 @@ const Topbar = (props) => {
           <Toolbar sx={{ display: "flex", justifyContent: "space-between", paddingTop: "24px" }}>
             <Link to="/home" style={{textDecoration: "none"}}>
               <Typography variant="h2" sx={{ color: "#232323", fontWeight: "700", paddingLeft: "15px"}}>
-                  TEELAB
+                  BUMBLEBEE 
               </Typography>
             </Link>
             <Box className="topbar-icons d-flex" style={{ gap: "15px" }}>
-              <Search>
-                <SearchIconWrapper>
+              <Search sx={{cursor: "pointer"}}>
+                <SearchIconWrapper >
                   <SearchIcon style={{fontSize: "22px"}}/>
                 </SearchIconWrapper>
                 <StyledInputBase
-                  sx={{ fontSize: "16px"}}
+                  sx={{ fontSize: "16px", }}
                   placeholder="Tìm kiếm…"
                   inputProps={{ "aria-label": "search" }}
                 />

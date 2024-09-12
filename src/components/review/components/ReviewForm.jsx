@@ -83,7 +83,7 @@ const ReviewForm = ({ product, setOpen }) => {
             <Grid container spacing={1}>
               {files.map((file, index) => (
                 <Grid item xs={1} key={index}>
-                  <img className="img-fluid" src={file} alt="imageUrl"></img>
+                  <img loading="lazy" className="img-fluid" src={file} alt="imageUrl"></img>
                 </Grid>
               ))}
             </Grid>

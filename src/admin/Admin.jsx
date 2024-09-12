@@ -111,9 +111,9 @@ const Admin = () => {
           >
             <Typography
               onClick={handleClick}
-              sx={{ fontSize: "35px", fontWeight: "600", cursor: "pointer" }}
+              sx={{ fontSize: "30px", fontWeight: "600", cursor: "pointer" }}
             >
-              TEELAB
+              BUMBLEBEE
             </Typography>
           </Typography>
           <Box
@@ -130,7 +130,7 @@ const Admin = () => {
                   button
                   key={index}
                   component={Link}
-                  to={item.link}
+                  to={item.link}  
                   sx={{
                     "&:hover": {
                       backgroundColor: "#f0f0f0",

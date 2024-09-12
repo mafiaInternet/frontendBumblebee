@@ -117,7 +117,7 @@ const ProductDetail = () => {
                 {products.product.listImageUrl &&
                   products.product.listImageUrl.map((image) => (
                     <div>
-                      <img className="img-fluid" src={image} style={{ maxHeight: "681.625px" }}></img>
+                      <img loading="lazy" className="img-fluid" src={image} style={{ maxHeight: "681.625px" }}></img>
                     </div>
                   ))}
               </Carousel>
@@ -144,21 +144,21 @@ const ProductDetail = () => {
                 </Typography>
                 <div className="productDetail__intro__policy">
                   <p>
-                    <img
+                    <img loading="lazy"
                       className="img-fluid"
                       src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/product_poli_1.png?1702398129862"
                     ></img>
                     <span>Đổi trả dễ dàng</span>
                   </p>
                   <p>
-                    <img
+                    <img loading="lazy"
                       className="img-fluid"
                       src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/product_poli_1.png?1702398129862"
                     ></img>
                     <span>Chính hãng 100&</span>
                   </p>
                   <p>
-                    <img
+                    <img loading="lazy"
                       className="img-fluid"
                       src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/product_poli_3.png?1702398129862"
                     ></img>
@@ -182,7 +182,7 @@ const ProductDetail = () => {
                             variant="text"
                             onClick={() => handleClick(color)}
                           >
-                            <img
+                            <img loading="lazy"
                               className={`img-fluid ${
                                 selectedColor != null &&
                                 selectedColor.id === color.id

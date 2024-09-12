@@ -26,7 +26,7 @@ const ReviewCard = ({ review, star }) => {
       {review.product ? (
         <div>
           <div>
-            {/* <img src={review.product.imageUrls[0]}></img> */}
+            {/* <img loading="lazy" src={review.product.imageUrls[0]}></img> */}
           </div>
           <div>
             {/* <p>{review.product.title}</p> */}
@@ -35,7 +35,7 @@ const ReviewCard = ({ review, star }) => {
       ) : (
         <div>
           <div>
-            {/* <img src={review.order.orderItems[0].imageUrl}></img> */}
+            {/* <img loading="lazy" src={review.order.orderItems[0].imageUrl}></img> */}
           </div>
           <div>
             {/* <p>{review.order.orderItems[0].title}</p> */}

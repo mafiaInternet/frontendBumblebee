@@ -108,6 +108,7 @@ const Home = () => {
                     <Grid
                       container
                       spacing={2}
+                      key={index}
                       sx={{
                         display: "flex",
                         justifyContent: "center",

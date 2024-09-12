@@ -53,8 +53,8 @@ const ListOrderNeedComfirm = (props) => {
         <Table>
           <TableHead>
             <TableRow>
-              {head.map((item) => (
-                <TableCell align="left">{item}</TableCell>
+              {head.map((item, index) => (
+                <TableCell align="left" key={index}>{item}</TableCell>
               ))}
             </TableRow>
           </TableHead>

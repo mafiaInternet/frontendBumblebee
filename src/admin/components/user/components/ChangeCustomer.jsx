@@ -35,7 +35,7 @@ const ChangeCustomer = () => {
       <div className="customer--edit--content">
         <div className="customer--edit--content--img">
          
-          <img className="img-fluid" src={file != null ? URL.createObjectURL(file[0]) : "/img/user.png"} alt="img--avatar"></img>
+          <img loading="lazy" className="img-fluid" src={file != null ? URL.createObjectURL(file[0]) : "/img/user.png"} alt="img--avatar"></img>
             <input type="file" onChange={(e) => setFile(e.target.files)}></input>
   
         </div>
