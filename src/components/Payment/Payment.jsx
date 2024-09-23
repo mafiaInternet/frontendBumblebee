@@ -87,7 +87,7 @@ const Payment = () => {
   useEffect(() => {
     if (auth.user && auth.user.address) {
       setAddress(auth.user.address.find((item) => item.state === "Mặc định"));
-      setTotalPoint(auth.user.fpoint)
+      setTotalPoint(auth.user?.fpoint)
     }
   }, [auth.user]);
 
