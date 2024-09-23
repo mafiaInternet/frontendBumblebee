@@ -1,4 +1,12 @@
-import { Grid, Box, Typography, Button, ButtonGroup, TextField, Rating } from "@mui/material";
+import {
+  Grid,
+  Box,
+  Typography,
+  Button,
+  ButtonGroup,
+  TextField,
+  Rating,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import { Link, useParams } from "react-router-dom";
@@ -10,7 +18,6 @@ import { getReviewByProduct } from "../../../state/review/Action";
 import Review from "../../review/Review";
 import { Price } from "../../../config/config";
 
-
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const { products, review, auth } = useSelector((store) => store);
@@ -21,11 +28,7 @@ const ProductDetail = () => {
     products.product && products.product.colors && products.product.colors[0]
   );
   const [quantity, setQuantity] = useState(1);
-  const [totalQuantity, setTotalQuantity] = useState(
-    products.product &&
-      products.product.colors &&
-      products.product.totalQuantity
-  );
+  const [totalQuantity, setTotalQuantity] = useState(0);
   const [data, setData] = useState({
     productId: param.name,
     color: null,
@@ -40,15 +43,18 @@ const ProductDetail = () => {
     } else {
       const data = {
         user: auth.user,
-        cart:localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart")) : localStorage.getItem("cart"),
+        cart:
+          localStorage.getItem("cart") != null
+            ? JSON.parse(localStorage.getItem("cart"))
+            : localStorage.getItem("cart"),
         req: {
           productId: products.product.id,
           color: selectedColor.name,
           imageUrl: selectedColor.imageUrl,
           size: selectedSize.name,
           quantity: quantity,
-        }
-      }
+        },
+      };
       dispatch(addItemToCart(data));
     }
   };
@@ -83,6 +89,7 @@ const ProductDetail = () => {
     if (!products.product || products.product.id != param.name) {
       dispatch(findProductsById(param.name));
       dispatch(getReviewByProduct(param.name));
+    
     } else {
       setProduct(products.product);
     }
@@ -92,20 +99,29 @@ const ProductDetail = () => {
     dispatch(getReviewByProduct(param.name));
   }, [review.star]);
 
+ useEffect(() => {
+  if(products.product && products.product){
+    setTotalQuantity(products.product.totalQuantity)
+  }
+ }, [products.product])
+
   const reviews = review.reviews.slice(1, 6);
-  const totalStars = reviews.reduce((acc, item) => acc + (item.quantity * parseInt(item.star)), 0);
+  const totalStars = reviews.reduce(
+    (acc, item) => acc + item.quantity * parseInt(item.star),
+    0
+  );
   const totalReviews = reviews.reduce((acc, item) => acc + item.quantity, 0);
   const averageStars = totalReviews === 0 ? 0 : totalStars / totalReviews;
 
-  console.log(products)
+
 
   return (
     products.product &&
     products.product.id != null && (
       <div className="productDetail">
-        <Box class="productDetail__item" style={{marginTop: "16px"}}>
+        <Box class="productDetail__item" style={{ marginTop: "16px" }}>
           <Grid container spacing={2}>
-            <Grid item xs={7} style={{height: "681.625px"}}>
+            <Grid item xs={7} style={{ height: "681.625px" }}>
               <Carousel
                 showArrows={false}
                 showStatus={false}
@@ -117,7 +133,12 @@ const ProductDetail = () => {
                 {products.product.listImageUrl &&
                   products.product.listImageUrl.map((image) => (
                     <div>
-                      <img loading="lazy" className="img-fluid" src={image} style={{ maxHeight: "681.625px" }}></img>
+                      <img
+                        loading="lazy"
+                        className="img-fluid"
+                        src={image}
+                        style={{ maxHeight: "681.625px" }}
+                      ></img>
                     </div>
                   ))}
               </Carousel>
@@ -128,37 +149,60 @@ const ProductDetail = () => {
                   {products.product.title}
                 </Typography>
                 <hr></hr>
-                <div className="productDetail__intro__stars d-flex">
-                  <Rating
-                    sx={{ alignItems: "center", justifyContent: "center" }}
-                    name="half-rating-read "
-                    value={averageStars}
-                    precision={0.1}
-                    readOnly
-                  />
-                </div>
+                <Box sx={{display: "flex"}}>
+                  <div className="productDetail__intro__stars d-flex">
+                    <span>{averageStars}</span>
+                    <Rating
+                      sx={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                     
+                      }}
+                      name="half-rating-read "
+                      value={averageStars}
+                      precision={0.1}
+                      readOnly
+                    />
+                  </div>
+                  <Box sx={{borderLeft: "1px solid", borderRight: "1px solid", margin: "0 1rem", padding: "0 1rem"}}>
+                    <span>{review.reviews.length}</span>
+                    Đánh giá
+                  </Box>
+                  <div>
+                    <span>{products.product.totalSold}</span>
+                    Đã bán
+                  </div>
+                </Box>
+
                 <Typography class="productDetail__intro__price">
-                <span><Price price={products.product.discountedPrice}></Price></span>
-                <span><Price price={products.product.price}></Price></span>
-                <span>- {products.product.discountPersent}%</span>
+                  <span>
+                    <Price price={products.product.discountedPrice}></Price>
+                  </span>
+                  <span>
+                    <Price price={products.product.price}></Price>
+                  </span>
+                  <span>- {products.product.discountPersent}%</span>
                 </Typography>
                 <div className="productDetail__intro__policy">
                   <p>
-                    <img loading="lazy"
+                    <img
+                      loading="lazy"
                       className="img-fluid"
                       src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/product_poli_1.png?1702398129862"
                     ></img>
                     <span>Đổi trả dễ dàng</span>
                   </p>
                   <p>
-                    <img loading="lazy"
+                    <img
+                      loading="lazy"
                       className="img-fluid"
                       src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/product_poli_1.png?1702398129862"
                     ></img>
                     <span>Chính hãng 100&</span>
                   </p>
                   <p>
-                    <img loading="lazy"
+                    <img
+                      loading="lazy"
                       className="img-fluid"
                       src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/product_poli_3.png?1702398129862"
                     ></img>
@@ -166,13 +210,13 @@ const ProductDetail = () => {
                   </p>
                 </div>
                 <dl className="productDetail__intro__info">
-                  <dt style={{fontSize: "20px"}}>Thông tin sản phẩm</dt>
+                  <dt style={{ fontSize: "20px" }}>Thông tin sản phẩm</dt>
                   <dd>Chất liệu: Cotton</dd>
                   <dd>Kích thước: Oversize</dd>
                   <dd>Thiết kế: In lua</dd>
                 </dl>
                 <Box class="product__option">
-                  <dt style={{fontSize: "20px"}}> Màu sắc </dt>
+                  <dt style={{ fontSize: "20px" }}> Màu sắc </dt>
                   <Grid container spacing={1}>
                     {products.product &&
                       products.product.colors.map((color, index) => (
@@ -182,7 +226,8 @@ const ProductDetail = () => {
                             variant="text"
                             onClick={() => handleClick(color)}
                           >
-                            <img loading="lazy"
+                            <img
+                              loading="lazy"
                               className={`img-fluid ${
                                 selectedColor != null &&
                                 selectedColor.id === color.id
@@ -199,7 +244,7 @@ const ProductDetail = () => {
                   </Grid>
                 </Box>
                 <Box class="product__size">
-                  <dt style={{fontSize: "20px"}}> Kích thước </dt>
+                  <dt style={{ fontSize: "20px" }}> Kích thước </dt>
                   <Grid container spacing={1}>
                     {selectedColor &&
                       selectedColor.sizes.map((size) => (
@@ -219,8 +264,8 @@ const ProductDetail = () => {
                   </Grid>
                 </Box>
                 <Box class="product__quantity">
-                  <dt style={{fontSize: "20px"}}>Số lượng</dt>
-                  <div className="d-flex" style={{gap: "10px"}}>
+                  <dt style={{ fontSize: "20px" }}>Số lượng</dt>
+                  <div className="d-flex" style={{ gap: "10px" }}>
                     <Button
                       className="product__quantity__toggle"
                       onClick={() => setQuantity(quantity - 1)}
@@ -269,8 +314,8 @@ const ProductDetail = () => {
             </Grid>
           </Grid>
         </Box>
-        <ProductText/>
-        <Review product={products.product}/>
+        <ProductText />
+        <Review product={products.product} />
       </div>
     )
   );

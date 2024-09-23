@@ -6,12 +6,14 @@ import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import Badge from "@mui/material/Badge";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Auth from "../../../customer/Auth.jsx";
 import Navigation from "./Navigation.jsx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Typography from '@mui/material/Typography';
+import { findProductFilter } from "../../../state/product/Action.jsx";
+
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,6 +61,14 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Topbar = (props) => {
   const { cart } = useSelector(store => store)
+
+
+  const navigate = useNavigate()
+  const [state, setState] = React.useState("")
+
+  const handleSearch = () => {
+    navigate(`/search?query=${state}`)   
+  }
   return (
     <div className="topbar">
       <Box sx={{ flexGrow: 1 }}>
@@ -77,13 +87,17 @@ const Topbar = (props) => {
               </Typography>
             </Link>
             <Box className="topbar-icons d-flex" style={{ gap: "15px" }}>
-              <Search sx={{cursor: "pointer"}}>
-                <SearchIconWrapper >
-                  <SearchIcon style={{fontSize: "22px"}}/>
+              <Search sx={{cursor: "pointer"}} onClick={handleSearch}>
+
+                <SearchIconWrapper onClick={handleSearch}>
+                  <SearchIcon onClick={handleSearch} style={{fontSize: "22px"}}/>
                 </SearchIconWrapper>
+
+     
                 <StyledInputBase
                   sx={{ fontSize: "16px", }}
                   placeholder="Tìm kiếm…"
+                  onChange={(e) => setState(e.target.value)}
                   inputProps={{ "aria-label": "search" }}
                 />
               </Search>

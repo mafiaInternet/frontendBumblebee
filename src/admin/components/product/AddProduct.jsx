@@ -274,7 +274,6 @@ const AddProduct = () => {
               </Grid>
             </Grid>
            
-
             {formColor.map((item, index) => (
               <Grid
                 item

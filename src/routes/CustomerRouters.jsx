@@ -13,6 +13,7 @@ import Cart from "../components/Cart/Cart";
 import Payment from "../components/Payment/Payment";
 
 import Account from "../components/Account/Account";
+import Search from "../components/Search";
 
 const CustomerRouters = () => {
   const location = useLocation()
@@ -26,6 +27,7 @@ const CustomerRouters = () => {
         <Route path="/register" element={<Home></Home>}></Route>
         <Route exact path="/" element={<Home></Home>}></Route>
         <Route path="/home" element={<Home></Home>}></Route>
+        {/* <Route path="/search" element={<Search></Search>}></Route> */}
         <Route path="/policy" element={<Policy></Policy>}></Route>
         <Route path="/table-size" element={<TableSize></TableSize>}></Route>
         <Route path="/system-shop" element={<SystemShop></SystemShop>}></Route>

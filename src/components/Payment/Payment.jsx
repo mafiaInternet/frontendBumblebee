@@ -25,15 +25,9 @@ const Payment = () => {
   const payment = JSON.parse(localStorage.getItem("demo"));
   const [totolPrice, setTotolPrice] = useState(0)
   const jwt = localStorage.getItem("jwt");
-  const [totalPoint, setTotalPoint] = useState(1000);
+  const [totalPoint, setTotalPoint] = useState(0);
   const [statusPoint, setStatusPoint] = useState(false);
 
-  useEffect (() => {
-    const totalPrice = payment?.cartItems.reduce((total, cartItem) => {
-      return total + cartItem.discountedPrice - totalPoint;
-    }, 0);
-    setTotolPrice(totalPrice)
-  }, [payment])
 
   const [address, setAddress] = useState({
     name: "",
@@ -46,6 +40,7 @@ const Payment = () => {
   });
 
   const isSelectedVoucher = (voucher) => {
+    console.log(selected)
     if (voucher.id !== selected.id) {
       setSelected(voucher);
       setTotolPrice(totolPrice - (voucher.discountedPrice > 0
@@ -74,6 +69,8 @@ const Payment = () => {
         ? "Thanh toán online"
         : "Thanh toán khi nhận hàng",
       discountedPrice: selected != -1 ? selected.discountedPrice : 0,
+      
+      fpoint: totalPoint
     };
     dispatch(createOrder(data));
   };
@@ -81,15 +78,25 @@ const Payment = () => {
   useEffect(() => {
     if (jwt) {
       dispatch(User(jwt));
+   
     }
     dispatch(handleGetVouchers());
   }, [dispatch, jwt]);
 
+
   useEffect(() => {
     if (auth.user && auth.user.address) {
       setAddress(auth.user.address.find((item) => item.state === "Mặc định"));
+      setTotalPoint(auth.user.fpoint)
     }
   }, [auth.user]);
+
+  useEffect (() => {
+    const totalPrice = payment?.cartItems.reduce((total, cartItem) => {
+      return total + cartItem.discountedPrice - totalPoint;
+    }, 0);
+    setTotolPrice(totalPrice)
+  }, [payment])
 
   useEffect(() => {
     if (order && order.order && order.error == null) {
@@ -250,16 +257,18 @@ const Payment = () => {
               <p>
                 <span>Tổng tiền hàng</span>
                 <span>Phí vận chuyển</span>
+                {selected != -1 && <span>Giảm giá voucher</span>}
                 {statusPoint && <span>Giảm giá F-Point</span>}
                 <span>Tổng thanh toán</span>
               </p>
               <p>
                 <span><Price price={totolPrice}/></span>
                 <span><Price price={20000}/></span>
+                {selected != -1 && (<span>- <Price price={selected.discountedPrice}></Price></span>)}
                 {statusPoint && (
                   <span>- <Price price={totalPoint}/></span>
                 )}
-                <span><Price price={statusPoint ? totolPrice + 20000 - totalPoint : totolPrice + 20000}/></span>
+                <span><Price price={statusPoint ? totolPrice + 20000 - totalPoint - (selected != -1 ? selected.discountedPrice: 0) : totolPrice + 20000 - (selected != -1 ? selected.discountedPrice: 0)}/></span>
               </p>
             </div>
           </Box>

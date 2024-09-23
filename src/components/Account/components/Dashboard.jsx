@@ -44,7 +44,7 @@ const Dashboard = ({points = 150}) => {
             </Typography>
             <Box display="flex" alignItems="center" justifyContent="center">
               <Star sx={{ color: 'gold', mr: 1, fontSize: 30 }} />
-              <Typography variant="h3">{points} Điểm</Typography>
+              <Typography variant="h3">{auth.user.fpoint} Điểm</Typography>
             </Box>
           </CardContent>
         </Card>

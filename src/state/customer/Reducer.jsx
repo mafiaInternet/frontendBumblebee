@@ -46,7 +46,8 @@ export const customerReducer = (state = initialState, action) => {
     case FIND_USER_BY_EMAIL_REQUEST:
       return { ...state, loadding: true };
     case FIND_USER_BY_EMAIL_SUCCESS:
-      return { ...state, loadding: false, customer: action.payload };
+
+      return { ...state, loadding: false, customers: state.customers.filter((item) => item.email == action.payload.email) };
     case FIND_USER_BY_EMAIL_FAILURE:
       return { ...state, loadding: false, error: action.payload };
     default:

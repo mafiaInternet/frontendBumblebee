@@ -100,9 +100,9 @@ export const GetAdmin = (jwt) => async (dispatch) => {
 export const Logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT, payload: null });
 
+  localStorage.removeItem('jwt')
   const response = await axios.post(`${API_BASE_URL}/auth/logout`);
   toast.success("Đăng xuất thành công !!!");
-  // localStorage.removeItem('jwt')
   localStorage.clear();
 };
 

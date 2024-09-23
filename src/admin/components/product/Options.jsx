@@ -15,14 +15,6 @@ const Options = () => {
     console.log(files);
   };
   return (
-    // <div
-    // className='dropzone'
-    // onDragOver={handleDragOver}
-    // onDrop={handleDrop}
-    // >
-    //     {!files ? <h1>Drag </h1> : <ul>{Array.from(files).map((file, index) => <li key={index}>{file.name}</li>) }</ul>}
-
-    // </div>
     <div className="demo__container">
     <h1>Add product</h1>
      <div className="demo">

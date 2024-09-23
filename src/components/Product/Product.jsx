@@ -57,10 +57,9 @@ const Product = () => {
     const data = Object.values(products.products);
 
     if (sortType == "Từ thấp đến cao") {
-      dispatch(sortProductsLow(data));
-    } else if (sortType === "Từ cao đến thấp") {
-      console.log("abc");
       dispatch(sortProductsHigh(data));
+    } else if (sortType === "Từ cao đến thấp") {
+      dispatch(sortProductsLow(data));
     } else if (sortType === "Cũ nhất") {
       dispatch(sortProductsOld(data));
     } else if (sortType === "Mới nhất") {

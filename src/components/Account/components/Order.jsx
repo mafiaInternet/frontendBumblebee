@@ -79,7 +79,7 @@ export default function Order() {
                           a.orderStatus == item ||
                           (item === "Đang xử lý" &&
                             (a.orderStatus === "Đang chờ xác nhận" ||
-                              a.orderStatus === "Đã xác nhận")) || (item === "Tất cả") || (item === "Đã hủy")
+                              a.orderStatus === "Đã xác nhận"))
                       )
                       .map((b) => (
                         <Link

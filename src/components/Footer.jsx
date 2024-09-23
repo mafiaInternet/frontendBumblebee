@@ -115,9 +115,9 @@ const Footer = () => {
           <Grid item xs={6} md={3}>
             <h5>ABOUT US</h5>
             <List>
-              {pages.map((page) => (
+              {pages.map((page, index) => (
                 <ListItem>
-                  <Link to={page.href}>{page.text}</Link>
+                  <Link to={page.href} key={index}>{page.text}</Link>
                 </ListItem>
               ))}
             </List>

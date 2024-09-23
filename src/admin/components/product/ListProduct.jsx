@@ -83,14 +83,13 @@ const ListProduct = () => {
     const data = Object.values(products.products);
 
     if (sortType == "Từ thấp đến cao") {
-      dispatch(sortProductsLow(data));
-    } else if (sortType === "Từ cao đến thấp") {
-      console.log("abc");
       dispatch(sortProductsHigh(data));
+    } else if (sortType === "Từ cao đến thấp") {
+      dispatch(sortProductsLow(data));
     } else if (sortType === "Cũ nhất") {
-      dispatch(sortProductsOld(data));
-    } else if (sortType === "Mới nhất") {
       dispatch(sortProductsNew(data));
+    } else if (sortType === "Mới nhất") {
+      dispatch(sortProductsOld(data));
     }
   };
 
@@ -154,14 +153,13 @@ const ListProduct = () => {
           <Table sx={{ width: "100%" }}>
             <TableHead className="table-head">
               <TableRow>
-                {tableHeads.map((tableHead) => (
-                  <StyledTableCell>{tableHead}</StyledTableCell>
+                {tableHeads.map((tableHead, index) => (
+                  <StyledTableCell key={index}>{tableHead}</StyledTableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody className="table-body">
-              {products &&
-                products.products &&
+              {products.products && products.products.length > 0?
                 products.products
                   .slice(page * 6, page * 6 + 6)
                   .map((product) => (
@@ -212,7 +210,7 @@ const ListProduct = () => {
                         ></DeleteIcon>
                       </StyledTableCell>
                     </StyledTableRow>
-                  ))}
+                  )) : "Chưa có sản phẩm nào"}
             </TableBody>
           </Table>
         </TableContainer>

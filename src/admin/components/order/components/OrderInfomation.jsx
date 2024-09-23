@@ -144,7 +144,7 @@ const OrderInfomation = () => {
               <option value={"Đang chờ xác nhận"}>Đang chờ xác nhận</option>
               <option value="Đã xác nhận">Đã xác nhận</option>
               <option value={"Đang vận chuyển"}>Đang vận chuyển</option>
-              <option value={"Đã giao hàng"}>Đã giao hàng</option>
+              <option value={"Hoàn tất"}>Hoàn tất</option>
               <option value={"Đã hủy"}>Đã hủy</option>
             </select>
             <h5>Thông tin sản phẩm</h5>
@@ -152,14 +152,14 @@ const OrderInfomation = () => {
               <Table className="orderInformation--content--table">
                 <TableHead>
                   <TableRow>
-                    {head.map((item) => (
-                      <StyledTableCell>{item}</StyledTableCell>
+                    {head.map((item, index) => (
+                      <StyledTableCell key={index}>{item}</StyledTableCell>
                     ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {order.order.orderItems.map((item) => (
-                    <StyledTableRow>
+                  {order.order.orderItems.map((item, index) => (
+                    <StyledTableRow key={index}>
                       <StyledTableCell>
                         <Box sx={{ display: "flex" }}>
                           <img loading="lazy" className="img-fluid" src={item.imageUrl}></img>

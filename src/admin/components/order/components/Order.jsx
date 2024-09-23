@@ -94,8 +94,9 @@ const Order = () => {
         <Table className="order__table">
           <TableHead className="order__table__head">
             <TableRow>
-              {tableHeads.map((tableHead) => (
+              {tableHeads.map((tableHead, index) => (
                 <StyledTableCell
+                key={index}
                   align={
                     tableHead == "Status" || tableHead == "Delete"
                       ? "center"
@@ -109,8 +110,8 @@ const Order = () => {
           </TableHead>
           <TableBody className="order__table__body">
             {order.orders &&
-              order.orders.map((order) => (
-                <TableRow sx={{ cursor: "pointer" }}>
+              order.orders.map((order, index) => (
+                <TableRow sx={{ cursor: "pointer" }} key={index}>
                   <TableCell align="left" onClick={() => handleOpen(order.id)}>
                     {order.createAt}
                   </TableCell>
@@ -148,8 +149,9 @@ const Order = () => {
                         "aria-labelledby": "basic-button",
                       }}
                     >
-                      {StatusOrders.map((statusOrder) => (
+                      {StatusOrders.map((statusOrder, index) => (
                         <MenuItem
+                        key={index}
                           onClick={(e) => handleCloseStatus(e, order.id)}
                         >
                           {statusOrder}
@@ -171,27 +173,16 @@ const Order = () => {
         </Table>
       </TableContainer>
       {order.orders &&
-        order.orders.map((order) => (
+        order.orders.map((order, index) => (
           <Modal
+          key={index}
             open={open.id == order.id ? true : false}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              {/* {order.orderItems.map((orderItem) => (
-                        <Grid container spacing={1}>
-                          <Grid item xs={3}>
-                            <img loading="lazy"
-                              className="img-fluid"
-                              src={orderItem.imageUrl}
-                            ></img>
-                          </Grid>
-                          <Grid item xs={9}>
-                            <p>{orderItem.title}</p>
-                          </Grid>
-                        </Grid>
-                      ))} */}
+          
               <TableContainer>
                 <Table>
                   <TableHead>
@@ -203,8 +194,8 @@ const Order = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {order.orderItems.map((orderItem) => (
-                      <TableRow>
+                    {order.orderItems.map((orderItem, index) => (
+                      <TableRow key={index}>
                         <TableCell>
                           <Grid container spacing={1} sx={{ display: "flex" }}>
                             <Grid item xs={3}>

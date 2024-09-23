@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import ListProduct from "./components/product/ListProduct";
 import { useDispatch, useSelector } from "react-redux";
-import Customers from "./components/user/Customers";
 import Orders from "./components/order/Orders";
 import AddProduct from "./components/product/AddProduct";
 import HomeIcon from "@mui/icons-material/Home";
@@ -29,6 +28,7 @@ import Home from "./components/home/Home";
 import ListVoucher from "./components/voucher/ListVoucher";
 import AuthLogin from "../customer/auth/AuthLogin";
 import Voucher from "./components/voucher/Voucher";
+import ListCustomers from "./components/user/components/ListCustomer";
 
 const text = "/admin";
 const tabs = [
@@ -97,7 +97,7 @@ const Admin = () => {
       dispatch(GetAdmin(jwt));
     }
   }, [dispatch, jwt, auth.jwt]);
-  return jwt ? (
+  return jwt && auth.jwt && auth.user.role != null ? (
     <div className="admin">
       <Grid container className="admin--navTabs">
         <Grid item xs={2} className="admin--navTabs--link">
@@ -165,7 +165,7 @@ const Admin = () => {
 
           <Routes>
             <Route path="/*" element={<Home></Home>}></Route>
-            <Route path="/user" element={<Customers></Customers>}></Route>
+            <Route path="/user" element={<ListCustomers></ListCustomers>}></Route>
             <Route
               path="/product"
               element={<ListProduct></ListProduct>}
@@ -190,7 +190,10 @@ const Admin = () => {
       </Grid>
     </div>
   ) : (
+    <div className="container" style={{display: "flex", justifyContent:"center", alignItems: "center", marginTop: "10rem"}}>
     <AuthLogin></AuthLogin>
+
+    </div>
   );
 };
 

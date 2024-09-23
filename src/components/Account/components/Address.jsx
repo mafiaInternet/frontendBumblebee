@@ -56,6 +56,7 @@ const Address = () => {
   };
 
   const handleOpenDelete = (id) => {
+    console.log(id)
     setDeleteId(id);
     setOpenDeleteHandle(true);
   };

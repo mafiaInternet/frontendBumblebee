@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import { Button, Grid, InputAdornment, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { User } from "../../state/auth/Action";
+import { Register, User } from "../../state/auth/Action";
 import PersonIcon from "@mui/icons-material/Person";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
@@ -32,10 +32,11 @@ export default function AuthRegister() {
     const userData = {
       name: data.get("name"),
       birthday: data.get("birthday"),
-      phone: data.get("phone"),
+      phone: data.get("mobile"),
       email: data.get("email"),
       password: data.get("password"),
     };
+    dispatch(Register(userData))
   };
   return (
     <div className="register">
@@ -47,6 +48,22 @@ export default function AuthRegister() {
           Đăng ký
         </Typography>
         <Grid container spacing={3}>
+        <Grid item xs={12}>
+            <TextField
+              required
+              id="name"
+              name="name"
+              label="Họ và tên"
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <LocalPhoneIcon fontSize="large" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
           <Grid item xs={12}>
             <TextField
               required
@@ -85,6 +102,7 @@ export default function AuthRegister() {
               id="password"
               name="password"
               label="Mật khẩu"
+              type="password"
               fullWidth
               onChange={(e) => setPassword(e.target.value)}
               InputProps={{
@@ -101,6 +119,7 @@ export default function AuthRegister() {
               required
               id="confirmPassword"
               name="confirmPassword"
+              type="password"
               label="Xác nhận mật khẩu"
               fullWidth
               onChange={(e) => setConfirmPassword(e.target.value)}

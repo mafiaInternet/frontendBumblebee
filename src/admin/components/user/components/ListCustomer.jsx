@@ -11,10 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditNoteSharpIcon from "@mui/icons-material/EditNoteSharp";
 import Switch from "@mui/material/Switch";
 import AddCustomer from "./AddCustomer";
-import { Link } from "react-router-dom";
+
 import {
   deleteCustomerById,
   findUserByEmail,
@@ -96,32 +95,27 @@ const ListCustomers = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [users, setUsers] = useState([]);
 
   const handleFilterUser = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     if (data.get("email") != "") {
       dispatch(findUserByEmail(data.get("email")));
-      setUsers([customer.customer]);
-      console.log(users);
+  
     } else {
-      setUsers(customer.customers);
+      dispatch(getCustomers())
     }
   };
 
   useEffect(() => {
     if (!customer.customers || customer.customers.length === 0) {
       dispatch(getCustomers());
-    } else {
-      setUsers(customer.customers);
-    }
-  }, [dispatch, customer.customers]);
+    } 
+  }, [dispatch]);
 
-  return (
+  return customer.customers && (
     <div className="customers">
       <h2 className="admin--home--title">Quản Lý Người Dùng</h2>
-
       <div className="customers--content">
         <Button
           className="customers--content--add"
@@ -157,7 +151,7 @@ const ListCustomers = () => {
               </TableRow>
             </TableHead>
             <TableBody className="customers--table--body">
-              {users.map((item, index) => (
+              {customer.customers.map((item, index) => (
                 <StyledTableRow key={item.id}>
                   <StyledTableCell align="left">{index}</StyledTableCell>
                   <StyledTableCell align="left">{item.name}</StyledTableCell>
@@ -173,7 +167,7 @@ const ListCustomers = () => {
                   <StyledTableCell align="center">
                     <Switch {...label} />
                   </StyledTableCell>
-                  <StyledTableCell align="left">{item.role}</StyledTableCell>
+                  <StyledTableCell align="center">{item.role}</StyledTableCell>
                   <StyledTableCell align="left">
                     <DeleteIcon
                       color="error"
@@ -234,7 +228,8 @@ const ListCustomers = () => {
         </Box>
       </Modal>
     </div>
-  );
+  )
+  
 };
 
 export default ListCustomers;
