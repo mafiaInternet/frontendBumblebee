@@ -121,7 +121,7 @@ const ProductDetail = () => {
       <div className="productDetail">
         <Box class="productDetail__item" style={{ marginTop: "16px" }}>
           <Grid container spacing={2}>
-            <Grid item xs={7} style={{ height: "681.625px" }}>
+            <Grid item xs={7} >
               <Carousel
                 showArrows={false}
                 showStatus={false}
@@ -150,27 +150,29 @@ const ProductDetail = () => {
                 </Typography>
                 <hr></hr>
                 <Box sx={{display: "flex"}}>
-                  <div className="productDetail__intro__stars d-flex">
-                    <span>{averageStars}</span>
+                  <div className="productDetail__intro__stars d-flex align-items-center">
+                    <span style={{borderBottom: "1px solid #faaf00", color: "#faaf00", fontSize: "1.8rem", marginRight: "0.5rem"}}>{averageStars == 0 ? 5 : 5/averageStars}</span>
                     <Rating
                       sx={{
                         alignItems: "center",
                         justifyContent: "center",
-                     
                       }}
                       name="half-rating-read "
-                      value={averageStars}
+                      value={averageStars == 0 ? 5 : 5/averageStars}
                       precision={0.1}
                       readOnly
                     />
                   </div>
-                  <Box sx={{borderLeft: "1px solid", borderRight: "1px solid", margin: "0 1rem", padding: "0 1rem"}}>
-                    <span>{review.reviews.length}</span>
-                    Đánh giá
+                  <Box sx={{borderLeft: "1px solid", borderRight: "1px solid", margin: "0 1rem", padding: "0 1rem", display: "flex", alignItems: "center"}}>
+                    <span style={{borderBottom: "1px solid black",fontSize: "1.8rem", color: "black", marginRight: "0.5rem" }}>{totalReviews != 0 ? totalReviews : ""}</span>
+                    <span style={{fontSize: "1.8rem"}}>
+                    {totalReviews != 0 ? "Đánh giá" : "Chưa có đánh giá"}
+
+                    </span>
                   </Box>
                   <div>
-                    <span>{products.product.totalSold}</span>
-                    Đã bán
+                    <span style={{fontSize: "1.8rem"}}>{products.product.totalSold < 1000 ? products.product.totalSold +" Đã bán" : products.product.totalSold +"k Đã bán"}</span>
+                  
                   </div>
                 </Box>
 
