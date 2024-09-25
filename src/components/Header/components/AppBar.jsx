@@ -4,7 +4,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
-
 import TemporaryDrawer from "./Demo";
 import Topbar from "./Topbar";
 
@@ -65,8 +64,8 @@ export default function PrimarySearchAppBar(props) {
         position="static"
       >
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          <TemporaryDrawer></TemporaryDrawer>
-          <Topbar jwt={props.jwt} cartItems={props.cartItems}></Topbar>
+          <TemporaryDrawer/>
+          <Topbar jwt={props.jwt} cartItems={props.cartItems}/>
         </Toolbar>
       </AppBar>
     </Box>

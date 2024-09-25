@@ -12,8 +12,6 @@ import Navigation from "./Navigation.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Typography from '@mui/material/Typography';
-import { findProductFilter } from "../../../state/product/Action.jsx";
-
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -67,10 +65,10 @@ const Topbar = (props) => {
   const [state, setState] = React.useState("")
 
   const handleSearch = () => {
-    navigate(`/search?query=${state}`)   
+    // navigate(`/search?query=${state}`)   
   }
   return (
-    <div className="topbar">
+    <div className="topbar" style={{width: "100%"}}>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
           position="static"
@@ -80,22 +78,35 @@ const Topbar = (props) => {
             borderRadius: "none",
           }}
         >
-          <Toolbar sx={{ display: "flex", justifyContent: "space-between", paddingTop: "24px" }}>
+          <Toolbar sx={{ display: "flex", justifyContent: "space-between", padding: "12px 24px 12px 0px"}}>
             <Link to="/home" style={{textDecoration: "none"}}>
-              <Typography variant="h2" sx={{ color: "#232323", fontWeight: "700", paddingLeft: "15px"}}>
+              <Typography variant="h2" sx={{ color: "#232323", fontWeight: "700"}}>
                   BUMBLEBEE 
               </Typography>
             </Link>
             <Box className="topbar-icons d-flex" style={{ gap: "15px" }}>
-              <Search sx={{cursor: "pointer"}} onClick={handleSearch}>
-
+              <Search 
+                sx={{
+                  cursor: "pointer",
+                  "@media (max-width: 800px)": {
+                      width: "154px",
+                    },
+                  "@media (max-width: 640px)": {
+                      display:"none",
+                    },
+                }} 
+                onClick={handleSearch}
+              >
                 <SearchIconWrapper onClick={handleSearch}>
                   <SearchIcon onClick={handleSearch} style={{fontSize: "22px"}}/>
                 </SearchIconWrapper>
-
-     
                 <StyledInputBase
-                  sx={{ fontSize: "16px", }}
+                  sx={{ 
+                    fontSize: "16px",
+                    "@media (max-width: 800px)": {
+                      width: "100px",
+                    },
+                  }}
                   placeholder="Tìm kiếm…"
                   onChange={(e) => setState(e.target.value)}
                   inputProps={{ "aria-label": "search" }}

@@ -6,6 +6,18 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { putUser } from "../../../state/auth/Action";
 
+const text = {
+  width: "250px",
+  fontWeight: "bold",
+  fontSize: "1.5rem",
+  paddingRight: "2rem",
+  maxWidth: "50%",
+  color: "#707070",
+  "@media (min-width: 900px) and (max-width: 920px)": {
+    maxWidth: "80%",
+  },
+}
+
 const Infomation = () => {
   const dispatch = useDispatch()
   const { auth } = useSelector((store) => store);
@@ -77,84 +89,90 @@ const Infomation = () => {
                 <Grid item xs={12} md={6}>
                   <div className="form--group">
                     <div style={{ marginBottom: "10px" }}>
-                      <label style={{ textAlign: "start" }}>Họ và tên:</label>
-                      <input
-                        type="text"
-                        name="name"
-                        style={{
-                          border: !isEditing.name
-                            ? "1px solid transparent"
-                            : "1px solid silver",
-                          borderRadius: "10px",
-                        }}
-                        value={user.name}
-                        onChange={handleInputChange}
-                        disabled={!isEditing.name}
-                      />
-                      <EditIcon
-                        onClick={() =>
-                          setIsEditing((prev) => ({
-                            ...prev,
-                            name: !prev.name,
-                          }))
-                        }
-                        style={{ fontSize: "20px", marginLeft: "10px" }}
-                      />
+                      <label style={{ textAlign: "start",...text }}>Họ và tên:</label>
+                      <div>
+                        <input
+                          type="text"
+                          name="name"
+                          style={{
+                            border: !isEditing.name
+                              ? "1px solid transparent"
+                              : "1px solid silver",
+                            borderRadius: "10px",
+                          }}
+                          value={user.name}
+                          onChange={handleInputChange}
+                          disabled={!isEditing.name}
+                        />
+                        <EditIcon
+                          onClick={() =>
+                            setIsEditing((prev) => ({
+                              ...prev,
+                              name: !prev.name,
+                            }))
+                          }
+                          style={{ fontSize: "20px", marginLeft: "10px" }}
+                        />
+                      </div>
                     </div>
                     <div style={{ marginBottom: "10px" }}>
-                      <label style={{ textAlign: "start" }}>Email:</label>
-                      <input
-                        type="text"
-                        name="email"
-                        style={{
-                          border: !isEditing.email
-                            ? "1px solid transparent"
-                            : "1px solid silver",
-                          borderRadius: "10px",
-                        }}
-                        value={user.email}
-                        onChange={handleInputChange}
-                        disabled={!isEditing.email}
-                      />
-                      <EditIcon
-                        onClick={() =>
-                          setIsEditing((prev) => ({
-                            ...prev,
-                            email: !prev.email,
-                          }))
-                        }
-                        style={{ fontSize: "20px", marginLeft: "10px" }}
-                      />
+                      <label style={{ textAlign: "start",...text }}>Email:</label>
+                      <div>
+                        <input
+                          type="text"
+                          name="email"
+                          style={{
+                            border: !isEditing.email
+                              ? "1px solid transparent"
+                              : "1px solid silver",
+                            borderRadius: "10px",
+                          }}
+                          value={user.email}
+                          onChange={handleInputChange}
+                          disabled={!isEditing.email}
+                        />
+                        <EditIcon
+                          onClick={() =>
+                            setIsEditing((prev) => ({
+                              ...prev,
+                              email: !prev.email,
+                            }))
+                          }
+                          style={{ fontSize: "20px", marginLeft: "10px" }}
+                        />
+                      </div>
                     </div>
                     <div style={{ marginBottom: "10px" }}>
-                      <label style={{ textAlign: "start" }}>
+                      <label style={{ textAlign: "start", ...text }}>
                         Số điện thoại:
                       </label>
-                      <input
-                        type="text"
-                        name="mobile"
-                        style={{
-                          border: !isEditing.phone
-                            ? "1px solid transparent"
-                            : "1px solid silver",
-                          borderRadius: "10px",
-                        }}
-                        value={user.mobile}
-                        onChange={handleInputChange}
-                        disabled={!isEditing.phone}
-                      />
-                      <EditIcon
-                        onClick={() =>
-                          setIsEditing((prev) => ({
-                            ...prev,
-                            phone: !prev.phone,
-                          }))
-                        }
-                        style={{ fontSize: "20px", marginLeft: "10px" }}
-                      />
+                      <div>
+                        <input
+                          type="text"
+                          name="mobile"
+                          style={{
+                            border: !isEditing.phone
+                              ? "1px solid transparent"
+                              : "1px solid silver",
+                            borderRadius: "10px",
+                          }}
+                          value={user.mobile}
+                          onChange={handleInputChange}
+                          disabled={!isEditing.phone}
+                        />
+                        <EditIcon
+                          onClick={() =>
+                            setIsEditing((prev) => ({
+                              ...prev,
+                              phone: !prev.phone,
+                            }))
+                          }
+                          style={{ fontSize: "20px", marginLeft: "10px" }}
+                        />
+                      </div>
                     </div>
                     <div style={{ marginBottom: "10px" }}>
-                      <label style={{ textAlign: "start" }}>Ngày sinh:</label>
+                      <label style={{ textAlign: "start", ...text }}>Ngày sinh:</label>
                       <input
                         type="date"
                         name="birthday"
@@ -170,43 +188,57 @@ const Infomation = () => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <div className="password">
-                    <input
-                      style={{
-                        borderRadius: "10px",
-                        border: "1px solid silver",
-                        marginBottom: "17px",
-                        padding: "8px",
-                      }}
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      onChange={handleInputChange}
-                      placeholder="Mật khẩu hiện tại"
-                    />
-
-                    <input
-                      style={{
-                        borderRadius: "10px",
-                        border: "1px solid silver",
-                        marginBottom: "17px",
-                        padding: "8px",
-                      }}
-                      type={showPassword ? "text" : "password"}
-                      name="passwordAgain"
-                      onChange={handleInputChange}
-                      placeholder="Mật khẩu mới"
-                    />
-                    <input
-                      style={{
-                        borderRadius: "10px",
-                        border: "1px solid silver",
-                        marginBottom: "17px",
-                        padding: "8px",
-                      }}
-                      type={showPassword ? "text" : "password"}
-                      name="passwordAuthentic"
-                      onChange={handleInputChange}
-                      placeholder="Xác nhận mật khẩu mới"
-                    />
+                    <div>
+                      <label style={{ textAlign: "start", ...text, width:"250px" }}>
+                        Mật khẩu hiện tại:
+                      </label>
+                      <input
+                        style={{
+                          borderRadius: "10px",
+                          border: "1px solid silver",
+                          marginBottom: "17px",
+                          padding: "8px",
+                        }}
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        onChange={handleInputChange}
+                        placeholder="Mật khẩu hiện tại"
+                      />
+                    </div>
+                    <div>
+                      <label style={{ textAlign: "start", ...text }}>
+                        Mật khẩu mới:
+                      </label>
+                      <input
+                        style={{
+                          borderRadius: "10px",
+                          border: "1px solid silver",
+                          marginBottom: "17px",
+                          padding: "8px",
+                        }}
+                        type={showPassword ? "text" : "password"}
+                        name="passwordAgain"
+                        onChange={handleInputChange}
+                        placeholder="Mật khẩu mới"
+                      />
+                    </div>
+                    <div>
+                      <label style={{ textAlign: "start", ...text }}>
+                        Xác nhận mật khẩu mới:
+                      </label>
+                      <input
+                        style={{
+                          borderRadius: "10px",
+                          border: "1px solid silver",
+                          marginBottom: "17px",
+                          padding: "8px",
+                        }}
+                        type={showPassword ? "text" : "password"}
+                        name="passwordAuthentic"
+                        onChange={handleInputChange}
+                        placeholder="Xác nhận mật khẩu mới"
+                      />
+                    </div>
                     <div className="d-flex" style={{ justifyContent: "end" }}>
                       <input
                         type="checkbox"

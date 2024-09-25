@@ -115,7 +115,7 @@ const Payment = () => {
         <Box className="container" sx={{ marginBottom: "180px" }}>
           <Stepper
             className="step"
-            sx={{ backgroundColor: "white", padding: "1rem" }}
+            sx={{ backgroundColor: "white", padding: "5rem" }}
           >
             <Step className="step__item">
               <Typography
@@ -126,8 +126,8 @@ const Payment = () => {
                 }}
                 className="step__item__lable"
               >
-                <ShoppingCartOutlinedIcon sx={{ fontSize: "3rem", marginRight: "1rem" }}/>
-                Giỏ hàng
+                <ShoppingCartOutlinedIcon sx={{ fontSize: "5rem" }}/>
+                <Box>Giỏ hàng</Box>
               </Typography>
             </Step>
             <Step className="step__item">
@@ -139,8 +139,8 @@ const Payment = () => {
                   fontSize: "2rem",
                 }}
               >
-                <PaymentIcon sx={{ fontSize: "3rem", marginRight: "1rem" }}/>
-                Đặt Hàng
+                <PaymentIcon sx={{ fontSize: "5rem" }}/>
+                <Box>Đặt Hàng</Box>
               </Typography>
             </Step>
             <Step className="step__item">
@@ -152,8 +152,8 @@ const Payment = () => {
                 }}
                 className="step__item__lable"
               >
-                <CreditScoreIcon sx={{ fontSize: "3rem", marginRight: "1rem" }}/>
-                Hoàn Thành Đơn Hàng
+                <CreditScoreIcon sx={{ fontSize: "5rem" }}/>
+                <Box>Hoàn Thành Đơn Hàng</Box>
               </Typography>
             </Step>
           </Stepper>
