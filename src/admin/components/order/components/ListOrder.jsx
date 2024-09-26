@@ -17,6 +17,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderById, getOrdersByAdmin } from "../../../../state/order/Action";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const head = [
   "Mã đơn hàng",
@@ -161,7 +162,13 @@ const ListOrder = () => {
                   <StyledTableCell>{item.id}</StyledTableCell>
                   <StyledTableCell>{item.user.name}</StyledTableCell>
                   <StyledTableCell>{item.user.email}</StyledTableCell>
-                  <StyledTableCell>{item.createAt}</StyledTableCell>
+                  <StyledTableCell>
+                    {item.createAt
+                      ? moment(item.createAt).format(
+                        "DD/MM/YYYY HH:mm:ss"
+                      )
+                      : "N/A"}
+                  </StyledTableCell>
                   <StyledTableCell>
                     <Typography
                       component={"span"}

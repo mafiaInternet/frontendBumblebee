@@ -43,8 +43,16 @@ const Home = () => {
         <div className="layer"></div>
         <div className="admin--home--content--quantity">
           <Grid container spacing={2}>
-            <Grid item xs={3} container>
-              <Grid sx={{ backgroundColor: "#dc3545" }} item xs={4}>
+            <Grid item xs={4} container>
+              <Grid 
+                sx={{ 
+                  backgroundColor: "#dc3545",
+                  "@media (max-width: 730px)": {
+                    height: "50px"
+                  },
+                }} 
+                item xs={4}
+              >
                 <div className="admin--home--content--quantity--icon">
                   <ShoppingCartIcon style={{ fontSize: "40px" }} />
                 </div>
@@ -56,8 +64,16 @@ const Home = () => {
                 </div>
               </Grid>
             </Grid>
-            <Grid item xs={3} container>
-              <Grid sx={{ backgroundColor: "green" }} item xs={4}>
+            <Grid item xs={4} container>
+              <Grid 
+                sx={{ 
+                  backgroundColor: "green",
+                  "@media (max-width: 730px)": {
+                    height: "50px"
+                  },
+                }} 
+                item xs={4}
+              >
                 <div className="admin--home--content--quantity--icon">
                   <AttachMoneyIcon style={{ fontSize: "40px" }} />
                 </div>
@@ -71,8 +87,16 @@ const Home = () => {
                 </div>
               </Grid>
             </Grid>
-            <Grid item xs={3} container>
-              <Grid sx={{ backgroundColor: "#1565c0" }} item xs={4}>
+            <Grid item xs={4} container>
+              <Grid 
+                sx={{ 
+                  backgroundColor: "#1565c0",
+                  "@media (max-width: 730px)": {
+                    height: "50px"
+                  },
+                }} 
+                item xs={4}
+              >
                 <div className="admin--home--content--quantity--icon">
                   <FullscreenExitIcon style={{ fontSize: "40px" }} />
                 </div>

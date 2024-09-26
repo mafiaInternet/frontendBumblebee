@@ -50,9 +50,7 @@ const tabs = [
   {
     link: text + "/voucher",
     icon: (
-      <ConfirmationNumberIcon
-        sx={{ fontSize: "2.5rem" }}
-      ></ConfirmationNumberIcon>
+      <ConfirmationNumberIcon sx={{ fontSize: "2.5rem" }}></ConfirmationNumberIcon>
     ),
     name: "Mã giảm giá",
   },
@@ -78,7 +76,6 @@ const style = {
   width: { xs: "90%", sm: "80%", md: "70%", lg: "50%" },
   margin: "0 auto",
   bgcolor: "background.paper",
-  // border: '1px solid #000',
   p: 4,
 };
 
@@ -100,7 +97,7 @@ const Admin = () => {
   return jwt && auth.jwt && auth.user.role != null ? (
     <div className="admin">
       <Grid container className="admin--navTabs">
-        <Grid item xs={2} className="admin--navTabs--link">
+        <Grid item xs={2} sx={{ height: "inherit" }} className="admin--navTabs--link">
           <Typography
             sx={{
               display: "flex",
@@ -111,7 +108,15 @@ const Admin = () => {
           >
             <Typography
               onClick={handleClick}
-              sx={{ fontSize: "30px", fontWeight: "600", cursor: "pointer" }}
+              sx={{
+                fontSize: "30px", fontWeight: "600", cursor: "pointer",
+                "@media (max-width: 1220px)": {
+                  fontSize: "20px"
+                },
+                "@media (max-width: 850px)": {
+                  fontSize: "10px"
+                },
+              }}
             >
               BUMBLEBEE
             </Typography>
@@ -130,7 +135,7 @@ const Admin = () => {
                   button
                   key={index}
                   component={Link}
-                  to={item.link}  
+                  to={item.link}
                   sx={{
                     "&:hover": {
                       backgroundColor: "#f0f0f0",
@@ -140,10 +145,21 @@ const Admin = () => {
                     marginBottom: "8px",
                   }}
                 >
-                  <ListItemIcon sx={{ color: "inherit" }}>
+                  <ListItemIcon sx={{ color: "inherit", display: "flex", justifyContent: "center" }}>
                     {item.icon}
                   </ListItemIcon>
-                  <div style={{ fontSize: "20px" }}>{item.name}</div>
+                  <Box sx={{
+                    fontSize: "20px",
+                    "@media (max-width: 1220px)": {
+                      fontSize: "15px"
+                    },
+                    "@media (max-width: 850px)": {
+                      fontSize: "11px"
+                    },
+                    "@media (max-width: 670px)": {
+                      display: "none"
+                    }
+                  }}>{item.name}</Box>
                 </ListItem>
               ))}
             </List>
@@ -151,7 +167,6 @@ const Admin = () => {
               onClick={() => dispatch(Logout())}
               variant="contained"
               style={{
-                marginBottom: "6px",
                 padding: "12px 16px",
                 fontSize: "16px",
               }}
@@ -190,8 +205,8 @@ const Admin = () => {
       </Grid>
     </div>
   ) : (
-    <div className="container" style={{display: "flex", justifyContent:"center", alignItems: "center", marginTop: "10rem"}}>
-    <AuthLogin></AuthLogin>
+    <div className="container" style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10rem" }}>
+      <AuthLogin></AuthLogin>
 
     </div>
   );
