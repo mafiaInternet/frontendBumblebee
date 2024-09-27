@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import AuthLogin from "./auth/AuthLogin";
 import AuthRegister from "./auth/AuthRegister";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -29,9 +29,7 @@ export default function Auth() {
   return (
     <div className="auth">
       <Button onClick={handleOpen}>
-        <AccountCircleOutlinedIcon
-          sx={{ fontSize: "3rem", color: "black" }}
-        ></AccountCircleOutlinedIcon>
+        <AccountCircleOutlinedIcon sx={{ fontSize: "3rem", color: "black" }}/>
         <span>Đăng nhập</span>
       </Button>
       <Modal
@@ -42,9 +40,9 @@ export default function Auth() {
       >
         <Box sx={style} style={{ borderRadius: "20px" }}>
           {location.pathname !== "/register" ? (
-            <AuthLogin></AuthLogin>
+            <AuthLogin/>
           ) : (
-            <AuthRegister></AuthRegister>
+            <AuthRegister/>
           )}
         </Box>
       </Modal>

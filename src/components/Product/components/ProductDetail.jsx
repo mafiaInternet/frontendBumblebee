@@ -1,12 +1,4 @@
-import {
-  Grid,
-  Box,
-  Typography,
-  Button,
-  ButtonGroup,
-  TextField,
-  Rating,
-} from "@mui/material";
+import { Grid, Box, Typography, Button, ButtonGroup, TextField, Rating, Modal } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import { Link, useParams } from "react-router-dom";
@@ -17,10 +9,26 @@ import ProductText from "./ProductText";
 import { getReviewByProduct } from "../../../state/review/Action";
 import Review from "../../review/Review";
 import { Price } from "../../../config/config";
+import AuthLogin from "../../../customer/auth/AuthLogin";
+import AuthRegister from "../../../customer/auth/AuthRegister";
+import { useLocation } from "react-router-dom";
+
+const style = {
+  position: "absolute",
+  display: "flex",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "auto",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+};
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const { products, review, auth } = useSelector((store) => store);
+  const location = useLocation();
   const param = useParams();
   const [product, setProduct] = useState(null);
   const [selectedColor, setSelectedColor] = useState();
@@ -36,10 +44,14 @@ const ProductDetail = () => {
     size: null,
     quantity: 1,
   });
+  const [open, setOpen] = React.useState(false);
+  const handleOpenAuth = () => setOpen(true);
+  const handleCloseAuthClose = () => setOpen(false);
+  const jwt = localStorage.getItem('jwt');
 
   const handleAddItem = () => {
     if (selectedColor == null || selectedSize == null) {
-      alert("vale");
+      alert("Vui lòng chọn màu áo và kích thước bạn muốn!!!");
     } else {
       const data = {
         user: auth.user,
@@ -302,12 +314,12 @@ const ProductDetail = () => {
                 <ButtonGroup class="button-group-end">
                   <Button
                     class="btn btn-outline-dark"
-                    onClick={() => handleAddItem()}
+                    onClick={jwt ? handleAddItem : handleOpenAuth}
                   >
                     Thêm vào giỏ hàng
                   </Button>
-                  <Link to="/payment">
-                    <Button class="btn btn-dark " onClick={createCheckOut}>
+                  <Link to={jwt ? "/payment" : null}>
+                    <Button class="btn btn-dark " onClick={jwt ? createCheckOut : handleOpenAuth}>
                       Mua ngay
                     </Button>
                   </Link>
@@ -317,7 +329,21 @@ const ProductDetail = () => {
           </Grid>
         </Box>
         <ProductText />
-        <Review product={products.product} />
+        <Review product={products.product}/>
+        <Modal
+          open={jwt ? false : open}
+          onClose={handleCloseAuthClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style} style={{ borderRadius: "20px" }}>
+            {location.pathname !== "/register" ? (
+              <AuthLogin/>
+            ) : (
+              <AuthRegister/>
+            )}
+          </Box>
+        </Modal>
       </div>
     )
   );
