@@ -127,7 +127,7 @@ console.log(cart.cart)
     <Box
       className="cart"
       sx={{
-        width: { xs: "95%", md: "85%", lg: "75%", xl: "70%" },
+        width: { xs: "100%", md: "85%", lg: "75%", xl: "70%" },
         margin: "30px auto",
       }}
     >
@@ -141,8 +141,8 @@ console.log(cart.cart)
             }}
             className="step__item__lable"
           >
-            <ShoppingCartOutlinedIcon sx={{ fontSize: "3rem", marginRight: "1rem" }} />
-            Giỏ hàng
+            <ShoppingCartOutlinedIcon sx={{ fontSize: "5rem" }} />
+            <Box>Giỏ hàng</Box>
           </Typography>
         </Step>
         <Step className="step__item">
@@ -154,8 +154,8 @@ console.log(cart.cart)
               fontSize: "2rem",
             }}
           >
-            <PaymentIcon sx={{ fontSize: "3rem", marginRight: "1rem" }} />
-            Đặt Hàng
+            <PaymentIcon sx={{ fontSize: "5rem" }} />
+            <Box>Đặt Hàng</Box>
           </Typography>
         </Step>
         <Step className="step__item">
@@ -167,8 +167,8 @@ console.log(cart.cart)
             }}
             className="step__item__lable"
           >
-            <CreditScoreIcon sx={{ fontSize: "3rem", marginRight: "1rem" }} />
-            Hoàn Thành Đơn Hàng
+            <CreditScoreIcon sx={{ fontSize: "5rem" }} />
+            <Box>Hoàn Thành Đơn Hàng</Box>
           </Typography>
         </Step>
       </Stepper>
@@ -176,18 +176,18 @@ console.log(cart.cart)
         <div>
           <Table
             className="cart-table"
-            sx={{ display: { xs: "none", md: "block" } }}
+            sx={{ display: { xs: "block", md: "block" } }}
           >
             <TableHead className="cart-table-head">
               <TableRow>
                 <TableCell align="center" />
                 <TableCell
                   align="left"
-                  sx={{ width: { xl: "65%", lg: "60%", md: "55%" } }}
+                  sx={{ width: { xl: "65%", lg: "60%", md: "45%", sx:"40%" } }}
                 >
                   Thông tin sản phẩm
                 </TableCell>
-                <TableCell align="center" width={"30%"}>
+                <TableCell align="center" width={{lg:"30%", md:"40%", sx:"40%"}}>
                   Số lượng
                 </TableCell>
                 <TableCell align="center">Thành tiền</TableCell>
@@ -207,7 +207,13 @@ console.log(cart.cart)
                         onChange={(e) => isSelected(e, cartItem)}
                       />
                     </TableCell>
-                    <TableCell align="left" className="d-flex">
+                    <TableCell 
+                      align="left" 
+                      className="d-flex" 
+                      sx={{ "@media (max-width: 580px)": {
+                        width: "212px",
+                      }}}
+                    >
                       <div className="cart-table-body-img d-flex align-items-center">
                         <img loading="lazy" className="img-fluid" src={cartItem.imageUrl} />
                       </div>
@@ -226,7 +232,16 @@ console.log(cart.cart)
                       </div>
                     </TableCell>
                     <TableCell align="center">
-                      <Box className="cart-table-body-quantity" sx={{ width: "50%", margin: "0 auto" }}>
+                      <Box 
+                        className="cart-table-body-quantity" 
+                        sx={{ 
+                          width: "50%", 
+                          margin: "0 auto",
+                          "@media (max-width: 700px)": {
+                            width: "100%",
+                          },
+                        }}
+                      >
                         <button onClick={() => updateCartItem("-", cartItem)}>
                           -
                         </button>

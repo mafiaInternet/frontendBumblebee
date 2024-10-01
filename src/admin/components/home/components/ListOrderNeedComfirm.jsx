@@ -15,6 +15,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getOrderById, putStatusOrderByAdmin } from "../../../../state/order/Action";
+import moment from "moment";
 
 const head = [
   "Khách hàng",
@@ -62,7 +63,13 @@ const ListOrderNeedComfirm = (props) => {
             {orders.map((order, index) => (
               <TableRow key={index}>
                 <TableCell align="left">{order.user.name}</TableCell>
-                <TableCell align="left">{order.createAt}</TableCell>
+                <TableCell align="left">
+                  {order.createAt
+                    ? moment(order.createAt).format(
+                      "DD/MM/YYYY HH:mm:ss"
+                    )
+                    : "N/A"}
+                </TableCell>
                 <TableCell align="left">
                   {order.orderItems.length} sản phẩm
                 </TableCell>
@@ -70,11 +77,7 @@ const ListOrderNeedComfirm = (props) => {
                   <Typography
                     component={"span"}
                     sx={{
-                      borderRadius: "3rem",
-                      color: "#fff",
-                      padding: "0.5rem 1rem",
-                      fontSize: "1.8rem",
-                      backgroundColor: "#1565c0",
+                      fontSize: "1.8rem"
                     }}
                   >
                     {order.orderStatus}

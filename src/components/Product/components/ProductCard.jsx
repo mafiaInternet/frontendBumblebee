@@ -9,6 +9,9 @@ import Modal from "@mui/material/Modal";
 import { Carousel } from "react-responsive-carousel";
 import { Price } from "../../../config/config";
 import "../style.css";
+import AuthLogin from "../../../customer/auth/AuthLogin";
+import AuthRegister from "../../../customer/auth/AuthRegister";
+import { useLocation } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -23,7 +26,8 @@ const style = {
 };
 
 const ProductCard = ({ product }) => {
-  const { products, review, auth } = useSelector((store) => store);
+  const { products, auth } = useSelector((store) => store);
+  const location = useLocation();
   const dispatch = useDispatch();
   const [selected, setSelected] = useState(product && product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(
@@ -33,11 +37,15 @@ const ProductCard = ({ product }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleOpenAuth = () => setOpen(true);
+  const handleCloseAuthClose = () => setOpen(false);
   const [totalQuantity, setTotalQuantity] = useState(
     products.product &&
     products.product.colors &&
     products.product.totalQuantity
   );
+  const jwt = localStorage.getItem('jwt');
+  const isAuthenticated = jwt && jwt.length > 0;
 
   const handleAddItem = (e) => {
     if (selectedSize == null) {
@@ -55,7 +63,6 @@ const ProductCard = ({ product }) => {
           quantity: quantity,
         }
       };
-      console.log(data);
       setOpen(false);
       dispatch(addItemToCart(data));
     }
@@ -88,7 +95,7 @@ const ProductCard = ({ product }) => {
             -{product.discountPersent}%
           </span>
           <div className="product--card--image--wrapper--cart">
-            <Button onClick={handleOpen}>Mua hàng</Button>
+            <Button onClick={isAuthenticated ? handleOpen : handleOpenAuth}>Mua hàng</Button>
           </div>
         </div>
       </div>
@@ -97,8 +104,7 @@ const ProductCard = ({ product }) => {
           <Box sx={{ display: "flex" }}>
             {product &&
               product.colors.map((item, index) => (
-                <div
-                  className="product--card--colors--item"
+                <div className="product--card--colors--item"
                   onClick={() => setSelected(item)}
                   key={index}
                 >
@@ -127,7 +133,21 @@ const ProductCard = ({ product }) => {
         </p>
       </div>
       <Modal
-        open={open}
+        open={jwt ? false : open}
+        onClose={handleCloseAuthClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style} style={{ borderRadius: "20px" }}>
+          {location.pathname !== "/register" ? (
+            <AuthLogin/>
+          ) : (
+            <AuthRegister/>
+          )}
+        </Box>
+      </Modal>
+      <Modal
+        open={jwt ? open : false}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -140,7 +160,6 @@ const ProductCard = ({ product }) => {
               </div>
             ))}
           </Carousel>
-
           <div className="product--card--model--info">
             <p className="product--card--model--info--title">{product.title}</p>
             <p className="product--card--model--info--price">

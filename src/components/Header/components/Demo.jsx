@@ -9,17 +9,6 @@ import { ListItem } from "@mui/material";
 export default function TemporaryDrawer() {
   const [state, setState] = React.useState(false);
 
-  const navItems = [
-    { link: "all", name: "Tất cả sản phẩm" },
-    { link: "ao-thun", name: "Áo Thun" },
-    { link: "baby-tee", name: "Baby Tee" },
-    { link: "ao-polo", name: "Áo Polo" },
-    { link: "ao-so-mi", name: "Áo sơ mi" },
-    { link: "ao-khoac", name: "Áo khoác" },
-    { link: "quan", name: "Quần" },
-    { link: "quan-nu", name: "Quần nữ" },
-    { link: "phu-kien", name: "Phụ kiện" },
-  ];
   const pages = [
     {
       text: "Trang chủ",
@@ -27,15 +16,16 @@ export default function TemporaryDrawer() {
     },
     {
       text: "Tất cả sản phẩm",
-      href: "/product/all",
+      href: "#",
+    },
+    {},
+    {
+      text: "Chính sách đổi trả",
+      href: "/policy",
     },
     {
       text: "Bảng kích thước",
       href: "/table-size",
-    },
-    {
-      text: "Chính sách đổi trả",
-      href: "/policy",
     },
     {
       text: "Hệ thống cửa hàng",
@@ -46,35 +36,35 @@ export default function TemporaryDrawer() {
   const categories = [
     {
       text: "Áo thun",
-      href: "ao-thun",
+      href: "/product/ao-thun",
     },
     {
       text: "Baby Tee",
-      href: "baby-tee",
+      href: "/product/baby-tee",
     },
     {
       text: "Áo polo",
-      href: "ao-polo",
+      href: "/product/ao-polo",
     },
     {
       text: "Áo sơ mi",
-      href: "ao-so-mi",
+      href: "/product/ao-so-mi",
     },
     {
       text: "Áo khoác",
-      href: "ao-khoac",
+      href: "/product/ao-khoac",
     },
     {
       text: "Hoodie",
-      href: "hoodie",
+      href: "/product/hoodie",
     },
     {
       text: "Quần",
-      href: "quan",
+      href: "/product/quan",
     },
     {
       text: "Phụ kiện",
-      href: "phu-kien",
+      href: "/product/phu-kien",
     },
   ];
 
@@ -85,7 +75,6 @@ export default function TemporaryDrawer() {
         edge="start"
         color="dark"
         aria-label="open drawer"
-        sx={{ mr: 2 }}
         onClick={() => setState(true)}
       >
         <MenuIcon />
@@ -99,11 +88,11 @@ export default function TemporaryDrawer() {
           onKeyDown={() => setState(false)}
         >
           <dl>
-            <b>MENU</b>
+            <b style={{ display: "inline-block", width: "100%", textAlign: "center", fontSize: "30px"}}>MENU</b>
             {pages.map((page, index) =>
-              index != 1 ? (
+              index !== 2 ? (
                 <dt key={index}>
-                  <Link>{page.text}</Link>
+                  <Link to={page.href}>{page.text}</Link>
                 </dt>
               ) : (
                 categories.map((item, a) => (
