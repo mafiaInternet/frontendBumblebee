@@ -19,7 +19,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const { cart, auth } = useSelector((store) => store);
 
-  console.log(cart)
+
 
   const isSelected = (event, cartItem) => {
     const index = selected.findIndex(
@@ -39,6 +39,8 @@ const Cart = () => {
       setTotalPrice(total);
     }
   };
+console.log(selected)
+console.log(selectedCartItems)
 
   const isSelectedAll = () => {
     if (selectedCartItems) {
@@ -57,17 +59,42 @@ const Cart = () => {
     setSelectedCartItems(!selectedCartItems);
   };
 
-  const deleteHandleCartItem = () => {
+  const deleteHandleCartItem = async () => {
+
+
+
     let cartItemIds = [];
     selected.forEach((item) => {
       cartItemIds.push(item.id);
     });
-    dispatch(removeItemToCart(cartItemIds));
-    setTotalItem(cart.cart.totalItem - selected.length);
-    selected.forEach((item) => {
-      totalPrice -= item.discountedPrice;
-    });
-    setTotalPrice(totalPrice);
+    const jwt = localStorage.getItem("jwt")
+    try {
+      const response = await fetch('http://localhost:8080/cart/cartItem/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${jwt}`
+        },
+        body: JSON.stringify(cartItemIds), // Chuyển đổi mảng thành chuỗi JSON
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+    // console.log([1,2,3,4])
+    // dispatch(removeItemToCart(cartItemIds));
+    // setTotalItem(cart.cart.totalItem - selected.length);
+    // // selected.forEach((item) => {
+    // //   totalPrice -= item.discountedPrice;
+    // // });
+    // setTotalPrice(totalPrice);
   };
 
   const updateCartItem = (active, cartItem) => {
@@ -95,7 +122,7 @@ const Cart = () => {
   useEffect(() => {
     dispatch(getCarts());
   }, [jwt, auth.jwt]);
-
+console.log(cart.cart)
   return (
     <Box
       className="cart"

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { api, apiBase } from "../../config/apiConfig";
 import {
   ADD_ITEM_ORDER_FAILURE,
@@ -58,14 +59,39 @@ export const createCartItem = (req) => async (dispatch) => {
 
 export const removeItemToCart = (req) => async (dispatch) => {
   dispatch({ type: REMOVE_CART_ITEM_REQUEST });
+  const arr = [2]
   try {
-    const respone = await api.delete(`/cart/cartItem/delete`, {
-      data: req,
+    const response = await fetch('http://localhost:8080/cart/cartItem/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(arr), // Chuyển đổi mảng thành chuỗi JSON
     });
-    dispatch({ type: REMOVE_CART_ITEM_SUCCESS, payload: respone.data });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    console.log(data);
   } catch (error) {
-    dispatch({ type: REMOVE_CART_ITEM_FAILURE, payload: error.message });
+    console.error('Error:', error);
   }
+
+  // try {
+  //   const arr = [2]
+  //   // const {data} = await api.delete(`/cart/cartItem/delete`, arr);
+  //   const response = await axios.delete('http://localhost:8080/cart/cartItem/delete', arr, {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   });
+    
+  //   // dispatch({ type: REMOVE_CART_ITEM_SUCCESS, payload: data });
+  // } catch (error) {
+  //   dispatch({ type: REMOVE_CART_ITEM_FAILURE, payload: error.message });
+  // }
 };
 
 export const updateItemTOCart = (req) => async (dispatch) => {

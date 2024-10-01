@@ -9,7 +9,7 @@ import "../style.css";
 const Nav = ({ auth }) => {
   const pages = [
     {
-      text: "Trang chủ",
+      text: "",
       href: "/home",
     },
     {
