@@ -31,7 +31,7 @@ const Menu = () => {
         <Box sx={{ sm: "block", textAlign: "center", paddingY: "10px" }}>
           {navItems.map((navItem) => (
             <Link
-              to={`/product/${navItem.link}`}
+              to={`/product/search?category=${navItem.link}`}
               key={navItem}
               style={{
                 fontSize: "16px",

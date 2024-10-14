@@ -16,7 +16,8 @@ import {
   PUT_USER_SUCCESS,
 } from "./ActionType";
 import { toast } from "react-toastify";
-import { type } from "@testing-library/user-event/dist/type";
+
+
 
 const registerRequest = () => ({ type: REGISTER_REQUEST });
 const registerSuccess = (user) => ({ type: REGISTER_SUCCESS, payload: user });
@@ -38,24 +39,20 @@ export const Register = (userData) => async (dispatch) => {
   }
 };
 
-const loginRequest = () => ({ type: LOGIN_REQUEST });
-const loginSuccess = (user) => ({ type: LOGIN_SUCCESS, payload: user });
-const loginFailure = (error) => ({ type: LOGIN_FAILURE, payload: error });
-
 export const Login = (userData) => async (dispatch) => {
-  dispatch(loginRequest());
+  dispatch({ type: LOGIN_REQUEST });
   localStorage.removeItem("jwt");
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/login`, userData);
-    const user = response.data;
-    if (user.jwt) {
+
+    const {data} = await axios.post(`${API_BASE_URL}/auth/login`, userData);
+    if (data.jwt) {
       toast.success("Đăng nhập thành công !!!");
-      localStorage.setItem("jwt", user.jwt);
+      localStorage.setItem("jwt", data.jwt);
+      dispatch({ type: LOGIN_SUCCESS, payload: data.jwt });
     }
-    dispatch(loginSuccess(user.jwt));
   } catch (error) {
     toast.success("Đăng nhập thất bại !!!");
-    dispatch(loginFailure(error.message));
+    dispatch({ type: LOGIN_FAILURE, payload: error });
   }
 };
 
@@ -64,19 +61,19 @@ const getUserSuccess = (user) => ({ type: GET_USER_SUCCESS, payload: user });
 const getUserFailure = (error) => ({ type: GET_USER_FAILURE, payload: error });
 
 export const User = (jwt) => async (dispatch) => {
-  dispatch(getUserRequest());
+  dispatch({ type: GET_USER_REQUEST });
   try {
     const response = await axios.get(`${API_BASE_URL}/api/users/profile`, {
       headers: {
-        Authorization: `Bearer ${jwt}`,
+        "Authorization": `Bearer ${jwt}`,
         "Content-Type": "application/json",
       },
     });
-    const user = response.data;
 
-    dispatch(getUserSuccess(user));
+    dispatch({type: GET_USER_SUCCESS, payload: response.data});
   } catch (error) {
-    dispatch(getUserFailure(error.message));
+    console.error("Error fetching user profile:", error);
+    dispatch({ type: GET_USER_FAILURE, payload: error });
   }
 };
 
@@ -85,7 +82,7 @@ export const GetAdmin = (jwt) => async (dispatch) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/api/users/admin`, {
       headers: {
-        Authorization: `Bearer ${jwt}`,
+        "Authorization": `Bearer ${jwt}`,
         "Content-Type": "application/json",
       },
     });

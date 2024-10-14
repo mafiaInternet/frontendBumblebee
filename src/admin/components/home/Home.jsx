@@ -2,7 +2,12 @@ import { Box, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../../state/product/Action";
-import {getOrdersByAdmin, getOrderTopMonth, getOrderTopWeek, getOrderTopYear } from "../../../state/order/Action";
+import {
+  getOrdersByAdmin,
+  getOrderTopMonth,
+  getOrderTopWeek,
+  getOrderTopYear,
+} from "../../../state/order/Action";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
@@ -13,30 +18,38 @@ import { Price } from "../../../config/config";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { products, order, customer } = useSelector((store) => store);
+  const {auth, products, order, customer } = useSelector((store) => ({
+    auth: store.auth,
+    products: store.products,
+    order: store.order,
+    customer: store.customer,
+  }));
+  const jwt = localStorage.getItem("jwt");
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    dispatch(getProducts());
-    dispatch(getOrdersByAdmin());
-    dispatch(getOrderTopWeek());
-    dispatch(getOrderTopMonth());
-    dispatch(getOrderTopYear());
-    if (order.orders.length > 0) {
-      let value = 0;
-      order.orders.forEach((element) => {
-        value += element.totalPrice;
-      });
-      setTotal(value);
+    if (jwt) {
+      dispatch(getProducts());
+      dispatch(getOrdersByAdmin());
+      dispatch(getOrderTopWeek());
+      dispatch(getOrderTopMonth());
+      dispatch(getOrderTopYear());
+      if (order.orders.length > 0) {
+        let value = 0;
+        order.orders.forEach((element) => {
+          value += element.totalPrice;
+        });
+        setTotal(value);
+      }
     }
-  }, [dispatch, total]);
+  }, [jwt, total]);
 
-  return products.products &&
-    order.orders &&
+  return products?.products &&
+    order?.orders &&
     order.ordersTopCategory &&
-    order.totalOrderPriceOfYear &&
-    order.totalOrderQuantityOfYear &&
-    customer.customers ? (
+    order?.totalOrderPriceOfYear &&
+    order?.totalOrderQuantityOfYear &&
+    customer?.customers && (
     <div className="admin--home">
       <h2 className="admin--home--title">Admin Dashboard</h2>
       <div className="admin--home--content">
@@ -44,14 +57,15 @@ const Home = () => {
         <div className="admin--home--content--quantity">
           <Grid container spacing={2}>
             <Grid item xs={4} container>
-              <Grid 
-                sx={{ 
+              <Grid
+                sx={{
                   backgroundColor: "#dc3545",
                   "@media (max-width: 730px)": {
-                    height: "50px"
+                    height: "50px",
                   },
-                }} 
-                item xs={4}
+                }}
+                item
+                xs={4}
               >
                 <div className="admin--home--content--quantity--icon">
                   <ShoppingCartIcon style={{ fontSize: "40px" }} />
@@ -65,14 +79,15 @@ const Home = () => {
               </Grid>
             </Grid>
             <Grid item xs={4} container>
-              <Grid 
-                sx={{ 
+              <Grid
+                sx={{
                   backgroundColor: "green",
                   "@media (max-width: 730px)": {
-                    height: "50px"
+                    height: "50px",
                   },
-                }} 
-                item xs={4}
+                }}
+                item
+                xs={4}
               >
                 <div className="admin--home--content--quantity--icon">
                   <AttachMoneyIcon style={{ fontSize: "40px" }} />
@@ -88,14 +103,15 @@ const Home = () => {
               </Grid>
             </Grid>
             <Grid item xs={4} container>
-              <Grid 
-                sx={{ 
+              <Grid
+                sx={{
                   backgroundColor: "#1565c0",
                   "@media (max-width: 730px)": {
-                    height: "50px"
+                    height: "50px",
                   },
-                }} 
-                item xs={4}
+                }}
+                item
+                xs={4}
               >
                 <div className="admin--home--content--quantity--icon">
                   <FullscreenExitIcon style={{ fontSize: "40px" }} />
@@ -164,9 +180,7 @@ const Home = () => {
         </Grid>
       </div>
     </div>
-  ) : (
-    <div>Loading</div>
-  );
+  ) 
 };
 
 export default Home;

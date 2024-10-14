@@ -216,8 +216,8 @@ const Voucher = () => {
                 <Box>
                   <select name="product" style={{padding: "5px", borderRadius: "10px"}}>
                     <option>Thể loại</option>
-                    {category.categories.map((item) => (
-                      <option value={item.name_id}>{item.name}</option>
+                    {category.categories.map((item, index) => (
+                      <option value={item.name_id} key={index}>{item.name}</option>
                     ))}
                   </select>
                   <select style={{padding: "5px", borderRadius: "10px"}}>

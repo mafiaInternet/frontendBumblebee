@@ -30,6 +30,29 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const orderStatus = [
+  {
+    text: "Đang xử lý",
+    color: "#0d6efd",
+  },
+  {
+    text: "Đã xác nhận",
+    color: "#0d6efd",
+  },
+  {
+    text: "Đang vận chuyển",
+    color: "#ffc107",
+  },
+  {
+    text: "Hoàn tất",
+    color: "#198754",
+  },
+  {
+    text: "Đã hủy",
+    color: "#c62828",
+  },
+];
+
 const Dashboard = ({points = 150}) => {
   const { auth, order } = useSelector((store) => store);
 
@@ -70,7 +93,9 @@ const Dashboard = ({points = 150}) => {
                           <StyledTableCell align="left">{order.orderStatus}</StyledTableCell>
                           <StyledTableCell align="left">
                             <Link to={`/account/order/${order.id}`}>
-                              <VisibilityIcon style={{ fontSize: "20px", marginBottom: "5px" }} />
+                              <VisibilityIcon style={{ fontSize: "20px", marginBottom: "5px", color: orderStatus.find(
+                  (status) => status.text === order.orderStatus
+                )?.color, }} />
                             </Link>
                           </StyledTableCell>
                         </StyledTableRow>

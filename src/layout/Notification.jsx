@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
@@ -16,26 +15,23 @@ const style = {
   p: 4,
 };
 
-const Notification = ({status, type}) =>{
-  const [open, setOpen] = React.useState(status);
-  const handleClose = () => setOpen(false);
-  console.log(status)
-  console.log("notification")
+const Notification = ({status, handleClose, title, desc}) =>{
+
   return (
     <div className='notification'>
       <Modal
-        open={open}
+        open={status}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-               {type === 'success' ? "Success" : "Failure"}
-               abc
+               {/* {type === 'success' ? "Success" : "Failure"} */}
+              {title}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            a
+          <Typography id="modal-modal-description" sx={{fontSize: "1.5rem", mt: 2 }}>
+            {desc}
           </Typography>
         </Box>
       </Modal>

@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Orders from "./components/order/Orders";
 import AddProduct from "./components/product/AddProduct";
 import HomeIcon from "@mui/icons-material/Home";
-import { GetAdmin, Logout } from "../state/auth/Action";
+import { GetAdmin, Logout, User } from "../state/auth/Action";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import PrimarySearchAppBar from "./components/Header";
 
@@ -50,7 +50,9 @@ const tabs = [
   {
     link: text + "/voucher",
     icon: (
-      <ConfirmationNumberIcon sx={{ fontSize: "2.5rem" }}></ConfirmationNumberIcon>
+      <ConfirmationNumberIcon
+        sx={{ fontSize: "2.5rem" }}
+      ></ConfirmationNumberIcon>
     ),
     name: "Mã giảm giá",
   },
@@ -68,105 +70,104 @@ const tabs = [
   },
 ];
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: { xs: "90%", sm: "80%", md: "70%", lg: "50%" },
-  margin: "0 auto",
-  bgcolor: "background.paper",
-  p: 4,
-};
-
 const Admin = () => {
   const dispatch = useDispatch();
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((store) => store.auth);
   const jwt = localStorage.getItem("jwt");
   const navigate = useNavigate();
-
   const handleClick = () => {
     navigate("/");
   };
 
+  const handleLogout = () => {
+    dispatch(Logout());
+    navigate("/admin/login");
+  };
   React.useEffect(() => {
     if (jwt) {
-      dispatch(GetAdmin(jwt));
+      dispatch(User(jwt));
     }
-  }, [dispatch, jwt, auth.jwt]);
-  return jwt && auth.jwt && auth.user.role != null ? (
+  }, [jwt]);
+
+  return jwt && auth.user && auth.user.role != null ? (
     <div className="admin">
       <Grid container className="admin--navTabs">
-        <Grid item xs={2} sx={{ height: "inherit" }} className="admin--navTabs--link">
-          <Typography
-            sx={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              alignItems: "center",
-              padding: "1rem 0.5rem",
-            }}
-          >
-            <Typography
-              onClick={handleClick}
-              sx={{
-                fontSize: "30px", fontWeight: "600", cursor: "pointer",
-                "@media (max-width: 1220px)": {
-                  fontSize: "20px"
-                },
-                "@media (max-width: 850px)": {
-                  fontSize: "10px"
-                },
-              }}
-            >
-              BUMBLEBEE
-            </Typography>
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: "calc(100% - 3rem)",
-            }}
-          >
-            <List>
-              {tabs.map((item, index) => (
-                <ListItem
-                  button
-                  key={index}
-                  component={Link}
-                  to={item.link}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#f0f0f0",
-                      color: "#1976d2",
-                    },
-                    borderRadius: "8px",
-                    marginBottom: "8px",
-                  }}
-                >
-                  <ListItemIcon sx={{ color: "inherit", display: "flex", justifyContent: "center" }}>
-                    {item.icon}
-                  </ListItemIcon>
-                  <Box sx={{
+        <Grid
+          item
+          xs={2}
+          sx={{ height: "inherit" }}
+          className="admin--navTabs--link"
+        >
+          <Box sx={{height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+            <div>
+              <Typography
+                onClick={handleClick}
+                sx={{
+                  fontSize: "30px",
+                  fontWeight: "600",
+                  textAlign: "center",
+                  padding: "1rem 0rem",
+                  cursor: "pointer",
+                  "@media (max-width: 1220px)": {
                     fontSize: "20px",
-                    "@media (max-width: 1220px)": {
-                      fontSize: "15px"
-                    },
-                    "@media (max-width: 850px)": {
-                      fontSize: "11px"
-                    },
-                    "@media (max-width: 670px)": {
-                      display: "none"
-                    }
-                  }}>{item.name}</Box>
-                </ListItem>
-              ))}
-            </List>
+                  },
+                  "@media (max-width: 850px)": {
+                    fontSize: "10px",
+                  },
+                }}
+              >
+                BUMBLEBEE
+              </Typography>
+              <List sx={{ flexGrow: "1" }}>
+                {tabs.map((item, index) => (
+                  <ListItem
+                    button
+                    key={index}
+                    component={Link}
+                    to={item.link}
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: "#f0f0f0",
+                        color: "#1976d2",
+                      },
+                      borderRadius: "8px",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        color: "inherit",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {item.icon}
+                    </ListItemIcon>
+                    <Box
+                      sx={{
+                        fontSize: "20px",
+                        "@media (max-width: 1220px)": {
+                          fontSize: "15px",
+                        },
+                        "@media (max-width: 850px)": {
+                          fontSize: "11px",
+                        },
+                        "@media (max-width: 670px)": {
+                          display: "none",
+                        },
+                      }}
+                    >
+                      {item.name}
+                    </Box>
+                  </ListItem>
+                ))}
+              </List>
+            </div>
             <Button
-              onClick={() => dispatch(Logout())}
+              onClick={() => handleLogout()}
               variant="contained"
               style={{
+                width: "100%",
                 padding: "12px 16px",
                 fontSize: "16px",
               }}
@@ -179,13 +180,20 @@ const Admin = () => {
           <PrimarySearchAppBar></PrimarySearchAppBar>
 
           <Routes>
-            <Route path="/*" element={<Home></Home>}></Route>
-            <Route path="/user" element={<ListCustomers></ListCustomers>}></Route>
+            <Route path="/login" element={<Home></Home>}></Route>
+            <Route path="/" element={<Home></Home>}></Route>
+            <Route
+              path="/user"
+              element={<ListCustomers></ListCustomers>}
+            ></Route>
             <Route
               path="/product"
               element={<ListProduct></ListProduct>}
             ></Route>
-            <Route path="/product/create" element={<AddProduct></AddProduct>}></Route>
+            <Route
+              path="/product/create"
+              element={<AddProduct></AddProduct>}
+            ></Route>
             <Route
               path="/product/:productId/edit"
               element={<AddProduct></AddProduct>}
@@ -205,9 +213,16 @@ const Admin = () => {
       </Grid>
     </div>
   ) : (
-    <div className="container" style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10rem" }}>
+    <div
+      className="container"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "10rem",
+      }}
+    >
       <AuthLogin></AuthLogin>
-
     </div>
   );
 };

@@ -7,7 +7,6 @@ export const getCustomers  = () => async (dispatch)=> {
     dispatch({type: GET_CUSTOMERS_REQUEST})
     try{
         const {data} = await api.get('/api/admin/customers/')
-        console.log(data)
         dispatch({type: GET_CUSTOMERS_SUCCESS, payload: data})
     }catch(error){
         dispatch({type: GET_CUSTOMERS_FAILURE, payload: error.message})

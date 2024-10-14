@@ -6,18 +6,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { Login, User } from "../../state/auth/Action";
 import { Email } from "@mui/icons-material";
 import LockIcon from "@mui/icons-material/Lock";
+import { getCarts } from "../../state/cart/Action";
+
 
 export default function AuthLogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { auth } = useSelector((store) => store);
+
 
   React.useEffect(() => {
     if (jwt) {
       dispatch(User(jwt));
+    
     }
-  }, [dispatch, jwt, auth.jwt]);
+  }, [dispatch, jwt]);
 
   const handleSubmitLogin = (event) => {
     event.preventDefault();
@@ -27,13 +30,16 @@ export default function AuthLogin() {
       password: data.get("password"),
     };
     dispatch(Login(userData));
+    
+  
+
   };
 
   return (
     <div className="login">
       <form className="login-form" method="POST" onSubmit={handleSubmitLogin}>
         <Typography
-          class="title"
+          className="title"
           style={{ fontSize: "35px", fontWeight: "500" }}
         >
           Đăng nhập

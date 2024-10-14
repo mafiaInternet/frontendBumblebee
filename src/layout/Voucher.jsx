@@ -2,7 +2,6 @@ import { Box, Checkbox, FormControlLabel } from "@mui/material";
 import React from "react";
 
 const Voucher = ({ voucher, key, selected, isSelectedVoucher }) => {
-  console.log(selected);
   return (
     <div className="voucher--card" key={key}>
       <svg

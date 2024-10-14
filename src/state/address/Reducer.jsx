@@ -11,6 +11,7 @@ export const addressReducer = (state = initialState, action) =>{
         case GET_ADDRESS_REQUEST:
             return {...state, isLoading: true}
         case GET_ADDRESS_SUCCESS:
+            console.log(action.payload)
             return {...state, isLoading: false, erorr: null, address: action.payload}
         case GET_ADDRESS_FAILURE:
             return {...state, isLoading: false, erorr: action.payload}
@@ -36,7 +37,7 @@ export const addressReducer = (state = initialState, action) =>{
         case UPDATE_ADDRESS_FAILURE:
             return {...state, isLoading: false, error: action.payload}
         case UPDATE_ADDRESS_DEFAULT_REQUEST:
-            return {...state, isLoading: true, erorr: null}
+            return {...state, isLoading: true,address: action.payload, erorr: null}
         case UPDATE_ADDRESS_DEFAULT_SUCCESS:
             return {...state, isLoading: false, erorr: null}
         case UPDATE_ADDRESS_DEFAULT_FAILURE:

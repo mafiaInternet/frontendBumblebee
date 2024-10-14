@@ -32,18 +32,8 @@ const ProductDetail = () => {
   const param = useParams();
   const [product, setProduct] = useState(null);
   const [selectedColor, setSelectedColor] = useState();
-  const [color, setColor] = useState(
-    products.product && products.product.colors && products.product.colors[0]
-  );
   const [quantity, setQuantity] = useState(1);
   const [totalQuantity, setTotalQuantity] = useState(0);
-  const [data, setData] = useState({
-    productId: param.name,
-    color: null,
-    imageUrl: null,
-    size: null,
-    quantity: 1,
-  });
   const [open, setOpen] = React.useState(false);
   const handleOpenAuth = () => setOpen(true);
   const handleCloseAuthClose = () => setOpen(false);
@@ -54,19 +44,12 @@ const ProductDetail = () => {
       alert("Vui lòng chọn màu áo và kích thước bạn muốn!!!");
     } else {
       const data = {
-        user: auth.user,
-        cart:
-          localStorage.getItem("cart") != null
-            ? JSON.parse(localStorage.getItem("cart"))
-            : localStorage.getItem("cart"),
-        req: {
           productId: products.product.id,
           color: selectedColor.name,
           imageUrl: selectedColor.imageUrl,
           size: selectedSize.name,
           quantity: quantity,
-        },
-      };
+      }
       dispatch(addItemToCart(data));
     }
   };
@@ -114,6 +97,8 @@ const ProductDetail = () => {
  useEffect(() => {
   if(products.product && products.product){
     setTotalQuantity(products.product.totalQuantity)
+   
+    setSelectedColor(products.product.colors[0])
   }
  }, [products.product])
 
@@ -133,13 +118,14 @@ const ProductDetail = () => {
       <div className="productDetail">
         <Box class="productDetail__item" style={{ marginTop: "16px" }}>
           <Grid container spacing={2}>
-            <Grid item xs={7} >
+            <Grid item xs={12} md={7}  lg={6}>
               <Carousel
                 showArrows={false}
                 showStatus={false}
                 swipeable={true}
                 emulateTouch={true}
                 infiniteLoop={true}
+                showThumbs={window.innerWidth < 900 ? false : true}
                 axis={"horizontal"}
               >
                 {products.product.listImageUrl &&
@@ -155,7 +141,7 @@ const ProductDetail = () => {
                   ))}
               </Carousel>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={12} md={5} lg={6}>
               <Box class="productDetail__intro">
                 <Typography class="productDetail__intro__title" component="h3">
                   {products.product.title}
@@ -163,7 +149,7 @@ const ProductDetail = () => {
                 <hr></hr>
                 <Box sx={{display: "flex"}}>
                   <div className="productDetail__intro__stars d-flex align-items-center">
-                    <span style={{borderBottom: "1px solid #faaf00", color: "#faaf00", fontSize: "1.8rem", marginRight: "0.5rem"}}>{averageStars == 0 ? 5 : 5/averageStars}</span>
+                    <span  style={{borderBottom: "1px solid #faaf00", color: "#faaf00", fontSize: "1.8rem", marginRight: "0.5rem" }}>{averageStars == 0 ? 5 : 5/averageStars}</span>
                     <Rating
                       sx={{
                         alignItems: "center",
@@ -212,7 +198,7 @@ const ProductDetail = () => {
                       className="img-fluid"
                       src="https://bizweb.dktcdn.net/100/415/697/themes/902041/assets/product_poli_1.png?1702398129862"
                     ></img>
-                    <span>Chính hãng 100&</span>
+                    <span>Chính hãng 100%</span>
                   </p>
                   <p>
                     <img
@@ -231,13 +217,12 @@ const ProductDetail = () => {
                 </dl>
                 <Box class="product__option">
                   <dt style={{ fontSize: "20px" }}> Màu sắc </dt>
-                  <Grid container spacing={1}>
+                  <Box sx={{display: "flex", flexWrap: "wrap"}} container spacing={1}>
                     {products.product &&
-                      products.product.colors.map((color, index) => (
-                        <Grid item xs={2}>
+                      products.product.colors.map((color) => (
                           <Button
+                          key={color.id}
                             className="product__option__item__colors "
-                            variant="text"
                             onClick={() => handleClick(color)}
                           >
                             <img
@@ -253,12 +238,16 @@ const ProductDetail = () => {
                               onClick={() => handleClick(color)}
                             ></img>
                           </Button>
-                        </Grid>
+           
                       ))}
-                  </Grid>
+                      
+                  </Box>
                 </Box>
                 <Box class="product__size">
+                      {selectedColor && (
                   <dt style={{ fontSize: "20px" }}> Kích thước </dt>
+
+                      )}
                   <Grid container spacing={1}>
                     {selectedColor &&
                       selectedColor.sizes.map((size) => (

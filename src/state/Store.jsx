@@ -11,7 +11,6 @@ import { voucherReducer } from "./voucher/Reducer";
 import { customerReducer } from "./customer/Reducer";
 
 const rootReducers = combineReducers({
-
     auth:authReducer,
     address: addressReducer,
     products: customerProductReducer,

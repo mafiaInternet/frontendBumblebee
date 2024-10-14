@@ -181,10 +181,10 @@ const AddProduct = () => {
                 }}
               >
                 {category.categories &&
-                  category.categories.map((category) => (
+                  category.categories.map((category, index) => (
                     <option
                       value={JSON.stringify(category)}
-                      key={category.id}
+                      key={index}
                       onChange={(event) =>
                         setProduct({
                           ...product,
@@ -284,7 +284,7 @@ const AddProduct = () => {
                 sx={{ justifyContent: "center", alignItems: "center" }}
               >
                 <Grid item xs={0.8}>
-                  <label htmlFor={`file-color-upload ${index}`} class="custom-file-upload">
+                  <label htmlFor={`file-color-upload ${index}`} className="custom-file-upload">
                     <img loading="lazy"
                       className="img-fluid"
                       name="file-color-upload"

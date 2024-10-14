@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  findProductFilter,
   findProductsByCategory,
   sortProductsHigh,
   sortProductsLow,
   sortProductsNew,
   sortProductsOld,
 } from "../../state/product/Action";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Box, Grid, MenuItem, Select, Typography } from "@mui/material";
 import ProductCard from "./components/ProductCard";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
@@ -45,8 +46,9 @@ const navItems = [
 const sorts = ["Từ thấp đến cao", "Từ cao đến thấp", "Cũ nhất", "Mới nhất"];
 
 const Product = () => {
-  const param = useParams();
-
+  const location = useLocation()
+  const query = new URLSearchParams(location.search)
+ 
   const dispatch = useDispatch();
   const { products } = useSelector((store) => store);
   const [sort, setAge] = useState("Mới nhất");
@@ -68,14 +70,20 @@ const Product = () => {
   };
 
   useEffect(() => {
-    dispatch(findProductsByCategory(param.name));
-  }, [param.name]);
+    if(!query.get("title")){
+
+      dispatch(findProductsByCategory(query.get("category")));
+    }else{
+
+      dispatch(findProductFilter({category: query.get("category"), title: query.get("title")}))
+    }
+  }, [query.get("category"), query.get("title")]);
 
   return (
     <div className="products ">
       <Box className="products__top">
         <h2 className="products__top__title" style={{ fontSize: "24px" }}>
-          {navItems.find((item) => item.link == param.name).name}
+          {navItems.find((item) => item.link == query.get("category")).name}
         </h2>
         <hr></hr>
         <div className="products__top__find">

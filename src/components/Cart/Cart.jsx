@@ -1,128 +1,184 @@
-import { Box, Button, Checkbox, FormControlLabel, Grid, Step, Stepper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Step,
+  Stepper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createCartItem, getCarts, removeItemToCart, updateItemTOCart } from "../../state/cart/Action";
-import { Link, useLocation } from "react-router-dom";
+import {
+  createCartItem,
+  getCarts,
+  removeItemToCart,
+  updateItemTOCart,
+} from "../../state/cart/Action";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import PaymentIcon from "@mui/icons-material/Payment";
 import { Price } from "../../config/config";
+import Notification from "../../layout/Notification";
 
 const Cart = () => {
-  const [selectedCartItems, setSelectedCartItems] = useState(false);
-  const [selected, setSelected] = useState([]);
-  const location = useLocation();
-  const [totalItem, setTotalItem] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [activeStep, setActiveStep] = useState(1);
-  const jwt = localStorage.getItem("jwt");
   const dispatch = useDispatch();
   const { cart, auth } = useSelector((store) => store);
+  const [notification, setNotification] = useState(false)
+  const [selected, setSelected] = useState([]);
+  const location = useLocation();
+  const [totalPrice, setTotalPrice] = useState(0)
+  const [data, setData] = useState({ cartItems: [] });
+  const [totalItem, setTotalItem] = useState(0);
 
-
-
-  const isSelected = (event, cartItem) => {
-    const index = selected.findIndex(
-      (item) => item.id === parseInt(event.target.value)
+  const [activeStep, setActiveStep] = useState(1);
+  const jwt = localStorage.getItem("jwt");
+  const navigate = useNavigate();
+  const isSelected = (cartItem) => {
+    const updatedData = data.cartItems.map((item) =>
+      item.id === cartItem.id ? { ...item, status: !item.status } : item
     );
-    if (index === -1) {
-      setSelected([...selected, cartItem]);
-      setTotalItem(totalItem + 1);
-      let total = totalPrice + cartItem.discountedPrice
-      setTotalPrice(total);
-    } else {
-      setSelected((selected) =>
-        selected.filter((item) => item.id !== parseInt(event.target.value))
-      );
-      setTotalItem(totalItem - 1);
-      let total = totalPrice - cartItem.discountedPrice
-      setTotalPrice(total);
-    }
-  };
-console.log(selected)
-console.log(selectedCartItems)
 
-  const isSelectedAll = () => {
-    if (selectedCartItems) {
-      setSelected([]);
-      setTotalPrice(0);
-      setTotalItem(0);
-    } else {
-      setSelected(cart.cart.cartItems);
-      let price = 0;
-      cart.cart.cartItems.forEach((item) => {
-        price += item.discountedPrice;
-      });
+    setData((prevData) => ({
+      ...prevData,
+      cartItems: updatedData,
+    }));
+
+    // Giả lập Promise để xử lý sau khi data cập nhật
+    Promise.resolve().then(() => {
+      const price = updatedData
+        .filter((item) => item.status === true)
+        .reduce(
+          (acc, curr) => acc + curr.product.discountedPrice * curr.quantity,
+          0
+        );
+
       setTotalPrice(price);
-      setTotalItem(cart.cart.cartItems.length);
-    }
-    setSelectedCartItems(!selectedCartItems);
+    });
+
+    dispatch(
+      updateItemTOCart({
+        id: cartItem.id,
+        status: !cartItem.status,
+        quantity: cartItem.quantity,
+      })
+    );
+  };
+
+  const isSelectedAll = (event) => {
+    setData({
+      ...data,
+      cartItems: data.cartItems.map((item) => ({
+        ...item,
+        status: event.target.checked,
+      })),
+    });
+
+    data.cartItems.forEach((item) => {
+      dispatch(
+        updateItemTOCart({
+          id: item.id,
+          status: event.target.checked,
+          quantity: item.quantity,
+        })
+      );
+    });
   };
 
   const deleteHandleCartItem = async () => {
-
-
-
     let cartItemIds = [];
     selected.forEach((item) => {
       cartItemIds.push(item.id);
     });
-    const jwt = localStorage.getItem("jwt")
+    const jwt = localStorage.getItem("jwt");
     try {
-      const response = await fetch('http://localhost:8080/cart/cartItem/delete', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${jwt}`
-        },
-        body: JSON.stringify(cartItemIds), // Chuyển đổi mảng thành chuỗi JSON
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error('Error:', error);
-    }
+      const response = await fetch(
+        "http://localhost:8080/cart/cartItem/delete",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify(cartItemIds), // Chuyển đổi mảng thành chuỗi JSON
+        }
+      );
 
-    // console.log([1,2,3,4])
-    // dispatch(removeItemToCart(cartItemIds));
-    // setTotalItem(cart.cart.totalItem - selected.length);
-    // // selected.forEach((item) => {
-    // //   totalPrice -= item.discountedPrice;
-    // // });
-    // setTotalPrice(totalPrice);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const updateCartItem = (active, cartItem) => {
-    if (active === "-") {
+    const updatedData = data.cartItems.map((item) =>
+      item.id === cartItem.id
+        ? {
+            ...item,
+            quantity: active === "+" ? item.quantity + 1 : item.quantity - 1,
+          }
+        : item
+    );
+    setData((prevData) => ({
+      ...prevData,
+      cartItems: updatedData,
+    }));
+
+    Promise.resolve().then(() => {
+      const price = updatedData
+        .filter((item) => item.status === true)
+        .reduce(
+          (acc, curr) => acc + curr.product.discountedPrice * curr.quantity,
+          0
+        );
+
       dispatch(
         updateItemTOCart({
-          cartItemId: cartItem.id,
-          quantity: cartItem.quantity - 1,
+          id: cartItem.id,
+          status: cartItem.status,
+          quantity: updatedData.find((item) => item.id === cartItem.id)
+            .quantity,
         })
       );
-    } else if (active === "+") {
-      dispatch(
-        updateItemTOCart({
-          cartItemId: cartItem.id,
-          quantity: cartItem.quantity + 1,
-        })
-      );
-    }
+      setTotalPrice(price);
+    });
   };
 
   const createCheckOut = () => {
-    dispatch(createCartItem({ cartItems: selected }));
+    if(data.cartItems.every((item) => item.status === false)){
+    
+      setNotification(true)
+      
+    }else{
+
+      localStorage.setItem("cart", JSON.stringify(data));
+      navigate("/payment");
+    }
   };
 
   useEffect(() => {
-    dispatch(getCarts());
-  }, [jwt, auth.jwt]);
-console.log(cart.cart)
+    if (jwt) {
+      dispatch(getCarts());
+    }
+  }, [dispatch, jwt, auth.jwt]);
+
+  useEffect(() => {
+    if (cart && cart.cart && cart.cart.cartItems) {
+      setData(cart.cart);
+    }
+  }, [cart.cart]);
+
   return (
     <Box
       className="cart"
@@ -136,7 +192,10 @@ console.log(cart.cart)
           <Typography
             component="span"
             sx={{
-              color: location.pathname == "/cart" || location.pathname == "/payment" ? "#c62828" : undefined,
+              color:
+                location.pathname == "/cart" || location.pathname == "/payment"
+                  ? "#c62828"
+                  : undefined,
               fontSize: "2rem",
             }}
             className="step__item__lable"
@@ -172,7 +231,7 @@ console.log(cart.cart)
           </Typography>
         </Step>
       </Stepper>
-      {cart.cart && cart.cart.cartItems && cart.cart.cartItems.length > 0 ? (
+      {data.cartItems && data.cartItems.length > 0 ? (
         <div>
           <Table
             className="cart-table"
@@ -183,81 +242,98 @@ console.log(cart.cart)
                 <TableCell align="center" />
                 <TableCell
                   align="left"
-                  sx={{ width: { xl: "65%", lg: "60%", md: "45%", sx:"40%" } }}
+                  sx={{ width: { xl: "65%", lg: "60%", md: "45%", sx: "40%" } }}
                 >
                   Thông tin sản phẩm
                 </TableCell>
-                <TableCell align="center" width={{lg:"30%", md:"40%", sx:"40%"}}>
+                <TableCell
+                  align="center"
+                  width={{ lg: "30%", md: "40%", sx: "40%" }}
+                >
                   Số lượng
                 </TableCell>
                 <TableCell align="center">Thành tiền</TableCell>
               </TableRow>
             </TableHead>
             <TableBody className="cart-table-body">
-              {cart.cart &&
-                cart.cart.cartItems != null &&
-                cart.cart.cartItems.sort((a, b) => a.id - b.id).map((cartItem, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <Checkbox
-                        value={cartItem.id}
-                        checked={selected
-                          .map((item) => item.id)
-                          .includes(cartItem.id)}
-                        onChange={(e) => isSelected(e, cartItem)}
-                      />
-                    </TableCell>
-                    <TableCell 
-                      align="left" 
-                      className="d-flex" 
-                      sx={{ "@media (max-width: 580px)": {
+              {data.cartItems.map((cartItem, index) => (
+                <TableRow key={`${cartItem.id}-${index}`}>
+                  <TableCell>
+                    <Checkbox
+                      value={cartItem.id}
+                      checked={cartItem.status}
+                      onChange={() => isSelected(cartItem)}
+                    />
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    className="d-flex"
+                    sx={{
+                      "@media (max-width: 580px)": {
                         width: "212px",
-                      }}}
+                      },
+                    }}
+                  >
+                    <div className="cart-table-body-img d-flex align-items-center">
+                      <img
+                        loading="lazy"
+                        className="img-fluid"
+                        src={cartItem.imageUrl}
+                      />
+                    </div>
+                    <div className="cart-text ms-3">
+                      <p>{cartItem.product.title}</p>
+                      <p>
+                        Color:<strong> {cartItem.color} </strong>
+                      </p>
+                      <p>
+                        Size: <strong> {cartItem.size}</strong>
+                      </p>
+                      <p>
+                        <span className="cart--item--discountedPrice">
+                          <Price price={cartItem.product.discountedPrice} />
+                        </span>
+                        <span className="cart--item--price">
+                          <Price price={cartItem.product.price}></Price>
+                        </span>
+                      </p>
+                    </div>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Box
+                      className="cart-table-body-quantity"
+                      sx={{
+                        width: "50%",
+                        margin: "0 auto",
+                        "@media (max-width: 700px)": {
+                          width: "100%",
+                        },
+                      }}
                     >
-                      <div className="cart-table-body-img d-flex align-items-center">
-                        <img loading="lazy" className="img-fluid" src={cartItem.imageUrl} />
-                      </div>
-                      <div className="cart-text ms-3">
-                        <p>{cartItem.product.title}</p>
-                        <p>Color:<strong> {cartItem.color} </strong></p>
-                        <p>Size: <strong> {cartItem.size}</strong></p>
-                        <p>
-                          <span className="cart--item--discountedPrice">
-                            <Price price={cartItem.product.discountedPrice} />
-                          </span>
-                          <span className="cart--item--price">
-                            <Price price={cartItem.product.price}></Price>
-                          </span>
-                        </p>
-                      </div>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Box 
-                        className="cart-table-body-quantity" 
-                        sx={{ 
-                          width: "50%", 
-                          margin: "0 auto",
-                          "@media (max-width: 700px)": {
-                            width: "100%",
-                          },
-                        }}
-                      >
-                        <button onClick={() => updateCartItem("-", cartItem)}>
-                          -
-                        </button>
-                        <input type="text" className="cart-table-body-input" value={cartItem.quantity} />
-                        <button onClick={() => updateCartItem("+", cartItem)}>
-                          +
-                        </button>
-                      </Box>
-                    </TableCell>
-                    <TableCell align="center">
-                      <span className="cart--item--totalPrice">
-                        <Price price={cartItem.quantity * cartItem.product.discountedPrice} />
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      <button onClick={() => updateCartItem("-", cartItem)}>
+                        -
+                      </button>
+                      <input
+                        type="text"
+                        className="cart-table-body-input"
+                        value={cartItem.quantity}
+                      />
+                      <button onClick={() => updateCartItem("+", cartItem)}>
+                        +
+                      </button>
+                    </Box>
+                  </TableCell>
+                  <TableCell align="center">
+                    <span className="cart--item--totalPrice">
+                      <Price
+                        price={
+                          cartItem.quantity * cartItem.product.discountedPrice
+                        }
+                      />
+                    </span>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
           <div className="cart-payment">
@@ -265,35 +341,73 @@ console.log(cart.cart)
               <FormControlLabel
                 label="Chọn tất cả"
                 control={
-                  <Checkbox checked={selectedCartItems} onClick={isSelectedAll} hidden/>
+                  <Checkbox
+                    checked={data.cartItems.every((item) => item.status)}
+                    onClick={(e) => isSelectedAll(e)}
+                  />
                 }
               />
-              <Button onClick={() => deleteHandleCartItem()} color="error" style={{ fontSize: "14px", marginRight: "5px" }}>Xóa</Button>
+              <Button
+                onClick={() => deleteHandleCartItem()}
+                color="error"
+                style={{ fontSize: "14px", marginRight: "5px" }}
+              >
+                Xóa
+              </Button>
               <Typography sx={{ marginTop: "1rem!important" }}>
                 Tổng thanh toán ({totalItem} sản phẩm)
               </Typography>
               <Typography>
                 Tổng:
                 <strong>
-                  <Price price={totalPrice} />
+                  <Price
+                    price={data.cartItems
+                      .filter((item) => item.status === true)
+                      .reduce(
+                        (acc, curr) =>
+                          acc + curr.product.discountedPrice * curr.quantity,
+                        0
+                      )}
+                  />
                 </strong>
                 <p>
                   Tiết kiệm:
                   <strong>
                     <sup>&#273;</sup>
-                    {selected.length > 0 ?
-                      selected.reduce((acc, curr) => acc + (curr.price - curr.discountedPrice), 0) : 0
-                    }
+                    {data.cartItems.length > 0 ? (
+                      <Price
+                        price={data.cartItems
+                          .filter((item) => item.status === true)
+                          .reduce(
+                            (acc, curr) =>
+                              acc +
+                              (curr.product.price -
+                                curr.product.discountedPrice) *
+                                curr.quantity,
+                            0
+                          )}
+                      ></Price>
+                    ) : (
+                      0
+                    )}
                   </strong>
                 </p>
               </Typography>
-              <Button>
-                <Link to="/payment" onClick={(e) => createCheckOut(e)}>
-                  Thanh toán
-                </Link>
+              <Button
+                sx={{
+                  backgroundColor: "black",
+                  fontSize: "1.5rem",
+                  "&:hover": { backgroundColor: "gray" },
+                }}
+                variant="contained"
+                onClick={() => createCheckOut()}
+              >
+                Thanh toán
               </Button>
+          
             </div>
           </div>
+          <Notification status={notification} handleClose={() => setNotification(false)} title="" desc="Bạn chưa chọn sản phẩm nào để mua"></Notification>
         </div>
       ) : (
         <div className="container" style={{ textAlign: "center" }}>

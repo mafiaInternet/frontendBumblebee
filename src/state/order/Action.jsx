@@ -78,6 +78,7 @@ export const getOrderById = (orderId) => async (dispatch) => {
 export const getOrdersByAdmin = () => async (dispatch) => {
   dispatch({ type: GET_ORDER_BY_ADMIN_REQUEST });
   try {
+    console.log(localStorage.getItem('jwt'))
     const { data } = await api.get("/api/admin/orders/");
     dispatch({ type: GET_ORDER_BY_ADMIN_SUCCESS, payload: data });
   } catch (error) {
@@ -150,7 +151,6 @@ export const getOrderTotalPriceOfYear = (req) => async (dispath) => {
   dispath({type: GET_TOTAL_PRICE_YEAR_REQUEST})
   try {
       const {data} = await api.get(`api/orders/${req}/prices`)
-      console.log(data)
       dispath({type: GET_TOTAL_PRICE_YEAR_SUCCESS, payload: data})
   } catch (error) {
       dispath({type: GET_TOTAL_PRICE_YEAR_FAILURE, payload: error.message})

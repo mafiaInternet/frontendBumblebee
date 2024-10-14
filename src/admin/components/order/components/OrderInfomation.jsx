@@ -12,7 +12,10 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrderById, putStatusOrderByAdmin } from "../../../../state/order/Action";
+import {
+  getOrderById,
+  putStatusOrderByAdmin,
+} from "../../../../state/order/Action";
 import { useParams } from "react-router-dom";
 import { Price } from "../../../../config/config";
 
@@ -63,11 +66,9 @@ const orderStatus = [
 
 const OrderInfomation = () => {
   const dispatch = useDispatch();
-  const param = useParams()
+  const param = useParams();
   const { order } = useSelector((store) => store);
-  const [status, setStatus] = useState(
-   null
-  );
+  const [status, setStatus] = useState(null);
   const handleOrderStatus = (event) => {
     setStatus(event.target.value);
     dispatch(
@@ -79,16 +80,14 @@ const OrderInfomation = () => {
   };
   useEffect(() => {
     dispatch(getOrderById(param.orderId));
-
   }, [dispatch]);
 
-
   useEffect(() => {
-    if(order.order){
-
-      setStatus(order.order.orderStatus)
+    if (order.order) {
+      setStatus(order.order.orderStatus);
     }
-  }, [order.order])
+  }, [order.order]);
+  console.log(order);
   return (
     order.order &&
     order.order && (
@@ -124,15 +123,27 @@ const OrderInfomation = () => {
               }}
             >
               <div className="orderInformation--content--customer">
-                <strong>Thông tin khách hàng</strong>
-                <p>{order.order.user.name}</p>
-                <p>{order.order.address.city}</p>
+                <b>Thông tin khách hàng</b>
                 <p>{order.order.user.email}</p>
-                <p>{order.order.user.phone}</p>
+                <p>{order.order.address.name}</p>
+                <p>{order.order.address.mobile}</p>
+                <p>
+                  {order.order.address.province}, {order.order.address.district}
+                  , {order.order.address.ward}
+                </p>
+                <p>{order.order.address.description}</p>
               </div>
               <div className="orderInformation--content--order">
                 <strong>Phương thức thanh toán</strong>
-                <p>{order.order.paymentMethod}</p>
+                <p>{order.order.paymentDetails.paymentMethod}</p>
+                {order.order.paymentDetails.paymentMethod ===
+                  "Thanh toán online" && (
+                  <div>
+                    <strong>Trạng thái</strong>
+                    <p>{order.order.paymentDetails.status}</p>
+                  </div>
+                )}
+
                 <strong>Phương thức vận chuyển</strong>
                 <p>Giao hàng tiết kiệm</p>
                 <strong>Ngày Đặt Hàng</strong>
@@ -162,7 +173,11 @@ const OrderInfomation = () => {
                     <StyledTableRow key={index}>
                       <StyledTableCell>
                         <Box sx={{ display: "flex" }}>
-                          <img loading="lazy" className="img-fluid" src={item.imageUrl}></img>
+                          <img
+                            loading="lazy"
+                            className="img-fluid"
+                            src={item.imageUrl}
+                          ></img>
                           <Box sx={{ marginLeft: "1rem" }}>
                             <p>abc</p>
                             <p>{item.size}</p>
@@ -170,11 +185,14 @@ const OrderInfomation = () => {
                           </Box>
                         </Box>
                       </StyledTableCell>
-                      <StyledTableCell><Price price={item.discountedPrice}></Price></StyledTableCell>
+                      <StyledTableCell>
+                        <Price price={item.discountedPrice}></Price>
+                      </StyledTableCell>
                       <StyledTableCell>{item.quantity}</StyledTableCell>
                       <StyledTableCell>
-                      <Price price={item.quantity * item.discountedPrice}></Price>
-                   
+                        <Price
+                          price={item.quantity * item.discountedPrice}
+                        ></Price>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}

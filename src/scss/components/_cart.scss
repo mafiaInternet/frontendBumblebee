@@ -30,20 +30,21 @@
   &-payment {
     float: right;
     text-align: center;
+    margin-top: 1rem;
+    p {
+      margin: 0 1rem 0 0;
+    }
+    strong {
+      color: red;
+    }
     p,
     a,
     label > span {
       font-size: 1.5rem;
     }
-    p {
-      margin: 1rem;
-    }
-    a {
-      background-color: black;
-      padding: 0 1rem;
-      text-decoration: none;
-      color: white;
-    }
+    
+  
+  
   }
   &-table {
     &-head {
@@ -94,15 +95,7 @@
       }
     }
   }
-  &-payment {
-    margin-top: 1rem;
-    p {
-      margin: 0 1rem 0 0;
-    }
-    strong {
-      color: red;
-    }
-  }
+ 
 }
 
 .mobile--cart--item {

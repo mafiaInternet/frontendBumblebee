@@ -2,7 +2,7 @@ import React from "react";
 import Nav from "./components/Nav";
 import Menu from "./components/Menu";
 import Topbar from "./components/Topbar";
-import PrimarySearchAppBar from "./components/AppBar";
+import Bar from "./components/Bar";
 
 import { Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,12 +15,12 @@ const Header = () => {
   const { auth, cart } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
   React.useEffect(() => {
-    if (jwt) {
+    if (auth.jwt && jwt) {
+      console.log('abc')
       dispatch(User(jwt));
       dispatch(getCarts());
     }
   }, [dispatch, jwt, auth.jwt]);
-
   return (
     <Box
       className="header"
@@ -29,17 +29,17 @@ const Header = () => {
       <Box sx={{ display: { xs: "none", lg: "block" } }}>
         <Topbar
           jwt={jwt}
-          cartItems={cart.cart && cart.cart.cartItems ? cart.cart.cartItem : []}
+          cartItems={cart.cart && cart.cart.cartItems ? cart.cart.cartItems : []}
         ></Topbar>
         <Nav auth={auth}></Nav>
         <Menu></Menu>
       </Box>
-      <PrimarySearchAppBar
+      <Bar
         jwt={jwt}
         cartItems={
-          cart.cart && cart.cart.cartItems != null ? cart.cart.cartItems : []
+          cart.cart && cart.cart.cartItems ? cart.cart.cartItems : []
         }
-      ></PrimarySearchAppBar>
+      ></Bar>
     </Box>
   );
 };

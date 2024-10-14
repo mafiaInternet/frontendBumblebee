@@ -3,50 +3,30 @@ import { styled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import Badge from "@mui/material/Badge";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Auth from "../../../customer/Auth.jsx";
 import Navigation from "./Navigation.jsx";
-import { useDispatch, useSelector } from "react-redux";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import Typography from '@mui/material/Typography';
+import Typography from "@mui/material/Typography";
+import { Button, Modal } from "@mui/material";
+import { search } from "../../../config/characterInputConfig.jsx";
+import { useState } from "react";
+import AuthLogin from "../../../customer/auth/AuthLogin.jsx";
+import AuthRegister from "../../../customer/auth/AuthRegister.jsx";
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: "3px",
-  backgroundColor: "white",
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "300px",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
+const style = {
   position: "absolute",
-  right: "0",
-  pointerEvents: "none",
   display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundColor: "#545457",
-  borderRadius: "3px",
-
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "#545457",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    width: "100%",
-    paddingLeft: "10px",
-  },
-}));
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "auto",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+};
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -58,17 +38,35 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Topbar = (props) => {
-  const { cart } = useSelector(store => store)
-
-
-  const navigate = useNavigate()
-  const [state, setState] = React.useState("")
-
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const navigate = useNavigate();
+  const [state, setState] = useState("");
+  const [isAuthenticated, setIsAuththenticated] = useState(false);
+  const handleCloseAuthClose = () => setIsAuththenticated(false);
   const handleSearch = () => {
-    // navigate(`/search?query=${state}`)   
-  }
+    const check = search(state);
+    if (check) {
+      if (location.search != "") {
+        navigate(
+          `/product/search?category=${query.get("category")}&title=${state}`
+        );
+      } else {
+        navigate(`/product/search?category=all&title=${state}`);
+      }
+    }
+  };
+
+  const handleClickCart = () => {
+    if (props.jwt) {
+      navigate("/cart");
+    } else {
+      setIsAuththenticated(true);
+    }
+  };
+
   return (
-    <div className="topbar" style={{width: "100%"}}>
+    <div className="topbar" style={{ width: "100%" }}>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
           position="static"
@@ -78,48 +76,71 @@ const Topbar = (props) => {
             borderRadius: "none",
           }}
         >
-          <Toolbar sx={{ display: "flex", justifyContent: "space-between", padding: "12px 24px 12px 0px"}}>
-            <Link to="/home" style={{textDecoration: "none"}}>
-              <Typography variant="h2" sx={{ color: "#232323", fontWeight: "700"}}>
-                  BUMBLEBEE 
+          <Toolbar
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+           
+            }}
+          >
+            <Link to="/home" style={{ textDecoration: "none" }}>
+              <Typography
+                variant="h2"
+                sx={{ color: "#232323", fontWeight: "700" }}
+              >
+                BUMBLEBEE
               </Typography>
             </Link>
             <Box className="topbar-icons d-flex" style={{ gap: "15px" }}>
-              <Search 
+              <Box
+                className="topbar-icons-search"
                 sx={{
-                  cursor: "pointer",
-                  "@media (max-width: 800px)": {
-                      width: "154px",
-                    },
-                  "@media (max-width: 640px)": {
-                      display:"none",
-                    },
-                }} 
-                onClick={handleSearch}
+                  "@media (max-width: 900px)": {
+                    width: "154px",
+                    display: "none"
+                  }
+                }}
               >
-                <SearchIconWrapper onClick={handleSearch}>
-                  <SearchIcon onClick={handleSearch} style={{fontSize: "22px"}}/>
-                </SearchIconWrapper>
-                <StyledInputBase
-                  sx={{ 
-                    fontSize: "16px",
-                    "@media (max-width: 800px)": {
-                      width: "100px",
-                    },
-                  }}
-                  placeholder="Tìm kiếm…"
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
                   onChange={(e) => setState(e.target.value)}
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </Search>
-              <div className="topbar-icons-shoppingBag" style={{marginRight: "20px"}}>
-                <Link to="/cart">
-                  <StyledBadge badgeContent={cart.cart && cart.cart.totalItem || 0} color="secondary">
-                    <ShoppingCartOutlinedIcon
-                      sx={{ fontSize: "3rem", color: "black" }}
-                    />
-                  </StyledBadge>
-                </Link>
+                ></input>
+
+                <Button
+                  onClick={() => handleSearch()}
+                  sx={{ padding: "8px", cursor: "pointer" }}
+                >
+                  <SearchIcon
+                    sx={{ fontSize: "22px", cursor: "pointer", color: "white" }}
+                    color="black"
+                  />
+                </Button>
+              </Box>
+              <div className="topbar-icons-shoppingBag">
+                <Modal
+                  onClose={handleCloseAuthClose}
+                  aria-labelledby="modal-modal-title"
+                  open={isAuthenticated}
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style} style={{ borderRadius: "20px" }}>
+                    {location.pathname !== "/register" ? (
+                      <AuthLogin />
+                    ) : (
+                      <AuthRegister />
+                    )}
+                  </Box>
+                </Modal>
+                <StyledBadge
+                  badgeContent={props.jwt && props.cartItems.length}
+                  onClick={handleClickCart}
+                  color="secondary"
+                >
+                  <ShoppingCartOutlinedIcon
+                    sx={{ fontSize: "3rem", color: "black", cursor: "pointer" }}
+                  />
+                </StyledBadge>
               </div>
               {props.jwt ? <Navigation></Navigation> : <Auth></Auth>}
             </Box>

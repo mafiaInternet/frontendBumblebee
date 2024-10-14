@@ -1,6 +1,6 @@
 import { Box, TextField, ButtonGroup } from "@mui/material";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart, createCartItem } from "../../../state/cart/Action";
 import Button from "@mui/material/Button";
@@ -37,52 +37,70 @@ const ProductCard = ({ product }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleOpenAuth = () => setOpen(true);
-  const handleCloseAuthClose = () => setOpen(false);
+  const nevigate = useNavigate();
+
   const [totalQuantity, setTotalQuantity] = useState(
     products.product &&
-    products.product.colors &&
-    products.product.totalQuantity
+      products.product.colors &&
+      products.product.totalQuantity
   );
-  const jwt = localStorage.getItem('jwt');
-  const isAuthenticated = jwt && jwt.length > 0;
+  const jwt = localStorage.getItem("jwt");
 
+  const [isAuthenticated, setIsAuththenticated] = useState(false);
+
+  const handleCloseAuthClose = () => setIsAuththenticated(false);
   const handleAddItem = (e) => {
-    if (selectedSize == null) {
-      alert("value");
-      e.preventDefault();
+    if (!jwt) {
+      setIsAuththenticated(true);
     } else {
-      const data = {
-        user: auth.user,
-        cart: localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart")) : [],
-        req: {
+      if (selectedSize == null) {
+        alert("value");
+        e.preventDefault();
+      } else {
+        const data = {
+          user: auth.user,
+          cart:
+            localStorage.getItem("cart") != null
+              ? JSON.parse(localStorage.getItem("cart"))
+              : [],
+          req: {
+            productId: product.id,
+            color: selected.name,
+            imageUrl: selected.imageUrl,
+            size: selectedSize,
+            quantity: quantity,
+          },
+        };
+        setOpen(false);
+        dispatch(addItemToCart(data));
+      }
+    }
+  };
+
+  const createCheckOut = (e) => {
+    if (!jwt) {
+      setIsAuththenticated(true);
+    } else {
+      if (selectedSize == null) {
+        alert("value");
+        e.preventDefault();
+      } else {
+        const data = {
           productId: product.id,
           color: selected.name,
           imageUrl: selected.imageUrl,
           size: selectedSize,
           quantity: quantity,
-        }
-      };
-      setOpen(false);
-      dispatch(addItemToCart(data));
+        };
+        dispatch(createCartItem({ addItemRequest: data }));
+        nevigate("/payment");
+      }
     }
   };
 
-  const createCheckOut = (e) => {
-    if (selectedSize == null) {
-      alert("value");
-      e.preventDefault();
-    } else {
-      const data = {
-        productId: product.id,
-        color: selected.name,
-        imageUrl: selected.imageUrl,
-        size: selectedSize,
-        quantity: quantity,
-      }
-      dispatch(createCartItem({ addItemRequest: data }));
-    }
-  }
+  useEffect(() => {
+    setIsAuththenticated(false);
+  }, [jwt]);
 
   return (
     <div className="product--card hover-div" key={product.id}>
@@ -95,7 +113,7 @@ const ProductCard = ({ product }) => {
             -{product.discountPersent}%
           </span>
           <div className="product--card--image--wrapper--cart">
-            <Button onClick={isAuthenticated ? handleOpen : handleOpenAuth}>Mua hàng</Button>
+            <Button onClick={handleOpen}>Mua hàng</Button>
           </div>
         </div>
       </div>
@@ -104,11 +122,13 @@ const ProductCard = ({ product }) => {
           <Box sx={{ display: "flex" }}>
             {product &&
               product.colors.map((item, index) => (
-                <div className="product--card--colors--item"
+                <div
+                  className="product--card--colors--item"
                   onClick={() => setSelected(item)}
                   key={index}
                 >
-                  <img loading="lazy"
+                  <img
+                    loading="lazy"
                     className={`${selected.id === item.id ? "active" : ""}`}
                     src={item.imageUrl}
                     alt={item.name}
@@ -133,21 +153,17 @@ const ProductCard = ({ product }) => {
         </p>
       </div>
       <Modal
-        open={jwt ? false : open}
         onClose={handleCloseAuthClose}
         aria-labelledby="modal-modal-title"
+        open={isAuthenticated}
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} style={{ borderRadius: "20px" }}>
-          {location.pathname !== "/register" ? (
-            <AuthLogin/>
-          ) : (
-            <AuthRegister/>
-          )}
+          {location.pathname !== "/register" ? <AuthLogin /> : <AuthRegister />}
         </Box>
       </Modal>
       <Modal
-        open={jwt ? open : false}
+        open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -174,7 +190,12 @@ const ProductCard = ({ product }) => {
             <div className="product--card--model--info--colors">
               {product.colors.map((color) => (
                 <Button key={color.id} onClick={() => setSelected(color)}>
-                  <img loading="lazy" className="img-fluid" src={color.imageUrl} alt={color.name} />
+                  <img
+                    loading="lazy"
+                    className="img-fluid"
+                    src={color.imageUrl}
+                    alt={color.name}
+                  />
                 </Button>
               ))}
             </div>
@@ -183,27 +204,34 @@ const ProductCard = ({ product }) => {
                 selectedSize === size.name ? (
                   <Typography
                     component="span"
-                    sx={{ border: "1px solid black", margin: "0 4px", padding: "2px 4px" }}
+                    sx={{
+                      border: "1px solid black",
+                      margin: "0 4px",
+                      padding: "2px 4px",
+                    }}
                     onClick={() => setSelectedSize(size.name)}
                     key={size.name}
                   >
                     {size.name}
                   </Typography>
                 ) : (
-                  <span onClick={() => setSelectedSize(size.name)} key={size.name}>
+                  <span
+                    onClick={() => setSelectedSize(size.name)}
+                    key={size.name}
+                  >
                     {size.name}
                   </span>
                 )
               )}
             </div>
-            <Box className="product__quantity">
+            <Box className="product--card--quantity">
               <Typography style={{ fontSize: "14px" }}>Số lượng: </Typography>
-              <div className="d-flex" style={{ margin: "10px 0", gap: "5px" }}>
+              <div className="d-flex" style={{ margin: "10px 0" }}>
                 <Button
-                  className="product__quantity__toggle"
+                  className="product--card--quantity--toggle"
                   onClick={() => setQuantity(quantity - 1)}
                   disabled={quantity <= 1}
-                  style={{ fontSize: "20px" }}
+                  style={{ fontSize: "1.5rem" }}
                 >
                   -
                 </Button>
@@ -216,37 +244,39 @@ const ProductCard = ({ product }) => {
                   onChange={(e) => setQuantity(Number(e.target.value))}
                 />
                 <Button
-                  className="product__quantity__toggle"
+                  className="product--card--quantity--toggle"
                   onClick={() => setQuantity(quantity + 1)}
-                  style={{ fontSize: "20px" }}
+                  style={{ fontSize: "1.5rem" }}
                 >
                   +
                 </Button>
               </div>
               <p style={{ fontSize: "14px" }}>
                 {selectedSize != null
-                  ? selected.sizes.find(size => size.name === selectedSize).quantity
+                  ? selected.sizes.find((size) => size.name === selectedSize)
+                      .quantity
                   : totalQuantity}{" "}
                 sản phẩm có sẵn
               </p>
             </Box>
-            <ButtonGroup class="button-group-end d-flex" style={{ gap: "10px" }}>
-              <Button
-                class="btn btn-outline-dark"
+            <ButtonGroup
+              className="button-group-end d-flex"
+              style={{ gap: "10px" }}
+            >
+              <button
+                className="btn btn-outline-dark"
                 onClick={() => handleAddItem()}
                 style={{ fontSize: "14px" }}
               >
                 Thêm vào giỏ hàng
-              </Button>
-              <Link to="/payment">
-                <Button
-                  class="btn btn-dark "
-                  onClick={createCheckOut}
-                  style={{ fontSize: "14px" }}
-                >
-                  Mua ngay
-                </Button>
-              </Link>
+              </button>
+              <button
+                className="btn btn-dark "
+                onClick={createCheckOut}
+                style={{ fontSize: "14px", "&hover": {backgroundColor: "gray"} }}
+              >
+                Mua ngay
+              </button>
             </ButtonGroup>
           </div>
         </Box>

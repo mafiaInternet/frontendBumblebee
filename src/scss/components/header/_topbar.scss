@@ -22,6 +22,7 @@
                         background-color: transparent;
                         border: 1px solid silver;
                         font-size: 1.2rem;
+                      
                         &:nth-child(2){
                             width: 40%;
                             text-align: center;
@@ -31,6 +32,23 @@
                         }
                     }
                 }
+            }
+        }
+        &-search{
+            display: flex;
+            border: 1px solid gray;
+            border-radius: 0.5rem;
+            input{
+                font-size: 1.6rem;
+                padding: 0.8rem;
+                border: none;
+                border-radius: 0.5rem;
+                &:focus-visible{
+                    outline: none;
+                }
+            }
+            button{
+                background-color: silver;
             }
         }
     }

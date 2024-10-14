@@ -151,8 +151,8 @@ const ListOrder = () => {
           <Table>
             <TableHead>
               <TableRow>
-                {head.map((item) => (
-                  <StyledTableCell>{item}</StyledTableCell>
+                {head.map((item, index) => (
+                  <StyledTableCell key={index}>{item}</StyledTableCell>
                 ))}
               </TableRow>
             </TableHead>
@@ -174,7 +174,7 @@ const ListOrder = () => {
                       component={"span"}
                       sx={{
                         backgroundColor: orderStatus.find(
-                          (status) => status.text === item.orderStatus
+                          (status) => item.orderStatus === "Đang xử lý" ? '#0d6efd' : status.text === item.orderStatus
                         )?.color,
                         color: "#fff",
                         fontSize: "1.4rem",

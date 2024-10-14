@@ -81,8 +81,8 @@ const Footer = () => {
             sx={{ textAlign: "center" }}
           >
             <h5>Đăng ký</h5>
-            <div class="footer--signup--notification--input">
-              <input type="text" placeholder="Nhập địa chỉ email"></input>
+            <div className="footer--signup--notification--input">
+              <input type="email" placeholder="Nhập địa chỉ email"></input>
               <FaLocationArrow></FaLocationArrow>
             </div>
             <p>Theo dõi Teelab từ các nền tảng khác nhau nhé!</p>
@@ -116,8 +116,8 @@ const Footer = () => {
             <h5>ABOUT US</h5>
             <List>
               {pages.map((page, index) => (
-                <ListItem>
-                  <Link to={page.href} key={index}>{page.text}</Link>
+                <ListItem key={index}>
+                  <Link to={page.href} >{page.text}</Link>
                 </ListItem>
               ))}
             </List>

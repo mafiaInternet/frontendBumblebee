@@ -3,7 +3,7 @@ import React from "react";
 import { FormatDateTime, Price } from "../../../config/config";
 const orderStatus = [
   {
-    text: "Đang chờ xác nhận",
+    text: "Đang xử lý",
     color: "#0d6efd",
   },
   {

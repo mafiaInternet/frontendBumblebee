@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Logout, User } from "../../../state/auth/Action";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Box } from "@mui/material";
 const style = { textDecoration: "none", color: "black" };
@@ -14,8 +14,8 @@ export default function Navigation() {
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { auth } = useSelector((store) => store);
-
+  const  auth  = useSelector((store) => store.auth);
+  const navigation = useNavigate()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -31,6 +31,7 @@ export default function Navigation() {
 
   const handleLogout = () => {
     dispatch(Logout());
+    navigation("/")
   };
 
   return (

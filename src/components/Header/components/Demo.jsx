@@ -1,11 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
-import { ListItem } from "@mui/material";
+
 export default function TemporaryDrawer() {
   const [state, setState] = React.useState(false);
 
@@ -19,6 +18,11 @@ export default function TemporaryDrawer() {
       href: "#",
     },
     {},
+    {
+      text: "Bảng kích thước",
+      href: "/table-size",
+    },
+
     {
       text: "Chính sách đổi trả",
       href: "/policy",
@@ -75,6 +79,7 @@ export default function TemporaryDrawer() {
         edge="start"
         color="dark"
         aria-label="open drawer"
+        sx={{ mr: 2 }}
         onClick={() => setState(true)}
       >
         <MenuIcon />
@@ -82,7 +87,7 @@ export default function TemporaryDrawer() {
 
       <Drawer open={state} onClose={() => setState(false)}>
         <Box
-          class="bar"
+          className="bar"
           role="presentation"
           onClick={() => setState(false)}
           onKeyDown={() => setState(false)}

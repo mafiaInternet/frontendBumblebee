@@ -139,6 +139,7 @@ export const sortProductsHigh = (req) => async (dispatch) => {
 
 export const findProductFilter = (req) => async (dispatch) => {
   dispatch({ type: FIND_PRODUCT_FILTER_REQUEST });
+  console.log(req)
   try {
     const { data } = await apiBase.get(
       `products/search?category=${req.category}&&title=${req.title}`

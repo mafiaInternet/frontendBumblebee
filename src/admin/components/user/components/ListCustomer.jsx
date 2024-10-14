@@ -47,8 +47,6 @@ const tableHeads = [
   "Email",
   "Số điện thoại",
   "Ngày tạo",
-  "Khóa",
-  "Ủy quyền",
   "Thao tác",
 ];
 
@@ -83,6 +81,7 @@ const styles = {
 const ListCustomers = () => {
   const dispatch = useDispatch();
   const { customer } = useSelector((store) => store);
+
   const [select, setSelect] = useState();
   const [openDeleteHandle, setOpenDeleteHandle] = React.useState(false);
 
@@ -106,12 +105,13 @@ const ListCustomers = () => {
       dispatch(getCustomers())
     }
   };
-
+  const jwt = localStorage.getItem('jwt');
   useEffect(() => {
-    if (!customer.customers || customer.customers.length === 0) {
+    if(jwt){
       dispatch(getCustomers());
-    } 
-  }, [dispatch]);
+
+    }
+  }, [dispatch, jwt]);
 
   return customer.customers && (
     <div className="customers">
@@ -151,7 +151,7 @@ const ListCustomers = () => {
               </TableRow>
             </TableHead>
             <TableBody className="customers--table--body">
-              {customer.customers.map((item, index) => (
+              {customer.customers.filter((item) => item.role != 'ADMIN').map((item, index) => (
                 <StyledTableRow key={item.id}>
                   <StyledTableCell align="left">{index}</StyledTableCell>
                   <StyledTableCell align="left">{item.name}</StyledTableCell>
@@ -164,10 +164,6 @@ const ListCustomers = () => {
                       ? moment(item.createAt).format("DD/MM/YYYY HH:mm:ss")
                       : "N/A"}
                   </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <Switch {...label} />
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{item.role}</StyledTableCell>
                   <StyledTableCell align="left">
                     <DeleteIcon
                       color="error"

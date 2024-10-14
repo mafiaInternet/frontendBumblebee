@@ -25,7 +25,6 @@ export default function Auth() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
   return (
     <div className="auth">
       <Button onClick={handleOpen}>
@@ -38,7 +37,7 @@ export default function Auth() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} style={{ borderRadius: "20px" }}>
+        <Box className="auth" sx={style} style={{ borderRadius: "20px" }}>
           {location.pathname !== "/register" ? (
             <AuthLogin/>
           ) : (

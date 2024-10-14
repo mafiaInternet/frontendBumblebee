@@ -59,7 +59,6 @@ const ProductHome = () => {
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
-console.log(products)
 
   return (
     <Box className="productHome">

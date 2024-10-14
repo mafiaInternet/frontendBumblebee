@@ -1,8 +1,6 @@
 .product--card {
   text-align: center;
-  color: black;
-  
-
+  color: black; 
   &--image {
     width: 100%;
     margin: 0 auto;
@@ -88,25 +86,6 @@
 
       }
     }
-
-    // &--image {
-    //   &--wrapper{
-    //     display: block;
-    //     padding-bottom: 100%;
-    //     overflow: hidden;
-    //     height: 0;
-    //     position: relative;
-    //     img{
-    //       position: absolute;
-    //       top: 0;
-    //       left: 0;
-    //       height: 100%;
-    //       width: 100%;
-    //       &.active {
-    //         border: 1px solid black;
-    //       }
-    //     }
-    //   }}
     
   }
   &--title {
@@ -198,6 +177,7 @@
    }
    
   }
+
  
 }
 

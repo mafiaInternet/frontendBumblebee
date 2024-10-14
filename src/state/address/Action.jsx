@@ -7,7 +7,7 @@ export const getAddressByUser = ()=> async (dispatch) => {
   dispatch({type: GET_ADDRESS_REQUEST})
   try {
     const {data} = await api.get("/api/users/user/address/")
-
+    console.log(data)
     dispatch({type: GET_ADDRESS_SUCCESS, payload: data})
  
   } catch (error) {

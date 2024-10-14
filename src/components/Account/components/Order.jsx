@@ -14,10 +14,10 @@ const orderStatus = [
   "Tất cả",
   "Chờ thanh toán",
   "Đang xử lý",
+  "Đã xác nhận",
   "Đang vận chuyển",
   "Hoàn tất",
-  "Đã hủy",
-  "Đổi trả",
+  "Đã hủy"
 ];
 
 export default function Order() {
@@ -76,10 +76,7 @@ export default function Order() {
                     order.orders
                       .filter(
                         (a) =>
-                          a.orderStatus == item ||
-                          (item === "Đang xử lý" &&
-                            (a.orderStatus === "Đang chờ xác nhận" ||
-                              a.orderStatus === "Đã xác nhận"))
+                          item == 'Tất cả' ? true : a.orderStatus == item
                       )
                       .map((b) => (
                         <Link
